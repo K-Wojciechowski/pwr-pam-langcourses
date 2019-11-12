@@ -1,0 +1,14 @@
+[
+    {
+        "courseid": 1,
+        "coursename": "Angielski Podstawowy",
+        "courseversion": 1
+        "language": "en_GB",
+        "baselang": "pl_PL",
+        "level": "A1",
+        "coverimage": "/courses/covers/angielski-podstawowy-1-1.png",
+        "coverbgcolor": "#0D47A1",
+        "covertextcolor": "#FFFFFF",
+        "url": "/courses/angielski-podstawowy-1-1.zip"
+    }
+]

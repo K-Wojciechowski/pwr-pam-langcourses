@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+    <!-- A CardView that contains a TextView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rv_main_courses_card"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        card_view:cardBackgroundColor="#FF00FF"
+        card_view:cardCornerRadius="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/rv_main_courses_cover_img"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                card_view:layout_constraintBottom_toTopOf="@+id/rv_main_courses_title_lbl"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/rv_main_courses_title_lbl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/generic_course"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                card_view:layout_constraintBottom_toTopOf="@+id/rv_main_courses_progress_lbl"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/rv_main_courses_cover_img" />
+
+            <TextView
+                android:id="@+id/rv_main_courses_version_lbl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/rv_main_courses_version_awaitdownload"
+                card_view:layout_constraintBottom_toTopOf="@+id/rv_main_courses_progress_lbl"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/rv_main_courses_title_lbl" />
+
+            <TextView
+                android:id="@+id/rv_main_courses_progress_lbl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/rv_main_courses_progress_zero"
+                card_view:layout_constraintBottom_toTopOf="@+id/rv_main_courses_startcont_btn"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/rv_main_courses_version_lbl" />
+
+            <Button
+                android:id="@+id/rv_main_courses_startcont_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/rv_main_courses_start"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/rv_main_courses_progress_lbl"
+                card_view:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/rv_main_courses_open_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/rv_main_courses_open"
+                card_view:layout_constraintBottom_toBottomOf="@+id/rv_main_courses_startcont_btn"
+                card_view:layout_constraintStart_toEndOf="@+id/rv_main_courses_startcont_btn"
+                card_view:layout_constraintTop_toTopOf="@+id/rv_main_courses_startcont_btn" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Multimedia Language Courses</string>
+    <string name="rv_main_courses_open">Open</string>
+    <string name="rv_main_courses_start">Start</string>
+    <string name="rv_main_courses_progress_zero">Not started</string>
+    <string name="generic_course">Course</string>
+    <string name="rv_main_courses_version_awaitdownload">Available, version %1$d (%2$s to download)</string>
+    <string name="rv_main_courses_version">Version %1$d</string>
+    <string name="rv_main_courses_version_outdated">Outdated (version %1$d), version %2$d available (%3$s to download)</string>
+    <string name="rv_main_courses_progress_complete">Complete</string>
+    <string name="rv_main_courses_progress_partial">Progress: %1$.0f%%</string>
+    <string name="rv_main_courses_continue">Continue</string>
+</resources>

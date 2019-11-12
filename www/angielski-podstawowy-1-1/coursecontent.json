@@ -1,0 +1,101 @@
+{
+    "courseID": 1,
+    "name": "Angielski Podstawowy",
+    "language": "en_GB",
+    "baselang": "pl_PL",
+    "level": "A1",
+    "chapters": [
+        {
+            "name": "Animals",
+            "translatedName": "Zwierzęta",
+            "mediaCredits": "Cat photo by Heikki Siltala, CC BY 3.0, https://commons.wikimedia.org/w/index.php?curid=34918238\nDog photo by Leuchtender Hund, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=30995457\nHorse photo by Thomas Reich, CC BY-SA 2.5, https://commons.wikimedia.org/w/index.php?curid=925145\nTiger photo by Charles J Sharp, from Sharp Photography, sharpphotography.co.uk, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=65574913",
+            "vocabulary": [
+                {
+                    "header": "Pets",
+                    "translatedHeader": "Zwierzęta domowe",
+                    "words": [
+                        {"image": "animals/image/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."},
+                        {"image": animals/image/"dog.jpg", "audio": "animals/audio/dog.mp3", "word": "dog", "translation": "pies", "definition": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."}
+                    ]
+                },
+                {
+                    "header": "In the zoo",
+                    "translatedHeader": "W zoo",
+                    "words": [
+                        {"image": "animals/image/horse.jpg", "audio": "animals/audio/horse.mp3", "word": "horse", "translation": "koń", "definition": "A large plant-eating domesticated mammal with solid hoofs and a flowing mane and tail, used for riding, racing, and to carry and pull loads."},
+                        {"image": "animals/image/tiger.jpg", "audio": "animals/audio/tiger.mp3", "word": "tiger", "translation": "tygrys", "definition": "A very large solitary cat with a yellow-brown coat striped with black, native to the forests of Asia but becoming increasingly rare."}
+                    ]
+                }
+            ],
+            "conversations": [
+                {"side": "me", "audio": "animals/audio/animals-conv1-q-en_GB.mp3", "text": "Have you got a pet?", "translation": "Czy masz zwierzątko?"},
+                {"side": "them", "audio": "animals/audio/animals-conv2-a-en_GB.mp3", "text": "Yes, I do.", "translation": "Tak, mam."},
+                {"side": "me", "audio": "animals/audio/animals-conv2-q-en_GB.mp3", "text": "What is it?", "translation": "Co to za zwierzątko?"},
+                {"side": "them", "audio": "animals/audio/animals-conv3-a-en_GB.mp3", "text": "It’s a cat.", "translation": "To jest kot."},
+                {"side": "me", "audio": "animals/audio/animals-conv4-q-en_GB.mp3", "text": "What is your cat’s name?", "translation": "Jak wabi się twój kot?"},
+                {"side": "them", "audio": "animals/audio/animals-conv5-a-en_GB.mp3", "text": "My cat’s name is Max.", "translation": "Mój kot wabi się Max."}
+
+            ],
+            "quiz": [
+                {
+                    "question": "What is in the picture?",
+                    "type": "word",
+                    "image": "animals/image/cat.jpg",
+                    "answers": [
+                        {"text": "cat", "correct": true},
+                        {"text": "dog", "correct": false},
+                        {"text": "horse", "correct": false},
+                        {"text": "tiger", "correct": false}
+                    ]
+                },
+                {
+                    "question": "Which of these is a dog?",
+                    "type": "word",
+                    "answers": [
+                        {"image": "animals/image/cat.jpg", "correct": false},
+                        {"image": "animals/image/dog.jpg", "correct": true},
+                        {"image": "animals/image/horse.jpg", "correct": false},
+                        {"image": "animals/image/tiger.jpg", "correct": false}
+                    ]
+                },
+                {
+                    "question": "Zapytaj kolegę, czy ma zwierzątko domowe.",
+                    "type": "conversation",
+                    "answers": [
+                        {"text": "What is a pet?", correct: false},
+                        {"text": "Have you got a pet?", "correct": true},
+                        {"text": "What is your pet’s name?", "correct": false},
+                        {"text": "What colour is your pet?", "correct": false}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Test Chapter",
+            "translatedName": "Rozdział Testowy",
+            "mediaCredits": "",
+            "vocabulary": [
+                {
+                    "header": "Vocabulary",
+                    "translatedHeader": "Słownictwo",
+                    "words": [
+                        {"image": "animals/image/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
+                    ]
+                }
+            ],
+            "quiz": [
+                {
+                    "question": "What is in the picture?",
+                    "type": "word",
+                    "image": "animals/image/cat.jpg",
+                    "answers": [
+                        {"text": "cat", "correct": true},
+                        {"text": "dog", "correct": false},
+                        {"text": "horse", "correct": false},
+                        {"text": "tiger", "correct": false}
+                    ]
+                }
+            ]
+        }
+    ]
+}
