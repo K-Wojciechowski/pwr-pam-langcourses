@@ -1,18 +1,15 @@
 package pl.krzysztofwojciechowski.langcourses
 
+import android.content.Context
 import com.google.gson.Gson
+import java.io.File
+import java.io.FileInputStream
 
 abstract class ResourceManager {
-    private val gson = Gson()
-    private fun parseJsonToCourseData(jsonText: String): Course {
-        val c = gson.fromJson(jsonText, Course::class.java)
-        c.registerResourceManager(this)
-        return c
-    }
-
     abstract fun getCourseData(courseID: Int): Course
     fun getAsset(course: Course, path: String): ManagedAsset = getAsset(course.courseID, path)
     abstract fun getAsset(courseID: Int, path: String): ManagedAsset
+    abstract fun extractZipData(zipFile: File, coursePath: String)  // TODO file handle?
 
     fun getImage(course: Course, path: String): ManagedImage = getAsset(course, path) as ManagedImage
     fun getAudio(course: Course, path: String): ManagedAudio = getAsset(course, path) as ManagedAudio
@@ -35,6 +32,13 @@ abstract class ManagedCourseItem : ManagedEntity() {
     }
 }
 
-abstract class ManagedAsset(val path: String)
+abstract class ManagedAsset(val path: String) {
+    abstract fun getFile(): File
+    abstract fun getInputStream(): FileInputStream
+}
 abstract class ManagedImage(path: String): ManagedAsset(path)
 abstract class ManagedAudio(path: String): ManagedAsset(path)
+
+fun getResourceManager(context: Context): ResourceManager {
+    return StoredResourceManager(context)
+}

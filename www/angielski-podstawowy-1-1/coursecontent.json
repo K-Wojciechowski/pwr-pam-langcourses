@@ -6,6 +6,7 @@
     "level": "A1",
     "chapters": [
         {
+            "chapterID": 1,
             "name": "Animals",
             "translatedName": "Zwierzęta",
             "mediaCredits": "Cat photo by Heikki Siltala, CC BY 3.0, https://commons.wikimedia.org/w/index.php?curid=34918238\nDog photo by Leuchtender Hund, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=30995457\nHorse photo by Thomas Reich, CC BY-SA 2.5, https://commons.wikimedia.org/w/index.php?curid=925145\nTiger photo by Charles J Sharp, from Sharp Photography, sharpphotography.co.uk, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=65574913",
@@ -15,7 +16,7 @@
                     "translatedHeader": "Zwierzęta domowe",
                     "words": [
                         {"image": "animals/image/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."},
-                        {"image": animals/image/"dog.jpg", "audio": "animals/audio/dog.mp3", "word": "dog", "translation": "pies", "definition": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."}
+                        {"image": "animals/image/dog.jpg", "audio": "animals/audio/dog.mp3", "word": "dog", "translation": "pies", "definition": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."}
                     ]
                 },
                 {
@@ -62,7 +63,7 @@
                     "question": "Zapytaj kolegę, czy ma zwierzątko domowe.",
                     "type": "conversation",
                     "answers": [
-                        {"text": "What is a pet?", correct: false},
+                        {"text": "What is a pet?", "correct": false},
                         {"text": "Have you got a pet?", "correct": true},
                         {"text": "What is your pet’s name?", "correct": false},
                         {"text": "What colour is your pet?", "correct": false}
@@ -83,6 +84,7 @@
                     ]
                 }
             ],
+            "conversations": [],
             "quiz": [
                 {
                     "question": "What is in the picture?",

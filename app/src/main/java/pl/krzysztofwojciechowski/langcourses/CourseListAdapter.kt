@@ -24,7 +24,10 @@ fun bytesToString(bytes: Int): String {
     return String.format("%.1f MB", doubleBytes)
 }
 
-class CourseListAdapter(private val openCourse: (CourseCardData) -> Unit, private val courses: MutableList<CourseCardData> = mutableListOf()) :
+class CourseListAdapter(
+    private val openCourse: (CourseCardData) -> Unit,
+    private val continueCourse: (CourseCardData) -> Unit,
+    private val courses: MutableList<CourseCardData> = mutableListOf()) :
     RecyclerView.Adapter<CourseListAdapter.CourseCardViewHolder>() {
     class CourseCardViewHolder(itemView: View, var context: Context) : RecyclerView.ViewHolder(itemView) {
         val card: CardView = itemView.findViewById(R.id.rv_main_courses_card)
@@ -72,9 +75,12 @@ class CourseListAdapter(private val openCourse: (CourseCardData) -> Unit, privat
         holder.startContBtn.setText(R.string.rv_main_courses_continue)
         holder.openBtn.visibility = View.VISIBLE
 
+        var buttonIsStart = false
+
         if (item.currentProgress == null || item.currentProgress == 0.0) {
             holder.progress.setText(R.string.rv_main_courses_progress_zero)
             holder.startContBtn.setText(R.string.rv_main_courses_start)
+            buttonIsStart = true
             holder.openBtn.visibility = View.GONE
         } else if (item.currentProgress == 1.0) {
             holder.progress.setText(R.string.rv_main_courses_progress_complete)
@@ -95,6 +101,18 @@ class CourseListAdapter(private val openCourse: (CourseCardData) -> Unit, privat
         holder.startContBtn.setTextColor(item.coverFgColor)
         holder.openBtn.setTextColor(item.coverFgColor)
         holder.itemView.setOnClickListener {
+            openCourse(item)
+        }
+
+        holder.startContBtn.setOnClickListener {
+            if (buttonIsStart) {
+                openCourse(item)
+            } else {
+                continueCourse(item)
+            }
+        }
+
+        holder.openBtn.setOnClickListener {
             openCourse(item)
         }
     }

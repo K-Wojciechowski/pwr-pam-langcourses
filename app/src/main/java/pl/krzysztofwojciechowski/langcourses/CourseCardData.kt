@@ -12,5 +12,7 @@ data class CourseCardData(
     val coverBgColor: Int,
     val coverFgColor: Int,
     val inProgress: Boolean,
-    val currentProgress: Double?
+    val currentProgress: Double?,
+    val coursePath: String,
+    val url: String?
 )

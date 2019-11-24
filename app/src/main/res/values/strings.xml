@@ -10,4 +10,7 @@
     <string name="rv_main_courses_progress_complete">Complete</string>
     <string name="rv_main_courses_progress_partial">Progress: %1$.0f%%</string>
     <string name="rv_main_courses_continue">Continue</string>
+    <string name="title_activity_chapter">ChapterActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

@@ -6,21 +6,21 @@
     android:layout_height="72dp">
 
     <TextView
-        android:id="@+id/rv_chapter_boxtitle_original"
+        android:id="@+id/rv_chapter_vocab_original"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/generic_course"
         android:textColor="@android:color/primary_text_light"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/rv_chapter_boxtitle_translated"
+        app:layout_constraintBottom_toTopOf="@+id/rv_chapter_vocab_translated"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/rv_chapter_vocab_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/rv_chapter_boxtitle_translated"
+        android:id="@+id/rv_chapter_vocab_translated"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -29,11 +29,11 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/rv_chapter_boxtitle_original" />
+        app:layout_constraintStart_toEndOf="@+id/rv_chapter_vocab_image"
+        app:layout_constraintTop_toBottomOf="@+id/rv_chapter_vocab_original" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/rv_chapter_vocab_image"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="16dp"
@@ -41,7 +41,7 @@
         android:layout_marginBottom="4dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/rv_chapter_boxtitle_original"
+        app:layout_constraintEnd_toStartOf="@+id/rv_chapter_vocab_original"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />

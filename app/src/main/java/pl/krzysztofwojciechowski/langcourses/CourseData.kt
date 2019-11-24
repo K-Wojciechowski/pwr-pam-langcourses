@@ -14,9 +14,13 @@ data class Course(
         super.registerResourceManager(resourceManager)
         chapters.forEach { ch -> ch.registerResourceManager(resourceManager, this) }
     }
+
+    fun getChapterByID(chapterID: Int): Chapter =
+        chapters.find { it.chapterID == chapterID } ?: throw Exception("No such chapter")
 }
 
 data class Chapter(
+    val chapterID: Int,
     val name: String,
     val translatedName: String,
     val mediaCredits: String?,
