@@ -1,6 +1,10 @@
 package pl.krzysztofwojciechowski.langcourses
 
 import com.google.gson.annotations.SerializedName
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedAsset
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedCourseItem
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedEntity
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.ResourceManager
 
 data class Course(
     val courseID: Int,

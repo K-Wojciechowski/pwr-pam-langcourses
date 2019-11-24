@@ -1,7 +1,7 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.resourcemanager
 
 import android.content.Context
-import com.google.gson.Gson
+import pl.krzysztofwojciechowski.langcourses.Course
 import java.io.File
 import java.io.FileInputStream
 
@@ -40,5 +40,7 @@ abstract class ManagedImage(path: String): ManagedAsset(path)
 abstract class ManagedAudio(path: String): ManagedAsset(path)
 
 fun getResourceManager(context: Context): ResourceManager {
-    return StoredResourceManager(context)
+    return StoredResourceManager(
+        context
+    )
 }

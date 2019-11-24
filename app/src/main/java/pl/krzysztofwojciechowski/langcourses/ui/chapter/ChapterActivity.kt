@@ -1,4 +1,4 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.ui.chapter
 
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -6,10 +6,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
-import pl.krzysztofwojciechowski.langcourses.ui.main.SectionsPagerAdapter
+import pl.krzysztofwojciechowski.langcourses.IE_CHAPTERID
+import pl.krzysztofwojciechowski.langcourses.IE_COURSEID
+import pl.krzysztofwojciechowski.langcourses.R
 
 class ChapterActivity : AppCompatActivity() {
 

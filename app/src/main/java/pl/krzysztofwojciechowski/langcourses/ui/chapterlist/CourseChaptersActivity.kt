@@ -1,11 +1,13 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.ui.chapterlist
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import pl.krzysztofwojciechowski.langcourses.*
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.getResourceManager
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
 
 class CourseChaptersActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -18,16 +20,26 @@ class CourseChaptersActivity : AppCompatActivity() {
         supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
 
         val courseID = intent.extras!!.getInt(IE_COURSEID)
-        val resourceManager = getResourceManager(applicationContext)
+        val resourceManager =
+            getResourceManager(
+                applicationContext
+            )
         val course = resourceManager.getCourseData(courseID)
         val chapters = course.chapters
         supportActionBar?.title = course.name
 
         val progress = mutableMapOf<Chapter, ChapterProgress>()
-        chapters.forEach { c -> progress[c] = ChapterProgress.NOT_STARTED }
+        chapters.forEach { c -> progress[c] =
+            ChapterProgress.NOT_STARTED
+        }
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = ChapterListAdapter(this::showChapter, chapters, progress)
+        viewAdapter =
+            ChapterListAdapter(
+                this::showChapter,
+                chapters,
+                progress
+            )
 
         recyclerView = findViewById<RecyclerView>(R.id.cc_rv_course_chapters).apply {
             setHasFixedSize(false)

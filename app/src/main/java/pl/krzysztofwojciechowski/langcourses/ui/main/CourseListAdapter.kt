@@ -1,4 +1,4 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.ui.main
 
 import android.content.Context
 import android.util.Log
@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import pl.krzysztofwojciechowski.langcourses.CourseCardData
+import pl.krzysztofwojciechowski.langcourses.R
 
 fun bytesToString(bytes: Int): String {
     var doubleBytes: Double = bytes.toDouble()
@@ -44,7 +46,11 @@ class CourseListAdapter(
         viewType: Int
     ): CourseCardViewHolder {
         return CourseCardViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.rv_courselist, parent, false),
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.rv_courselist,
+                parent,
+                false
+            ),
             parent.context
         )
     }

@@ -1,4 +1,4 @@
-package pl.krzysztofwojciechowski.langcourses.ui.main
+package pl.krzysztofwojciechowski.langcourses.ui.chapter
 
 import android.content.Context
 import androidx.fragment.app.Fragment

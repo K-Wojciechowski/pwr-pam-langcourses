@@ -15,25 +15,25 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ChapterActivity"
+            android:name=".ui.chapter.ChapterActivity"
             android:label="@string/title_activity_chapter"
-            android:parentActivityName=".CourseChaptersActivity"
+            android:parentActivityName=".ui.chapterlist.CourseChaptersActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="pl.krzysztofwojciechowski.langcourses.CourseChaptersActivity" />
+                android:value="pl.krzysztofwojciechowski.langcourses.ui.chapterlist.CourseChaptersActivity" />
         </activity>
         <activity
-            android:name=".CourseChaptersActivity"
-            android:parentActivityName=".CourseChaptersActivity"
+            android:name=".ui.chapterlist.CourseChaptersActivity"
+            android:parentActivityName=".ui.chapterlist.CourseChaptersActivity"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="pl.krzysztofwojciechowski.langcourses.CourseListActivity" />
+                android:value="pl.krzysztofwojciechowski.langcourses.ui.main.CourseListActivity" />
         </activity>
         <activity
-            android:name=".CourseListActivity"
+            android:name=".ui.main.CourseListActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

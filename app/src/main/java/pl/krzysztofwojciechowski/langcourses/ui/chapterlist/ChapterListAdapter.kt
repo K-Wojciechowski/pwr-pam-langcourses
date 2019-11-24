@@ -1,12 +1,14 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.ui.chapterlist
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import pl.krzysztofwojciechowski.langcourses.Chapter
+import pl.krzysztofwojciechowski.langcourses.ChapterProgress
+import pl.krzysztofwojciechowski.langcourses.R
 
 class ChapterListAdapter(private val openChapter: (Chapter) -> Unit, private val items: List<Chapter> = mutableListOf(), private val progress: Map<Chapter, ChapterProgress>) :
     RecyclerView.Adapter<ChapterListAdapter.ChapterViewHolder>() {
@@ -21,7 +23,11 @@ class ChapterListAdapter(private val openChapter: (Chapter) -> Unit, private val
         viewType: Int
     ): ChapterViewHolder {
         return ChapterViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.rv_course_chapters, parent, false),
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.rv_course_chapters,
+                parent,
+                false
+            ),
             parent.context
         )
     }

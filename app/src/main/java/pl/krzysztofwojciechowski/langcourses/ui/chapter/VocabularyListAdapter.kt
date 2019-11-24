@@ -1,4 +1,4 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.ui.chapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.VocabularyBox
+import pl.krzysztofwojciechowski.langcourses.VocabularyEntry
 
 enum class VocabularyListItemType(val num: Int) { TITLE(1), ENTRY(2) }
 
@@ -15,9 +18,20 @@ class VocabularyListItem(val type: VocabularyListItemType, val original: String,
 fun buildItems(boxes: List<VocabularyBox>) {
     val items = mutableListOf<VocabularyListItem>()
     boxes.forEach { box ->
-        items.add(VocabularyListItem(VocabularyListItemType.TITLE, box.header, box.translatedHeader))
+        items.add(
+            VocabularyListItem(
+                VocabularyListItemType.TITLE,
+                box.header,
+                box.translatedHeader
+            )
+        )
         items.addAll(0, box.words.map {
-            VocabularyListItem(VocabularyListItemType.ENTRY, it.word, it.translation, it)
+            VocabularyListItem(
+                VocabularyListItemType.ENTRY,
+                it.word,
+                it.translation,
+                it
+            )
         })
     }
 }

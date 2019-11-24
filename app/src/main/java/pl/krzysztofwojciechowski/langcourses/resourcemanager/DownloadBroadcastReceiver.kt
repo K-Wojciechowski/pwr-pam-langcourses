@@ -1,14 +1,13 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.resourcemanager
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.app.DownloadManager
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import androidx.core.net.toFile
-import java.io.File
+import pl.krzysztofwojciechowski.langcourses.CourseCardData
 
 
 class DownloadBroadcastReceiver(val id: Long, val course: CourseCardData, private val handler: DownloadCompletionHandler) : BroadcastReceiver() {

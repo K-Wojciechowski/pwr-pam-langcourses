@@ -1,5 +1,6 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.resourcemanager
 
+import pl.krzysztofwojciechowski.langcourses.CourseCardData
 import java.io.File
 
 interface DownloadCompletionHandler {

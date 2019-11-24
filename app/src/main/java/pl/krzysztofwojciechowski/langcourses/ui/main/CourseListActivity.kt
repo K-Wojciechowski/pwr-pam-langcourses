@@ -1,7 +1,6 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.ui.main
 
 import android.app.DownloadManager
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -9,18 +8,22 @@ import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
-import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import pl.krzysztofwojciechowski.langcourses.*
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.DownloadBroadcastReceiver
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.DownloadCompletionHandler
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.ResourceManager
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.getResourceManager
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
+import pl.krzysztofwojciechowski.langcourses.ui.chapterlist.CourseChaptersActivity
 import java.io.File
-import java.util.ArrayList
 
-class CourseListActivity : AppCompatActivity(), DownloadCompletionHandler {
+class CourseListActivity : AppCompatActivity(),
+    DownloadCompletionHandler {
     override fun downloadComplete(course: CourseCardData, path: File) {
         Log.e("X", "Y")
         try {
@@ -47,17 +50,36 @@ class CourseListActivity : AppCompatActivity(), DownloadCompletionHandler {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courselist)
 
-        resourceManager = getResourceManager(applicationContext)
+        resourceManager =
+            getResourceManager(
+                applicationContext
+            )
 
          // TODO placeholder
         courseCardData.add(
-            CourseCardData(1, "Angielski Podstawowy", 1,    1, 4096,
+            CourseCardData(
+                1,
+                "Angielski Podstawowy",
+                1,
+                1,
+                4096,
                 getDrawable(R.drawable.sample_cover),
-                Color.parseColor("#0D47A1"), Color.WHITE, true, 0.25, "angielski-podstawowy-1-1", "https://krzysztofwojciechowski.pl/pwr/pam/demo.zip")
+                Color.parseColor("#0D47A1"),
+                Color.WHITE,
+                true,
+                0.25,
+                "angielski-podstawowy-1-1",
+                "https://krzysztofwojciechowski.pl/pwr/pam/demo.zip"
+            )
         )
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = CourseListAdapter(this::showCourse, this::continueCourse, courseCardData)
+        viewAdapter =
+            CourseListAdapter(
+                this::showCourse,
+                this::continueCourse,
+                courseCardData
+            )
 
         recyclerView = findViewById<RecyclerView>(R.id.main_rv_courselist).apply {
             setHasFixedSize(false)
@@ -87,7 +109,12 @@ class CourseListActivity : AppCompatActivity(), DownloadCompletionHandler {
         request.setVisibleInDownloadsUi(false)
         val downloadManager = applicationContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val id = downloadManager.enqueue(request)
-        val downloadReceiver = DownloadBroadcastReceiver(id, course, this)
+        val downloadReceiver =
+            DownloadBroadcastReceiver(
+                id,
+                course,
+                this
+            )
 
         registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }

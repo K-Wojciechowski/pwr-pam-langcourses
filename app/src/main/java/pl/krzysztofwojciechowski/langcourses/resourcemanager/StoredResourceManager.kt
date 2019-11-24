@@ -1,7 +1,9 @@
-package pl.krzysztofwojciechowski.langcourses
+package pl.krzysztofwojciechowski.langcourses.resourcemanager
 
 import android.content.Context
 import com.google.gson.Gson
+import pl.krzysztofwojciechowski.langcourses.Course
+import pl.krzysztofwojciechowski.langcourses.getCoursePath
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -10,7 +12,8 @@ import java.util.zip.ZipFile
 class StoredResourceManager(val context: Context): ResourceManager() {
 
     override fun getCourseData(courseID: Int): Course {
-        val coursePath = getCoursePath(courseID)
+        val coursePath =
+            getCoursePath(courseID)
         val file = context.filesDir.resolve("coursedata/$coursePath/coursecontent.json")
         val course = Gson().fromJson(file.reader(), Course::class.java)
         course.registerResourceManager(this)
@@ -18,8 +21,12 @@ class StoredResourceManager(val context: Context): ResourceManager() {
     }
 
     override fun getAsset(courseID: Int, path: String): ManagedAsset {
-        val coursePath = getCoursePath(courseID)
-        return StoredManagedAsset(context, "coursedata/$coursePath/assets/$path")
+        val coursePath =
+            getCoursePath(courseID)
+        return StoredManagedAsset(
+            context,
+            "coursedata/$coursePath/assets/$path"
+        )
     }
 
     override fun extractZipData(zipFile: File, coursePath: String) {
