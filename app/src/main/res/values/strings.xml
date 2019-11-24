@@ -13,4 +13,7 @@
     <string name="title_activity_chapter">ChapterActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="tab_vocabulary">Vocabulary</string>
+    <string name="tab_conversations">Conversations</string>
+    <string name="tab_quiz">Quiz</string>
 </resources>

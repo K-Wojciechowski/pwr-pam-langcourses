@@ -7,12 +7,12 @@ import androidx.lifecycle.ViewModel
 
 class PageViewModel : ViewModel() {
 
-    private val _index = MutableLiveData<Int>()
+    private val _index = MutableLiveData<String>()
     val text: LiveData<String> = Transformations.map(_index) {
         "Hello world from section: $it"
     }
 
-    fun setIndex(index: Int) {
+    fun setIndex(index: String) {
         _index.value = index
     }
 }

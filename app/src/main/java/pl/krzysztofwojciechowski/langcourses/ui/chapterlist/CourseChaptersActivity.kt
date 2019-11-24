@@ -20,10 +20,7 @@ class CourseChaptersActivity : AppCompatActivity() {
         supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
 
         val courseID = intent.extras!!.getInt(IE_COURSEID)
-        val resourceManager =
-            getResourceManager(
-                applicationContext
-            )
+        val resourceManager = getResourceManager(applicationContext)
         val course = resourceManager.getCourseData(courseID)
         val chapters = course.chapters
         supportActionBar?.title = course.name

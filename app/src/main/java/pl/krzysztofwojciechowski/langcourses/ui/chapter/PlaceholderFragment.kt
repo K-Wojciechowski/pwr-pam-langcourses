@@ -20,7 +20,7 @@ class PlaceholderFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java).apply {
-            setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
+            setIndex(arguments?.getString(ARG_SECTION_NUMBER) ?: "a")
         }
     }
 
@@ -48,10 +48,10 @@ class PlaceholderFragment : Fragment() {
          * number.
          */
         @JvmStatic
-        fun newInstance(sectionNumber: Int): PlaceholderFragment {
+        fun newInstance(sectionNumber: String): PlaceholderFragment {
             return PlaceholderFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
+                    putString(ARG_SECTION_NUMBER, sectionNumber)
                 }
             }
         }
