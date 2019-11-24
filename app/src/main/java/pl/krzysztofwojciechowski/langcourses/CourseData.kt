@@ -1,5 +1,6 @@
 package pl.krzysztofwojciechowski.langcourses
 
+import android.net.Uri
 import com.google.gson.annotations.SerializedName
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedAsset
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedCourseItem
@@ -66,7 +67,16 @@ data class VocabularyEntry(
     val word: String,
     val translation: String,
     val definition: String?
-) : ManagedCourseItem()
+) : ManagedCourseItem() {
+    val imageUri: Uri?
+        get() {
+            return if (image == null) {
+                null
+            } else {
+                resourceManager!!.getAsset(course!!, image).getUri()
+            }
+        }
+}
 
 enum class ConversationSide {
     @SerializedName("me") ME,

@@ -15,16 +15,16 @@
                     "header": "Pets",
                     "translatedHeader": "Zwierzęta domowe",
                     "words": [
-                        {"image": "animals/image/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."},
-                        {"image": "animals/image/dog.jpg", "audio": "animals/audio/dog.mp3", "word": "dog", "translation": "pies", "definition": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."}
+                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."},
+                        {"image": "animals/img/dog.jpg", "audio": "animals/audio/dog.mp3", "word": "dog", "translation": "pies", "definition": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."}
                     ]
                 },
                 {
                     "header": "In the zoo",
                     "translatedHeader": "W zoo",
                     "words": [
-                        {"image": "animals/image/horse.jpg", "audio": "animals/audio/horse.mp3", "word": "horse", "translation": "koń", "definition": "A large plant-eating domesticated mammal with solid hoofs and a flowing mane and tail, used for riding, racing, and to carry and pull loads."},
-                        {"image": "animals/image/tiger.jpg", "audio": "animals/audio/tiger.mp3", "word": "tiger", "translation": "tygrys", "definition": "A very large solitary cat with a yellow-brown coat striped with black, native to the forests of Asia but becoming increasingly rare."}
+                        {"image": "animals/img/horse.jpg", "audio": "animals/audio/horse.mp3", "word": "horse", "translation": "koń", "definition": "A large plant-eating domesticated mammal with solid hoofs and a flowing mane and tail, used for riding, racing, and to carry and pull loads."},
+                        {"image": "animals/img/tiger.jpg", "audio": "animals/audio/tiger.mp3", "word": "tiger", "translation": "tygrys", "definition": "A very large solitary cat with a yellow-brown coat striped with black, native to the forests of Asia but becoming increasingly rare."}
                     ]
                 }
             ],
@@ -41,7 +41,7 @@
                 {
                     "question": "What is in the picture?",
                     "type": "word",
-                    "image": "animals/image/cat.jpg",
+                    "image": "animals/img/cat.jpg",
                     "answers": [
                         {"text": "cat", "correct": true},
                         {"text": "dog", "correct": false},
@@ -53,10 +53,10 @@
                     "question": "Which of these is a dog?",
                     "type": "word",
                     "answers": [
-                        {"image": "animals/image/cat.jpg", "correct": false},
-                        {"image": "animals/image/dog.jpg", "correct": true},
-                        {"image": "animals/image/horse.jpg", "correct": false},
-                        {"image": "animals/image/tiger.jpg", "correct": false}
+                        {"image": "animals/img/cat.jpg", "correct": false},
+                        {"image": "animals/img/dog.jpg", "correct": true},
+                        {"image": "animals/img/horse.jpg", "correct": false},
+                        {"image": "animals/img/tiger.jpg", "correct": false}
                     ]
                 },
                 {
@@ -80,7 +80,7 @@
                     "header": "Vocabulary",
                     "translatedHeader": "Słownictwo",
                     "words": [
-                        {"image": "animals/image/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
+                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
                     ]
                 }
             ],
@@ -89,7 +89,7 @@
                 {
                     "question": "What is in the picture?",
                     "type": "word",
-                    "image": "animals/image/cat.jpg",
+                    "image": "animals/img/cat.jpg",
                     "answers": [
                         {"text": "cat", "correct": true},
                         {"text": "dog", "correct": false},

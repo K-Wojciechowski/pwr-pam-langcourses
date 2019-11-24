@@ -1,6 +1,7 @@
 package pl.krzysztofwojciechowski.langcourses.resourcemanager
 
 import android.content.Context
+import android.net.Uri
 import com.google.gson.Gson
 import pl.krzysztofwojciechowski.langcourses.Course
 import pl.krzysztofwojciechowski.langcourses.getCoursePath
@@ -20,12 +21,11 @@ class StoredResourceManager(val context: Context): ResourceManager() {
         return course
     }
 
+
     override fun getAsset(courseID: Int, path: String): ManagedAsset {
-        val coursePath =
-            getCoursePath(courseID)
+        val coursePath = getCoursePath(courseID)
         return StoredManagedAsset(
-            context,
-            "coursedata/$coursePath/assets/$path"
+            context, "coursedata/$coursePath/assets/$path"
         )
     }
 
@@ -63,10 +63,14 @@ class StoredResourceManager(val context: Context): ResourceManager() {
 
 class StoredManagedAsset(val context: Context, path: String): ManagedAsset(path) {
     override fun getFile(): File {
-        return File(context.filesDir, path)
+        return context.filesDir.resolve(path)
     }
 
     override fun getInputStream(): FileInputStream {
         return context.openFileInput(path)
+    }
+
+    override fun getUri(): Uri {
+        return Uri.fromFile(getFile())
     }
 }

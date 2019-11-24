@@ -12,6 +12,7 @@ import pl.krzysztofwojciechowski.langcourses.ChapterTab
 import pl.krzysztofwojciechowski.langcourses.IE_CHAPTERID
 import pl.krzysztofwojciechowski.langcourses.IE_COURSEID
 import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getResourceManager
 
 class ChapterActivity : AppCompatActivity() {
@@ -26,9 +27,7 @@ class ChapterActivity : AppCompatActivity() {
         val courseID = intent.extras!!.getInt(IE_COURSEID)
         val chapterID = intent.extras!!.getInt(IE_CHAPTERID)
 
-        val resourceManager = getResourceManager(applicationContext)
-        val course = resourceManager.getCourseData(courseID)
-        val chapter = course.getChapterByID(chapterID)
+        val chapter = getChapter(applicationContext, courseID, chapterID)
 
         supportActionBar?.title = chapter.name
         supportActionBar?.subtitle = chapter.translatedName
@@ -49,7 +48,7 @@ class ChapterActivity : AppCompatActivity() {
             tabIDs.add(ChapterTab.QUIZ)
         }
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager, tabNames, tabIDs)
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager, chapter, tabNames, tabIDs)
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)

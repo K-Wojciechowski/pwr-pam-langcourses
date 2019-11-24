@@ -1,6 +1,8 @@
 package pl.krzysztofwojciechowski.langcourses.resourcemanager
 
 import android.content.Context
+import android.net.Uri
+import pl.krzysztofwojciechowski.langcourses.Chapter
 import pl.krzysztofwojciechowski.langcourses.Course
 import java.io.File
 import java.io.FileInputStream
@@ -11,8 +13,9 @@ abstract class ResourceManager {
     abstract fun getAsset(courseID: Int, path: String): ManagedAsset
     abstract fun extractZipData(zipFile: File, coursePath: String)  // TODO file handle?
 
-    fun getImage(course: Course, path: String): ManagedImage = getAsset(course, path) as ManagedImage
-    fun getAudio(course: Course, path: String): ManagedAudio = getAsset(course, path) as ManagedAudio
+    fun getChapter(courseID: Int, chapterID: Int): Chapter {
+        return getCourseData(courseID).getChapterByID(chapterID)
+    }
 }
 
 abstract class ManagedEntity {
@@ -35,12 +38,15 @@ abstract class ManagedCourseItem : ManagedEntity() {
 abstract class ManagedAsset(val path: String) {
     abstract fun getFile(): File
     abstract fun getInputStream(): FileInputStream
+    abstract fun getUri(): Uri
 }
-abstract class ManagedImage(path: String): ManagedAsset(path)
-abstract class ManagedAudio(path: String): ManagedAsset(path)
 
 fun getResourceManager(context: Context): ResourceManager {
     return StoredResourceManager(
         context
     )
+}
+
+fun getChapter(context: Context, courseID: Int, chapterID: Int): Chapter {
+    return getResourceManager(context).getChapter(courseID, chapterID)
 }

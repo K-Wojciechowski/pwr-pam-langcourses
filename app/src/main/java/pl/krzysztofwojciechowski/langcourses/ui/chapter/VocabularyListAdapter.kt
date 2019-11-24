@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import pl.krzysztofwojciechowski.langcourses.Chapter
 import pl.krzysztofwojciechowski.langcourses.R
 import pl.krzysztofwojciechowski.langcourses.VocabularyBox
 import pl.krzysztofwojciechowski.langcourses.VocabularyEntry
@@ -15,7 +16,7 @@ enum class VocabularyListItemType(val num: Int) { TITLE(1), ENTRY(2) }
 
 class VocabularyListItem(val type: VocabularyListItemType, val original: String, val translated: String, val entry: VocabularyEntry? = null)
 
-fun buildItems(boxes: List<VocabularyBox>) {
+fun buildItems(boxes: List<VocabularyBox>): List<VocabularyListItem> {
     val items = mutableListOf<VocabularyListItem>()
     boxes.forEach { box ->
         items.add(
@@ -25,7 +26,7 @@ fun buildItems(boxes: List<VocabularyBox>) {
                 box.translatedHeader
             )
         )
-        items.addAll(0, box.words.map {
+        items.addAll(box.words.map {
             VocabularyListItem(
                 VocabularyListItemType.ENTRY,
                 it.word,
@@ -34,10 +35,14 @@ fun buildItems(boxes: List<VocabularyBox>) {
             )
         })
     }
+    return items
 }
 
 class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Unit, private val items: List<VocabularyListItem> = mutableListOf()) :
     RecyclerView.Adapter<VocabularyListAdapter.VocabularyViewHolder>() {
+
+    constructor(openDefinition: (VocabularyEntry) -> Unit, chapter: Chapter): this(openDefinition, buildItems(chapter.vocabulary))
+
     open class VocabularyViewHolder(itemView: View, var context: Context) : RecyclerView.ViewHolder(itemView)
 
     class VocabularyTitleViewHolder(itemView: View, context: Context) : VocabularyViewHolder(itemView, context) {
@@ -90,8 +95,7 @@ class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Uni
             val entryHolder = holder as VocabularyEntryViewHolder
             entryHolder.original.text = item.original
             entryHolder.translated.text = item.translated
-            // TODO image
-            // entryHolder.image.setImageDrawable(item.entry!!.image)
+            entryHolder.image.setImageURI(item.entry!!.imageUri)
 
             holder.itemView.setOnClickListener {
                 openDefinition(item.entry!!)
