@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import pl.krzysztofwojciechowski.langcourses.Chapter
 import pl.krzysztofwojciechowski.langcourses.ChapterTab
-import pl.krzysztofwojciechowski.langcourses.R
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -20,11 +19,11 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager,
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        if (tabIDs[position] == ChapterTab.VOCABULARY) {
-            return VocabularyFragment.newInstance(chapter)
+        return when (tabIDs[position]) {
+            ChapterTab.VOCABULARY -> VocabularyFragment.newInstance(chapter)
+            ChapterTab.CONVERSATIONS -> ConversationFragment.newInstance(chapter)
+            else -> PlaceholderFragment.newInstance(tabIDs[position].toString())
         }
-        // TODO placeholder
-        return PlaceholderFragment.newInstance(tabIDs[position].toString())
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

@@ -1,6 +1,5 @@
 package pl.krzysztofwojciechowski.langcourses.ui.chapter
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import pl.krzysztofwojciechowski.langcourses.*
+import pl.krzysztofwojciechowski.langcourses.Chapter
+import pl.krzysztofwojciechowski.langcourses.R
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
-import pl.krzysztofwojciechowski.langcourses.ui.chapterlist.CourseChaptersActivity
 
-class VocabularyFragment : Fragment() {
+class ConversationFragment : Fragment() {
 
     private lateinit var chapter: Chapter
 
@@ -29,15 +28,11 @@ class VocabularyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_chapter_vocab, container, false)
+        val root = inflater.inflate(R.layout.fragment_chapter_conv, container, false)
         val viewManager = LinearLayoutManager(context)
-        val viewAdapter =
-            VocabularyListAdapter(
-                this::openDefinition,
-                chapter
-            )
+        val viewAdapter = ConversationListAdapter(chapter)
 
-        val recyclerView: RecyclerView = root.findViewById(R.id.chapter_rv_vocabulary)
+        val recyclerView: RecyclerView = root.findViewById(R.id.chapter_rv_conversations)
 
         recyclerView.apply {
             setHasFixedSize(false)
@@ -49,23 +44,13 @@ class VocabularyFragment : Fragment() {
         return root
     }
 
-    fun openDefinition(entry: VocabularyEntry) {
-//        throw NotImplementedError("Not implemented!")
-
-        val openIntent = Intent(context, DefinitionDialogActivity::class.java)
-        val bundle = Bundle()
-//        bundle.putInt(IE_COURSEID, course.courseid)
-        openIntent.putExtras(bundle)
-        startActivity(openIntent)
-    }
-
     companion object {
         private const val ARG_COURSEID = "courseID"
-        private const val ARG_CHAPTERID = "chapterID"
+        private const val ARG_CHAPTERID = "courseID"
 
         @JvmStatic
-        fun newInstance(chapter: Chapter): VocabularyFragment {
-            return VocabularyFragment().apply {
+        fun newInstance(chapter: Chapter): ConversationFragment {
+            return ConversationFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COURSEID, chapter.course!!.courseID)
                     putInt(ARG_CHAPTERID, chapter.chapterID)

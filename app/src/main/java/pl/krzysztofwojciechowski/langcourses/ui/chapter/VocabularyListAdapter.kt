@@ -98,7 +98,7 @@ class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Uni
             entryHolder.image.setImageURI(item.entry!!.imageUri)
 
             holder.itemView.setOnClickListener {
-                openDefinition(item.entry!!)
+                openDefinition(item.entry)
             }
         }
     }

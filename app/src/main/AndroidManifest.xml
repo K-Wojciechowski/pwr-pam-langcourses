@@ -13,21 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".DefinitionDialogActivity" android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"></activity>
         <activity
             android:name=".ui.chapter.ChapterActivity"
             android:label="@string/title_activity_chapter"
+            android:launchMode="singleTop"
             android:parentActivityName=".ui.chapterlist.CourseChaptersActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.krzysztofwojciechowski.langcourses.ui.chapterlist.CourseChaptersActivity" />
         </activity>
         <activity
             android:name=".ui.chapterlist.CourseChaptersActivity"
-            android:parentActivityName=".ui.chapterlist.CourseChaptersActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.chapterlist.CourseChaptersActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.krzysztofwojciechowski.langcourses.ui.main.CourseListActivity" />
