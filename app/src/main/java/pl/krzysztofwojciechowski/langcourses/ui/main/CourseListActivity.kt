@@ -25,7 +25,6 @@ import java.io.File
 class CourseListActivity : AppCompatActivity(),
     DownloadCompletionHandler {
     override fun downloadComplete(course: CourseCardData, path: File) {
-        Log.e("X", "Y")
         try {
             resourceManager.extractZipData(path, course.coursePath)
         } finally {
@@ -34,7 +33,6 @@ class CourseListActivity : AppCompatActivity(),
     }
 
     override fun downloadFailed(course: CourseCardData, path: File, reason: Int) {
-        Log.e("z", "z")
         path.delete()
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

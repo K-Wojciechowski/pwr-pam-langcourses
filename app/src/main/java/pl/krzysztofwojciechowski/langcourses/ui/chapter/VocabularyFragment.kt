@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.krzysztofwojciechowski.langcourses.*
-import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
 
 class VocabularyFragment : Fragment() {
 
@@ -29,11 +28,14 @@ class VocabularyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_chapter_vocab, container, false)
-        val viewManager = LinearLayoutManager(context)
+        val chapter = pageViewModel.chapter.value!!
+        val vocabularyListItems = buildVocabularyListItems(chapter.vocabulary)
+        val viewManager = GridLayoutManager(context, VOC_GRID_SPAN)
+        viewManager.spanSizeLookup = VocabularySpanSizeLookup(vocabularyListItems)
         val viewAdapter =
             VocabularyListAdapter(
                 this::openDefinition,
-                pageViewModel.chapter.value!!
+                vocabularyListItems
             )
 
         val recyclerView: RecyclerView = root.findViewById(R.id.chapter_rv_vocabulary)

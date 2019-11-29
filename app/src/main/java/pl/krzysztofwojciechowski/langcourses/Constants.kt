@@ -8,4 +8,7 @@ val IE_DEF_WORD = "defWord"
 val IE_DEF_TRANSLATION = "defTranslation"
 val IE_DEF_DEFINITION = "defDefinition"
 
+val VOC_GRID_SPAN = 3
+val VOC_GRID_SPAN_ENTRY = 1
+
 enum class ChapterTab { VOCABULARY, CONVERSATIONS, QUIZ }

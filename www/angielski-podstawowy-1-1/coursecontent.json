@@ -9,14 +9,15 @@
             "chapterID": 1,
             "name": "Animals",
             "translatedName": "Zwierzęta",
-            "mediaCredits": "Cat photo by Heikki Siltala, CC BY 3.0, https://commons.wikimedia.org/w/index.php?curid=34918238\nDog photo by Leuchtender Hund, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=30995457\nHorse photo by Thomas Reich, CC BY-SA 2.5, https://commons.wikimedia.org/w/index.php?curid=925145\nTiger photo by Charles J Sharp, from Sharp Photography, sharpphotography.co.uk, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=65574913",
+            "mediaCredits": "Cat photo by Heikki Siltala, CC BY 3.0, https://commons.wikimedia.org/w/index.php?curid=34918238\nDog photo by Leuchtender Hund, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=30995457\nHorse photo by Thomas Reich, CC BY-SA 2.5, https://commons.wikimedia.org/w/index.php?curid=925145\nTiger photo by Charles J Sharp, from Sharp Photography, sharpphotography.co.uk, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=65574913\nRabbit photo by Hagen Graebner, CC BY-SA 2.5, https://commons.wikimedia.org/w/index.php?curid=496605",
             "vocabulary": [
                 {
                     "header": "Pets",
                     "translatedHeader": "Zwierzęta domowe",
                     "words": [
                         {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."},
-                        {"image": "animals/img/dog.jpg", "audio": "animals/audio/dog.mp3", "word": "dog", "translation": "pies", "definition": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."}
+                        {"image": "animals/img/dog.jpg", "audio": "animals/audio/dog.mp3", "word": "dog", "translation": "pies", "definition": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."},
+                        {"image": "animals/img/rabbit.jpg", "audio": "animals/audio/rabbit.mp3", "word": "rabbit", "translation": "królik", "definition": "A gregarious burrowing plant-eating mammal, with long ears, long hind legs, and a short tail."}
                     ]
                 },
                 {

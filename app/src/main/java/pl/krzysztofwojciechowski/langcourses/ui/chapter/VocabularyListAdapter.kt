@@ -7,41 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import pl.krzysztofwojciechowski.langcourses.Chapter
 import pl.krzysztofwojciechowski.langcourses.R
-import pl.krzysztofwojciechowski.langcourses.VocabularyBox
 import pl.krzysztofwojciechowski.langcourses.VocabularyEntry
-
-enum class VocabularyListItemType(val num: Int) { TITLE(1), ENTRY(2) }
-
-class VocabularyListItem(val type: VocabularyListItemType, val original: String, val translated: String, val entry: VocabularyEntry? = null)
-
-fun buildItems(boxes: List<VocabularyBox>): List<VocabularyListItem> {
-    val items = mutableListOf<VocabularyListItem>()
-    boxes.forEach { box ->
-        items.add(
-            VocabularyListItem(
-                VocabularyListItemType.TITLE,
-                box.header,
-                box.translatedHeader
-            )
-        )
-        items.addAll(box.words.map {
-            VocabularyListItem(
-                VocabularyListItemType.ENTRY,
-                it.word,
-                it.translation,
-                it
-            )
-        })
-    }
-    return items
-}
 
 class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Unit, private val items: List<VocabularyListItem> = mutableListOf()) :
     RecyclerView.Adapter<VocabularyListAdapter.VocabularyViewHolder>() {
-
-    constructor(openDefinition: (VocabularyEntry) -> Unit, chapter: Chapter): this(openDefinition, buildItems(chapter.vocabulary))
 
     open class VocabularyViewHolder(itemView: View, var context: Context) : RecyclerView.ViewHolder(itemView)
 
