@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.krzysztofwojciechowski.langcourses.*
@@ -14,14 +15,13 @@ import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
 class VocabularyFragment : Fragment() {
 
     private lateinit var chapter: Chapter
+    private lateinit var pageViewModel: PageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val courseID = arguments?.getInt(ARG_COURSEID)!!
-        val chapterID = arguments?.getInt(ARG_CHAPTERID)!!
-
-        chapter = getChapter(context!!, courseID, chapterID)
-
+        pageViewModel = activity?.run {
+            ViewModelProviders.of(this).get(PageViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
     }
 
     override fun onCreateView(
@@ -33,7 +33,7 @@ class VocabularyFragment : Fragment() {
         val viewAdapter =
             VocabularyListAdapter(
                 this::openDefinition,
-                chapter
+                pageViewModel.chapter.value!!
             )
 
         val recyclerView: RecyclerView = root.findViewById(R.id.chapter_rv_vocabulary)
@@ -61,17 +61,9 @@ class VocabularyFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_COURSEID = "courseID"
-        private const val ARG_CHAPTERID = "chapterID"
-
         @JvmStatic
-        fun newInstance(chapter: Chapter): VocabularyFragment {
-            return VocabularyFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COURSEID, chapter.course!!.courseID)
-                    putInt(ARG_CHAPTERID, chapter.chapterID)
-                }
-            }
+        fun newInstance(): VocabularyFragment {
+            return VocabularyFragment()
         }
     }
 }

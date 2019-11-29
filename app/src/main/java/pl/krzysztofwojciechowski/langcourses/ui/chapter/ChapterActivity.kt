@@ -2,6 +2,7 @@ package pl.krzysztofwojciechowski.langcourses.ui.chapter
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -14,6 +15,7 @@ import pl.krzysztofwojciechowski.langcourses.R
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
 
 class ChapterActivity : AppCompatActivity() {
+    private lateinit var pageViewModel: PageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,9 @@ class ChapterActivity : AppCompatActivity() {
         val chapterID = intent.extras!!.getInt(IE_CHAPTERID)
 
         val chapter = getChapter(applicationContext, courseID, chapterID)
+        pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
+        pageViewModel.chapter.value = chapter
+
 
         supportActionBar?.title = chapter.name
         supportActionBar?.subtitle = chapter.translatedName
@@ -46,7 +51,12 @@ class ChapterActivity : AppCompatActivity() {
             tabIDs.add(ChapterTab.QUIZ)
         }
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager, chapter, tabNames, tabIDs)
+        val sectionsPagerAdapter = SectionsPagerAdapter(
+            this,
+            supportFragmentManager,
+            tabNames,
+            tabIDs
+        )
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
