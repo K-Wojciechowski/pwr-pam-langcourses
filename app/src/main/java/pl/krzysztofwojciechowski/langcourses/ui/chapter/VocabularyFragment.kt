@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
-import pl.krzysztofwojciechowski.langcourses.ui.chapterlist.CourseChaptersActivity
 
 class VocabularyFragment : Fragment() {
 
@@ -50,11 +49,13 @@ class VocabularyFragment : Fragment() {
     }
 
     fun openDefinition(entry: VocabularyEntry) {
-//        throw NotImplementedError("Not implemented!")
-
         val openIntent = Intent(context, DefinitionDialogActivity::class.java)
         val bundle = Bundle()
-//        bundle.putInt(IE_COURSEID, course.courseid)
+        bundle.putParcelable(IE_DEF_IMAGEURI, entry.imageUri)
+//        bundle.putString(IE_DEF_AUDIO, entry.audio)
+        bundle.putString(IE_DEF_WORD, entry.word)
+        bundle.putString(IE_DEF_TRANSLATION, entry.translation)
+        bundle.putString(IE_DEF_DEFINITION, entry.definition)
         openIntent.putExtras(bundle)
         startActivity(openIntent)
     }

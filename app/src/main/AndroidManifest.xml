@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DefinitionDialogActivity" android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"></activity>
+        <activity android:name=".ui.chapter.DefinitionDialogActivity" android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
         <activity
             android:name=".ui.chapter.ChapterActivity"
             android:label="@string/title_activity_chapter"

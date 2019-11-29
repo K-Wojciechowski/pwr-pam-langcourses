@@ -16,4 +16,5 @@
     <string name="tab_vocabulary">Vocabulary</string>
     <string name="tab_conversations">Convers.</string>
     <string name="tab_quiz">Quiz</string>
+    <string name="definition_word_translation">%1$s — %2$s</string>
 </resources>
