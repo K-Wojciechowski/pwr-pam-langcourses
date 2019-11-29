@@ -3,6 +3,7 @@
     <dimen name="rv_chapter_conv_topbot_padding">8dp</dimen>
     <dimen name="rv_chapter_conv_startend_padding">16dp</dimen>
     <dimen name="rv_chapter_vocab_image">96dp</dimen>
+    <dimen name="rv_chapter_quiz_image_margin">2dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
