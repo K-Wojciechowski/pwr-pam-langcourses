@@ -1,4 +1,4 @@
-package pl.krzysztofwojciechowski.langcourses.ui.chapter
+package pl.krzysztofwojciechowski.langcourses.ui.chapter.quiz
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.PageViewModel
 
 class QuizFragment : Fragment() {
-
     private lateinit var pageViewModel: PageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         pageViewModel = activity?.run {
             ViewModelProviders.of(this).get(PageViewModel::class.java)
         } ?: throw Exception("Invalid Activity")

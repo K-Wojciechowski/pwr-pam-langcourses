@@ -1,4 +1,4 @@
-package pl.krzysztofwojciechowski.langcourses.ui.chapter
+package pl.krzysztofwojciechowski.langcourses.ui.chapter.conversation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.PageViewModel
 
 class ConversationFragment : Fragment() {
 
@@ -27,7 +28,10 @@ class ConversationFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_chapter_conv, container, false)
         val viewManager = LinearLayoutManager(context)
-        val viewAdapter = ConversationListAdapter(pageViewModel.chapter.value!!)
+        val viewAdapter =
+            ConversationListAdapter(
+                pageViewModel.chapter.value!!
+            )
 
         val recyclerView: RecyclerView = root.findViewById(R.id.chapter_rv_conversations)
 

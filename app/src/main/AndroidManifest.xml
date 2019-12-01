@@ -13,16 +13,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.chapter.DefinitionDialogActivity" android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
+        <activity
+            android:name=".ui.chapter.vocabulary.DefinitionDialogActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".ui.chapter.ChapterActivity"
-            android:label="@string/title_activity_chapter"
+            android:label="@string/generic_course"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.chapterlist.CourseChaptersActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.krzysztofwojciechowski.langcourses.ui.chapterlist.CourseChaptersActivity" />
+        </activity>
+        <activity
+            android:name=".ui.chapter.tutorial.TutorialActivity"
+            android:label="@string/tutorial_title"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.chapter.ChapterActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity" />
         </activity>
         <activity
             android:name=".ui.chapterlist.CourseChaptersActivity"
@@ -41,6 +53,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

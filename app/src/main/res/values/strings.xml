@@ -10,7 +10,6 @@
     <string name="rv_main_courses_progress_complete">Complete</string>
     <string name="rv_main_courses_progress_partial">Progress: %1$.0f%%</string>
     <string name="rv_main_courses_continue">Continue</string>
-    <string name="title_activity_chapter">ChapterActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_vocabulary">Vocabulary</string>
@@ -18,4 +17,16 @@
     <string name="tab_quiz">Quiz</string>
     <string name="definition_word_translation">%1$s — %2$s</string>
     <string name="answer">Answer</string>
+    <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_subtitle">How to use the course</string>
+    <string name="tutorial_uparrow_desc">Arrow pointing at the tab bar</string>
+    <string name="tutorial_leftarrow_desc">Arrow pointing at a vocabulary image</string>
+    <string name="tutorial_rightarrow_desc">Arrow pointing at the Listen button</string>
+    <string name="tutorial_header">Pick an activity!</string>
+    <string name="tutorial_vocab">Learn new words on the Vocabulary tab.</string>
+    <string name="tutorial_definition">Tap the picture to make it larger and see the word’s definition.</string>
+    <string name="tutorial_conversation">See the vocabulary in action on the Conversation tab.</string>
+    <string name="tutorial_quiz">Test your knowledge in the Quiz.</string>
+    <string name="tutorial_listen_button">Tap this button to listen to the vocabulary or the conversations.</string>
+    <string name="tutorial_button">Start learning</string>
 </resources>

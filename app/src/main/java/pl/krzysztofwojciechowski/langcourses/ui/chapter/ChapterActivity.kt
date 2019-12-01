@@ -1,6 +1,9 @@
 package pl.krzysztofwojciechowski.langcourses.ui.chapter
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -8,11 +11,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_chapter.*
-import pl.krzysztofwojciechowski.langcourses.ChapterTab
-import pl.krzysztofwojciechowski.langcourses.IE_CHAPTERID
-import pl.krzysztofwojciechowski.langcourses.IE_COURSEID
-import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.tutorial.TutorialActivity
 
 class ChapterActivity : AppCompatActivity() {
     private lateinit var pageViewModel: PageViewModel
@@ -63,10 +64,34 @@ class ChapterActivity : AppCompatActivity() {
         tabs.setupWithViewPager(viewPager)
         val fab: FloatingActionButton = findViewById(R.id.fab)
 
-
         fab.setOnClickListener { view ->
             Snackbar.make(view, "This is chapter $chapterID of course $courseID", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+        if (!hasSeenTutorial(applicationContext)) {
+            openTutorial(false)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.chapter, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.menu_tutorial) {
+            openTutorial(true)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun openTutorial(showBackButton: Boolean) {
+        val openIntent = Intent(applicationContext, TutorialActivity::class.java)
+        val bundle = Bundle()
+        bundle.putBoolean(IE_SHOW_BACK_BUTTON, showBackButton)
+        openIntent.putExtras(bundle)
+        startActivity(openIntent)
     }
 }

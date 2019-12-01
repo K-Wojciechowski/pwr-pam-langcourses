@@ -1,4 +1,4 @@
-package pl.krzysztofwojciechowski.langcourses.ui.chapter
+package pl.krzysztofwojciechowski.langcourses.ui.chapter.conversation
 
 import android.view.LayoutInflater
 import android.view.View

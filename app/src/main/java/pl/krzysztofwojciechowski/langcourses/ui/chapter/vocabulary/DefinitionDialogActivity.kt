@@ -1,4 +1,4 @@
-package pl.krzysztofwojciechowski.langcourses.ui.chapter
+package pl.krzysztofwojciechowski.langcourses.ui.chapter.vocabulary
 
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity

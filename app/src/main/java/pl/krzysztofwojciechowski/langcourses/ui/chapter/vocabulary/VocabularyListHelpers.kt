@@ -1,4 +1,4 @@
-package pl.krzysztofwojciechowski.langcourses.ui.chapter
+package pl.krzysztofwojciechowski.langcourses.ui.chapter.vocabulary
 
 import androidx.recyclerview.widget.GridLayoutManager
 import pl.krzysztofwojciechowski.langcourses.VOC_GRID_SPAN
