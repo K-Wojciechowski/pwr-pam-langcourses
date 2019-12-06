@@ -36,6 +36,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:fontFamily="@font/roboto_slab"
                 android:text="@string/generic_course"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 card_view:layout_constraintBottom_toTopOf="@+id/rv_main_courses_progress_lbl"
