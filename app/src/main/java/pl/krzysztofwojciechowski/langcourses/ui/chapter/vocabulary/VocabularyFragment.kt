@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.PageViewModel
@@ -33,15 +34,22 @@ class VocabularyFragment : Fragment() {
             buildVocabularyListItems(
                 chapter.vocabulary
             )
-        val viewManager = GridLayoutManager(context, VOC_GRID_SPAN)
-        viewManager.spanSizeLookup =
-            VocabularySpanSizeLookup(
-                vocabularyListItems
-            )
+        val span = getBestVocabularySpan(vocabularyListItems)
+        var viewManager: RecyclerView.LayoutManager?
+        if (span == 1) {
+            viewManager = LinearLayoutManager(context)
+        } else {
+            viewManager = GridLayoutManager(context, VOC_GRID_SPAN)
+            viewManager.spanSizeLookup =
+                VocabularySpanSizeLookup(
+                    vocabularyListItems
+                )
+        }
         val viewAdapter =
             VocabularyListAdapter(
                 this::openDefinition,
-                vocabularyListItems
+                vocabularyListItems,
+                span > 1
             )
 
         val recyclerView: RecyclerView = root.findViewById(R.id.chapter_rv_vocabulary)
@@ -55,6 +63,7 @@ class VocabularyFragment : Fragment() {
 
         return root
     }
+
 
     fun openDefinition(entry: VocabularyEntry) {
         val openIntent = Intent(context, DefinitionDialogActivity::class.java)

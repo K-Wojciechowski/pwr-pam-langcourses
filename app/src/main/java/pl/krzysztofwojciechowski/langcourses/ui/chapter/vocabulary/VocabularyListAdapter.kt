@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.krzysztofwojciechowski.langcourses.R
 import pl.krzysztofwojciechowski.langcourses.VocabularyEntry
 
-class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Unit, private val items: List<VocabularyListItem> = mutableListOf()) :
+class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Unit, private val items: List<VocabularyListItem> = mutableListOf(), private val isGridMode: Boolean) :
     RecyclerView.Adapter<VocabularyListAdapter.VocabularyViewHolder>() {
 
     open class VocabularyViewHolder(itemView: View, var context: Context) : RecyclerView.ViewHolder(itemView)
@@ -44,9 +44,11 @@ class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Uni
                 parent.context
             )
         } else {
+
             return VocabularyEntryViewHolder(
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.rv_chapter_vocab_entry,
+                    if (isGridMode) R.layout.rv_chapter_vocab_entry_grid
+                    else R.layout.rv_chapter_vocab_entry_line,
                     parent,
                     false
                 ),
