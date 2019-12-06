@@ -29,4 +29,11 @@
     <string name="tutorial_quiz">Test your knowledge in the Quiz.</string>
     <string name="tutorial_listen_button">Tap this button to listen to the vocabulary or the conversations.</string>
     <string name="tutorial_button">Start learning</string>
+    <string name="quiz_start">Start</string>
+    <string name="quiz_try_again">Try again</string>
+    <string name="quiz_check">Check</string>
+    <string name="quiz_next">Next</string>
+    <string name="quiz_notstarted_intro">Test your knowledge in the Quiz!</string>
+    <string name="quiz_question_number">Question %1$s of %2$s</string>
+    <string name="quiz_correct_count">Correct: %1$s</string>
 </resources>

@@ -8,7 +8,7 @@
     tools:context=".ui.chapter.quiz.QuizFragment">
 
     <ImageView
-        android:id="@+id/quiz_answer1"
+        android:id="@+id/quiz_img_answer1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
@@ -23,14 +23,13 @@
         tools:src="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/quiz_answer3"
+        android:id="@+id/quiz_img_answer2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="@dimen/rv_chapter_quiz_image_margin"
         android:layout_marginTop="@dimen/rv_chapter_quiz_image_margin"
         android:layout_marginEnd="@dimen/rv_chapter_quiz_image_margin"
@@ -38,7 +37,22 @@
         tools:src="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/quiz_answer4"
+        android:id="@+id/quiz_img_answer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/rv_chapter_quiz_image_margin"
+        android:layout_marginTop="@dimen/rv_chapter_quiz_image_margin"
+        android:layout_marginEnd="@dimen/rv_chapter_quiz_image_margin"
+        android:layout_marginBottom="@dimen/rv_chapter_quiz_image_margin"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        tools:src="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/quiz_img_answer4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/rv_chapter_quiz_image_margin"
@@ -65,18 +79,4 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
-
-    <ImageView
-        android:id="@+id/quiz_answer2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="@dimen/rv_chapter_quiz_image_margin"
-        android:layout_marginTop="@dimen/rv_chapter_quiz_image_margin"
-        android:layout_marginEnd="@dimen/rv_chapter_quiz_image_margin"
-        android:layout_marginBottom="@dimen/rv_chapter_quiz_image_margin"
-        tools:src="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>

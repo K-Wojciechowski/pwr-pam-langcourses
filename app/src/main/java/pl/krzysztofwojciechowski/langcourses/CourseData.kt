@@ -106,10 +106,29 @@ data class Question(
         super.registerResourceManager(resourceManager, course)
         answers.forEach { a -> a.registerResourceManager(resourceManager, course) }
     }
+
+    val imageUri: Uri?
+        get() {
+            return if (image == null) {
+                null
+            } else {
+                resourceManager!!.getAsset(course!!, image).getUri()
+            }
+        }
 }
 
 data class QuizAnswer(
     val text: String?,
     val image: String?,
     val correct: Boolean
-) : ManagedCourseItem()
+) : ManagedCourseItem() {
+
+    val imageUri: Uri?
+        get() {
+            return if (image == null) {
+                null
+            } else {
+                resourceManager!!.getAsset(course!!, image).getUri()
+            }
+        }
+}

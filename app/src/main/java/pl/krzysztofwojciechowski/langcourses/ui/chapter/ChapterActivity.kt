@@ -64,6 +64,16 @@ class ChapterActivity : AppCompatActivity() {
         tabs.setupWithViewPager(viewPager)
         val fab: FloatingActionButton = findViewById(R.id.fab)
 
+        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+            override fun onPageSelected(position: Int) {
+                if (tabIDs[position] == ChapterTab.QUIZ) {
+                    fab.hide()
+                } else {
+                    fab.show()
+                }
+            }
+        })
+
         fab.setOnClickListener { view ->
             Snackbar.make(view, "This is chapter $chapterID of course $courseID", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()

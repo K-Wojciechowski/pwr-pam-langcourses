@@ -8,12 +8,23 @@
     tools:context=".ui.chapter.quiz.QuizFragment">
 
 
-    <RadioGroup
+    <ImageView
+        android:id="@+id/quiz_image_top"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quiz_image_top">
 
         <RadioButton
             android:id="@+id/quiz_answer1"
@@ -43,4 +54,5 @@
             android:text="@string/answer"
             tools:layout_editor_absoluteY="24dp" />
     </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
