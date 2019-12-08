@@ -41,7 +41,7 @@
             "quiz": [
                 {
                     "question": "What is in the picture?",
-                    "type": "word",
+                    "type": "describe",
                     "image": "animals/img/cat.jpg",
                     "answers": [
                         {"text": "cat", "correct": true},
@@ -51,23 +51,23 @@
                     ]
                 },
                 {
-                    "question": "Which of these is a dog?",
-                    "type": "word",
-                    "answers": [
-                        {"image": "animals/img/cat.jpg", "correct": false},
-                        {"image": "animals/img/dog.jpg", "correct": true},
-                        {"image": "animals/img/horse.jpg", "correct": false},
-                        {"image": "animals/img/tiger.jpg", "correct": false}
-                    ]
-                },
-                {
                     "question": "Zapytaj kolegę, czy ma zwierzątko domowe.",
-                    "type": "conversation",
+                    "type": "text",
                     "answers": [
                         {"text": "What is a pet?", "correct": false},
                         {"text": "Have you got a pet?", "correct": true},
                         {"text": "What is your pet’s name?", "correct": false},
                         {"text": "What colour is your pet?", "correct": false}
+                    ]
+                },
+                {
+                    "question": "Which of these is a dog?",
+                    "type": "images",
+                    "answers": [
+                        {"image": "animals/img/cat.jpg", "correct": false},
+                        {"image": "animals/img/dog.jpg", "correct": true},
+                        {"image": "animals/img/horse.jpg", "correct": false},
+                        {"image": "animals/img/tiger.jpg", "correct": false}
                     ]
                 }
             ]

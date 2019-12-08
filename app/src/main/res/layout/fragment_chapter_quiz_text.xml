@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/quiz_img_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.chapter.quiz.QuizFragment">
@@ -18,7 +18,7 @@
         tools:src="@tools:sample/backgrounds/scenic" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/quiz_answer_rg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -30,29 +30,29 @@
             android:id="@+id/quiz_answer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/answer"
-            tools:layout_editor_absoluteY="24dp" />
+            android:text="@string/answer" />
 
         <RadioButton
             android:id="@+id/quiz_answer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/answer"
-            tools:layout_editor_absoluteY="24dp" />
+            android:layout_marginTop="4dp"
+            android:text="@string/answer" />
 
         <RadioButton
             android:id="@+id/quiz_answer3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/answer"
-            tools:layout_editor_absoluteY="24dp" />
+            android:layout_marginTop="4dp"
+            android:text="@string/answer" />
 
         <RadioButton
             android:id="@+id/quiz_answer4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/answer"
-            tools:layout_editor_absoluteY="24dp" />
+            android:layout_marginTop="4dp"
+            android:text="@string/answer" />
+
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

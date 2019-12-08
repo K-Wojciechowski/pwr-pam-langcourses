@@ -84,9 +84,9 @@ enum class ConversationSide {
 }
 
 enum class QuestionType {
-    @SerializedName("image") IMAGE,
-    @SerializedName("word") WORD,
-    @SerializedName("conversation") CONVERSATION
+    @SerializedName("images") IMAGES,
+    @SerializedName("describe") DESCRIBE,
+    @SerializedName("text") TEXT
 }
 
 data class ConversationItem(
