@@ -11,3 +11,7 @@ fun getCoursePath(courseID: Int): String {
     if (courseID == 1) return "angielski-podstawowy-1-1"
     else throw Exception("Unknown course (PLACEHOLDER)")
 }
+
+fun getNextChapterId(courseID: Int): Int? {
+    return 0
+}

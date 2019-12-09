@@ -13,10 +13,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_base.*
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_text.*
-import pl.krzysztofwojciechowski.langcourses.Question
-import pl.krzysztofwojciechowski.langcourses.QuestionType
-import pl.krzysztofwojciechowski.langcourses.QuizState
-import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.*
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.PageViewModel
 
 
@@ -70,6 +68,8 @@ class QuizFragment : Fragment() {
             root.findViewById(R.id.quiz_img_answer4)
         )
 
+        root.findViewById<Button>(R.id.quiz_finished_next).setOnClickListener(this::startNextChapter)
+
         val displayMetrics = context!!.resources.displayMetrics
         val quizImageSize = (displayMetrics.widthPixels / 2f - 48 * displayMetrics.density).toInt()
 
@@ -84,6 +84,10 @@ class QuizFragment : Fragment() {
         } }
 
         return root
+    }
+
+    fun startNextChapter(_v: View) {
+        (activity as ChapterActivity).startNextChapter()
     }
 
     fun setEnableQuizButton(currentAnswerInt: Int) {
@@ -169,7 +173,7 @@ class QuizFragment : Fragment() {
                 quiz_answer_holder.visibility = View.GONE
                 quiz_finished.visibility = View.VISIBLE
                 root.findViewById<TextView>(R.id.quiz_question).setText(R.string.quiz_finished_intro)
-                quiz_button.setText(R.string.quiz_try_again)
+                quizButton.setText(R.string.quiz_try_again)
                 root.findViewById<TextView>(R.id.question_number).setText(R.string.quiz_question_number_notinprogress)
                 root.findViewById<TextView>(R.id.question_correct).setText(R.string.quiz_question_correct_notinprogress)
 
@@ -179,13 +183,19 @@ class QuizFragment : Fragment() {
                     R.string.quiz_finished_qcount,
                     pageViewModel.correctCount.value!!,
                     pageViewModel.chapter.value!!.quiz.size,
-                    percCorrect * 100
+                    (percCorrect * 100).toInt()
                 ))
                 if (percCorrect >= 0.75) {
                     root.findViewById<TextView>(R.id.quiz_finished_result).setText(R.string.quiz_finished_success)
+                    root.findViewById<Button>(R.id.quiz_finished_next).visibility =
+                        if (getNextChapterId(pageViewModel.chapter.value!!.course!!.courseID) == null) View.GONE
+                        else View.VISIBLE
+                    quizButton.isEnabled = false
                     // TODO mark complete
                 } else {
                     root.findViewById<TextView>(R.id.quiz_finished_result).setText(R.string.quiz_finished_failure)
+                    root.findViewById<Button>(R.id.quiz_finished_next).visibility = View.GONE
+                    quizButton.isEnabled = true
                 }
             }
         }
@@ -233,12 +243,15 @@ class QuizFragment : Fragment() {
             QuestionType.TEXT -> {
                 quiz_text.visibility = View.VISIBLE
                 quiz_img.visibility = View.GONE
+                quiz_image_top.visibility = View.GONE
+                quiz_image_top.setImageDrawable(null)
                 quizView = quiz_text
             }
 
             QuestionType.DESCRIBE -> {
                 quiz_text.visibility = View.VISIBLE
                 quiz_img.visibility = View.GONE
+                quiz_image_top.visibility = View.VISIBLE
                 quiz_image_top.setImageURI(question.imageUri)
                 quizView = quiz_text
             }

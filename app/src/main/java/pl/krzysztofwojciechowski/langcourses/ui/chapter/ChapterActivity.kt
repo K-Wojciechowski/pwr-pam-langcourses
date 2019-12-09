@@ -15,6 +15,7 @@ import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.tutorial.TutorialActivity
 
+
 class ChapterActivity : AppCompatActivity() {
     private lateinit var pageViewModel: PageViewModel
 
@@ -27,7 +28,10 @@ class ChapterActivity : AppCompatActivity() {
 
         val courseID = intent.extras!!.getInt(IE_COURSEID)
         val chapterID = intent.extras!!.getInt(IE_CHAPTERID)
+        loadChapter(courseID, chapterID)
+    }
 
+    fun loadChapter(courseID: Int, chapterID: Int) {
         val chapter = getChapter(applicationContext, courseID, chapterID)
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
         pageViewModel.chapter.value = chapter
@@ -102,6 +106,19 @@ class ChapterActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putBoolean(IE_SHOW_BACK_BUTTON, showBackButton)
         openIntent.putExtras(bundle)
+        startActivity(openIntent)
+    }
+
+    fun startNextChapter() {
+        val courseID = pageViewModel.chapter.value!!.course!!.courseID
+        val nextChapterID = getNextChapterId(courseID) ?: return
+        val openIntent = Intent(applicationContext, ChapterActivity::class.java)
+        openIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
+        val bundle = Bundle()
+        bundle.putInt(IE_COURSEID, courseID)
+        bundle.putInt(IE_CHAPTERID, nextChapterID)
+        openIntent.putExtras(bundle)
+        finish()
         startActivity(openIntent)
     }
 }
