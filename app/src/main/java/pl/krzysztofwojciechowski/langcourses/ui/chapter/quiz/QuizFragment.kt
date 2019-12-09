@@ -150,6 +150,9 @@ class QuizFragment : Fragment() {
                 root.findViewById<View>(R.id.quiz_notstarted).visibility = View.VISIBLE
                 root.findViewById<View>(R.id.quiz_answer_holder).visibility = View.GONE
                 root.findViewById<View>(R.id.quiz_finished).visibility = View.GONE
+                root.findViewById<TextView>(R.id.quiz_question).setText(R.string.quiz_notstarted_intro)
+                root.findViewById<TextView>(R.id.quiz_notstarted_counter).setText(
+                    getString(R.string.quiz_notstarted_qcount, pageViewModel.chapter.value!!.quiz.size))
                 root.findViewById<Button>(R.id.quiz_button).setText(R.string.quiz_start)
                 root.findViewById<TextView>(R.id.question_number).setText(R.string.quiz_question_number_notinprogress)
                 root.findViewById<TextView>(R.id.question_correct).setText(R.string.quiz_question_correct_notinprogress)
@@ -165,9 +168,25 @@ class QuizFragment : Fragment() {
                 quiz_notstarted.visibility = View.GONE
                 quiz_answer_holder.visibility = View.GONE
                 quiz_finished.visibility = View.VISIBLE
+                root.findViewById<TextView>(R.id.quiz_question).setText(R.string.quiz_finished_intro)
                 quiz_button.setText(R.string.quiz_try_again)
                 root.findViewById<TextView>(R.id.question_number).setText(R.string.quiz_question_number_notinprogress)
                 root.findViewById<TextView>(R.id.question_correct).setText(R.string.quiz_question_correct_notinprogress)
+
+                val percCorrect = pageViewModel.correctCount.value!! / pageViewModel.chapter.value!!.quiz.size.toFloat()
+
+                root.findViewById<TextView>(R.id.quiz_finished_counter).setText(getString(
+                    R.string.quiz_finished_qcount,
+                    pageViewModel.correctCount.value!!,
+                    pageViewModel.chapter.value!!.quiz.size,
+                    percCorrect * 100
+                ))
+                if (percCorrect >= 0.75) {
+                    root.findViewById<TextView>(R.id.quiz_finished_result).setText(R.string.quiz_finished_success)
+                    // TODO mark complete
+                } else {
+                    root.findViewById<TextView>(R.id.quiz_finished_result).setText(R.string.quiz_finished_failure)
+                }
             }
         }
     }

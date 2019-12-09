@@ -18,7 +18,6 @@ class PageViewModel : ViewModel() {
     val quizState = MutableLiveData(QuizState.NOTSTARTED)
     val answerRevealed = MutableLiveData(false)
 
-    val questionCount: LiveData<Int> = Transformations.map(chapter) { it.quiz.size }
     var correctQuizAnswers: Map<Question, Int> = mapOf()
 
     init {
@@ -27,9 +26,6 @@ class PageViewModel : ViewModel() {
                 it.quiz.associateWith { q -> q.answers.indexOfFirst { a -> a.correct }}
         }
     }
-
-//    val correctQuizAnswers: LiveData<Map<Question, Int>> = Transformations.map(chapter) {
-//    }
 
     val correctCount: LiveData<Int> = Transformations.map(quizAnswers) {
         it.count { entry -> correctQuizAnswers[entry.key] == entry.value }

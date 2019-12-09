@@ -40,4 +40,14 @@
     <string name="quiz_answer_incorrect_wrap">%1$s ❌</string>
     <string name="quiz_question_number_notinprogress" />
     <string name="quiz_question_correct_notinprogress" />
+    <string name="quiz_finished_intro">The results are in!</string>
+    <string name="quiz_notstarted_intro1">How well did you remember what you learnt? You can test your knowledge in the Quiz.</string>
+    <string name="quiz_notstarted_intro2">The quiz for this chapter contains</string>
+    <string name="quiz_notstarted_qcount">%1$d questions</string>
+    <string name="quiz_notstarted_intro3">You need to get 75% of the questions correct to complete this chapter.</string>
+    <string name="quiz_finished_intro1">Thanks for taking the quiz!</string>
+    <string name="quiz_finished_intro2">Correct answers:</string>
+    <string name="quiz_finished_success">Congratulations! You completed another chapter!</string>
+    <string name="quiz_finished_qcount">%1$d/%2$d (%3$d%%)</string>
+    <string name="quiz_finished_failure">You failed to achieve 75% correct responses… You can try again. Good luck!</string>
 </resources>
