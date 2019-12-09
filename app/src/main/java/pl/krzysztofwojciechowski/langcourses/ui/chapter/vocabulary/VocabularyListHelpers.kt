@@ -1,8 +1,6 @@
 package pl.krzysztofwojciechowski.langcourses.ui.chapter.vocabulary
 
 import androidx.recyclerview.widget.GridLayoutManager
-import pl.krzysztofwojciechowski.langcourses.VOC_GRID_SPAN
-import pl.krzysztofwojciechowski.langcourses.VOC_GRID_SPAN_ENTRY
 import pl.krzysztofwojciechowski.langcourses.VocabularyBox
 import pl.krzysztofwojciechowski.langcourses.VocabularyEntry
 
@@ -41,11 +39,11 @@ fun buildVocabularyListItems(boxes: List<VocabularyBox>): List<VocabularyListIte
     return items
 }
 
-class VocabularySpanSizeLookup(private val vocabularyListItems: List<VocabularyListItem>) : GridLayoutManager.SpanSizeLookup() {
+class VocabularySpanSizeLookup(private val vocabularyListItems: List<VocabularyListItem>, private val span: Int) : GridLayoutManager.SpanSizeLookup() {
     override fun getSpanSize(position: Int): Int {
         return when (vocabularyListItems[position].type) {
-            VocabularyListItemType.ENTRY -> VOC_GRID_SPAN_ENTRY
-            VocabularyListItemType.TITLE -> VOC_GRID_SPAN
+            VocabularyListItemType.ENTRY -> 1
+            VocabularyListItemType.TITLE -> span
         }
     }
 }

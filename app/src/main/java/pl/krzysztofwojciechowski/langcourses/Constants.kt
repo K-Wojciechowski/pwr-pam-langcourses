@@ -12,7 +12,4 @@ val IE_SHOW_BACK_BUTTON = "showBackButton"
 val SHARED_PREFS = "mlcSharedPrefs"
 val SP_SEEN_TUTORIAL = "seenTutorial"
 
-val VOC_GRID_SPAN = 3
-val VOC_GRID_SPAN_ENTRY = 1
-
 enum class ChapterTab { VOCABULARY, CONVERSATIONS, QUIZ, BLANK }

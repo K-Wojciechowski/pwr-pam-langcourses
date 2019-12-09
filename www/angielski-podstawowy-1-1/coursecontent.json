@@ -75,13 +75,43 @@
         {
             "name": "Test Chapter",
             "translatedName": "Rozdział Testowy",
+            "chapterID": 0,
             "mediaCredits": "",
             "vocabulary": [
                 {
                     "header": "Vocabulary",
                     "translatedHeader": "Słownictwo",
                     "words": [
-                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
+                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat12345678901234", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
+                    ]
+                }
+            ],
+            "conversations": [],
+            "quiz": [
+                {
+                    "question": "What is in the picture?",
+                    "type": "word",
+                    "image": "animals/img/cat.jpg",
+                    "answers": [
+                        {"text": "cat", "correct": true},
+                        {"text": "dog", "correct": false},
+                        {"text": "horse", "correct": false},
+                        {"text": "tiger", "correct": false}
+                    ]
+                }
+            ]
+        },
+{
+            "name": "Test Chapter 2",
+            "translatedName": "Rozdział Testowy 2",
+            "chapterID": 7,
+            "mediaCredits": "",
+            "vocabulary": [
+                {
+                    "header": "Vocabulary",
+                    "translatedHeader": "Słownictwo",
+                    "words": [
+                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "qwertyuiop asdfghjkl zxcvbnm", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
                     ]
                 }
             ],
@@ -100,5 +130,6 @@
                 }
             ]
         }
+
     ]
 }

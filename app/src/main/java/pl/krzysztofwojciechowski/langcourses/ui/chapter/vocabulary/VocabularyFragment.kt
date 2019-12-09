@@ -39,10 +39,11 @@ class VocabularyFragment : Fragment() {
         if (span == 1) {
             viewManager = LinearLayoutManager(context)
         } else {
-            viewManager = GridLayoutManager(context, VOC_GRID_SPAN)
+            viewManager = GridLayoutManager(context, span)
             viewManager.spanSizeLookup =
                 VocabularySpanSizeLookup(
-                    vocabularyListItems
+                    vocabularyListItems,
+                    span
                 )
         }
         val viewAdapter =
