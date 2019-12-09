@@ -90,7 +90,7 @@
             "quiz": [
                 {
                     "question": "What is in the picture?",
-                    "type": "word",
+                    "type": "describe",
                     "image": "animals/img/cat.jpg",
                     "answers": [
                         {"text": "cat", "correct": true},
@@ -119,7 +119,7 @@
             "quiz": [
                 {
                     "question": "What is in the picture?",
-                    "type": "word",
+                    "type": "describe",
                     "image": "animals/img/cat.jpg",
                     "answers": [
                         {"text": "cat", "correct": true},
