@@ -86,24 +86,26 @@ class QuizFragment : Fragment() {
         return root
     }
 
-    fun startNextChapter(_v: View) {
+    @Suppress("UNUSED_PARAMETER")
+    private fun startNextChapter(_v: View) {
         (activity as ChapterActivity).startNextChapter()
     }
 
-    fun setEnableQuizButton(currentAnswerInt: Int) {
+    private fun setEnableQuizButton(currentAnswerInt: Int) {
         quizButton.isEnabled = !(currentAnswerInt == -1 && quizStateCopy == QuizState.INPROGRESS)
     }
 
-    fun imageAnswerClicked(currentAnswerInt: Int) {
+    private fun imageAnswerClicked(currentAnswerInt: Int) {
         if (pageViewModel.answerRevealed.value!!) return
         currentSelectedAnswer.value = currentAnswerInt
         markImages()
     }
 
-    fun markImages() {
+    private fun markImages() {
         val currentAnswerInt = currentSelectedAnswer.value!!
         val answerRevealed = pageViewModel.answerRevealed.value!!
-        val correctAnswer= pageViewModel.correctQuizAnswers[pageViewModel.currentQuizQuestion.value!!]!!
+        val correctAnswer=
+            pageViewModel.correctQuizAnswers[pageViewModel.currentQuizQuestion.value!!] ?: error("")
         answerImages.forEachIndexed { index, iv ->
             when {
                 currentAnswerInt == -1 -> markImageUndecided(iv)
@@ -115,39 +117,39 @@ class QuizFragment : Fragment() {
         }
     }
 
-    fun markImageUndecided(iv: ImageView) {
-        iv.setColorFilter(null)
-        iv.setImageAlpha(255)
+    private fun markImageUndecided(iv: ImageView) {
+        iv.colorFilter = null
+        iv.imageAlpha = 255
         iv.background = null
     }
 
     // https://stackoverflow.com/questions/28308325/androidset-gray-scale-filter-to-imageview/28312202
-    fun markImageNotSelected(iv: ImageView) {
+    private fun markImageNotSelected(iv: ImageView) {
         val matrix = ColorMatrix()
         matrix.setSaturation(0f) //0 means grayscale
 
         val cf = ColorMatrixColorFilter(matrix)
-        iv.setColorFilter(cf)
-        iv.setImageAlpha(128) // 128 = 0.5
+        iv.colorFilter = cf
+        iv.imageAlpha = 128 // 128 = 0.5
         iv.background = null
     }
 
-    fun markImageSelected(iv: ImageView) {
+    private fun markImageSelected(iv: ImageView) {
         markImageUndecided(iv)
         iv.setBackgroundColor(ContextCompat.getColor(context!!, R.color.img_selected_border))
     }
 
-    fun markImageCorrect(iv: ImageView) {
+    private fun markImageCorrect(iv: ImageView) {
         markImageUndecided(iv)
         iv.setBackgroundColor(ContextCompat.getColor(context!!, R.color.img_correct_border))
     }
 
-    fun markImageIncorrect(iv: ImageView) {
+    private fun markImageIncorrect(iv: ImageView) {
         markImageNotSelected(iv)
         iv.setBackgroundColor(ContextCompat.getColor(context!!, R.color.img_incorrect_border))
     }
 
-    fun setQuizState(state: QuizState) {
+    private fun setQuizState(state: QuizState) {
         quizStateCopy = state
         when (state) {
             QuizState.NOTSTARTED -> {
@@ -155,8 +157,8 @@ class QuizFragment : Fragment() {
                 root.findViewById<View>(R.id.quiz_answer_holder).visibility = View.GONE
                 root.findViewById<View>(R.id.quiz_finished).visibility = View.GONE
                 root.findViewById<TextView>(R.id.quiz_question).setText(R.string.quiz_notstarted_intro)
-                root.findViewById<TextView>(R.id.quiz_notstarted_counter).setText(
-                    getString(R.string.quiz_notstarted_qcount, pageViewModel.chapter.value!!.quiz.size))
+                root.findViewById<TextView>(R.id.quiz_notstarted_counter).text =
+                    getString(R.string.quiz_notstarted_qcount, pageViewModel.chapter.value!!.quiz.size)
                 root.findViewById<Button>(R.id.quiz_button).setText(R.string.quiz_start)
                 root.findViewById<TextView>(R.id.question_number).setText(R.string.quiz_question_number_notinprogress)
                 root.findViewById<TextView>(R.id.question_correct).setText(R.string.quiz_question_correct_notinprogress)
@@ -179,12 +181,12 @@ class QuizFragment : Fragment() {
 
                 val percCorrect = pageViewModel.correctCount.value!! / pageViewModel.chapter.value!!.quiz.size.toFloat()
 
-                root.findViewById<TextView>(R.id.quiz_finished_counter).setText(getString(
+                root.findViewById<TextView>(R.id.quiz_finished_counter).text = getString(
                     R.string.quiz_finished_qcount,
                     pageViewModel.correctCount.value!!,
                     pageViewModel.chapter.value!!.quiz.size,
                     (percCorrect * 100).toInt()
-                ))
+                )
                 if (percCorrect >= 0.75) {
                     root.findViewById<TextView>(R.id.quiz_finished_result).setText(R.string.quiz_finished_success)
                     root.findViewById<Button>(R.id.quiz_finished_next).visibility =
@@ -201,7 +203,7 @@ class QuizFragment : Fragment() {
         }
     }
 
-    fun setAnswerRevealed(answerRevealed: Boolean) {
+    private fun setAnswerRevealed(answerRevealed: Boolean) {
         if (quizStateCopy != QuizState.INPROGRESS) {
             return
         }
@@ -213,7 +215,8 @@ class QuizFragment : Fragment() {
         }
     }
 
-    fun handleButton(b: View) {
+    @Suppress("UNUSED_PARAMETER")
+    private fun handleButton(b: View) {
         when (pageViewModel.quizState.value!!) {
             QuizState.NOTSTARTED -> startQuiz()
             QuizState.INPROGRESS -> {
@@ -227,11 +230,11 @@ class QuizFragment : Fragment() {
         }
     }
 
-    fun startQuiz() {
+    private fun startQuiz() {
         pageViewModel.startQuiz()
     }
 
-    fun showQuestion(question: Question?) {
+    private fun showQuestion(question: Question?) {
         if (question == null) {
             setQuizState(pageViewModel.quizState.value!!)
             return
@@ -271,14 +274,14 @@ class QuizFragment : Fragment() {
         }
     }
 
-    fun setImageAnswer() {
+    private fun setImageAnswer() {
         val question = pageViewModel.currentQuizQuestion.value!!
         for (i in answerRadios.indices) {
             answerImages[i].setImageURI(question.answers[i].imageUri)
         }
     }
 
-    fun setRadioAnswerTextEnable(reveal: Boolean) {
+    private fun setRadioAnswerTextEnable(reveal: Boolean) {
         val question = pageViewModel.currentQuizQuestion.value!!
         if (reveal) {
             answerRadioGroup.clearCheck()
@@ -300,17 +303,16 @@ class QuizFragment : Fragment() {
         }
     }
 
-    fun checkAnswer() {
-//            pageViewModel.checkAnswer(answerRadios.indexOfFirst { rb -> rb.isChecked })
+    private fun checkAnswer() {
         pageViewModel.checkAnswer(currentSelectedAnswer.value!!)
     }
 
-    fun setQuestionNumber(n: Int) {
+    private fun setQuestionNumber(n: Int) {
         root.findViewById<TextView>(R.id.question_number).text =
             getString(R.string.quiz_question_number, n + 1, pageViewModel.chapter.value!!.quiz.size)
     }
 
-    fun setCorrectCount(n: Int) {
+    private fun setCorrectCount(n: Int) {
         root.findViewById<TextView>(R.id.question_correct).text = getString(R.string.quiz_correct_count, n)
     }
 

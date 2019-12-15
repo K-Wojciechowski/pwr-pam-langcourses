@@ -33,6 +33,23 @@ abstract class ManagedCourseItem : ManagedEntity() {
         this.resourceManager = resourceManager
         this.course = course
     }
+
+    fun getAssetUri(path: String?): Uri? {
+        return if (path == null) {
+            null
+        } else {
+            resourceManager!!.getAsset(course!!, path).getUri()
+        }
+    }
+
+
+    fun getAssetFile(path: String?): File? {
+        return if (path == null) {
+            null
+        } else {
+            resourceManager!!.getAsset(course!!, path).getFile()
+        }
+    }
 }
 
 abstract class ManagedAsset(val path: String) {

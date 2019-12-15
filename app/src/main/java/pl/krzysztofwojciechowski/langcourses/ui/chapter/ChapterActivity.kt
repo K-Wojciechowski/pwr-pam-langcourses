@@ -1,23 +1,30 @@
 package pl.krzysztofwojciechowski.langcourses.ui.chapter
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_chapter.*
 import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.tutorial.TutorialActivity
+import java.io.File
 
 
 class ChapterActivity : AppCompatActivity() {
     private lateinit var pageViewModel: PageViewModel
+    private lateinit var musicService: MusicPlayerService
+    private var musicBound = false
+    private lateinit var currentTabID: ChapterTab
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +32,14 @@ class ChapterActivity : AppCompatActivity() {
         setSupportActionBar(chapter_toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        musicService = MusicPlayerService()
 
         val courseID = intent.extras!!.getInt(IE_COURSEID)
         val chapterID = intent.extras!!.getInt(IE_CHAPTERID)
         loadChapter(courseID, chapterID)
     }
 
-    fun loadChapter(courseID: Int, chapterID: Int) {
+    private fun loadChapter(courseID: Int, chapterID: Int) {
         val chapter = getChapter(applicationContext, courseID, chapterID)
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
         pageViewModel.chapter.value = chapter
@@ -56,6 +64,8 @@ class ChapterActivity : AppCompatActivity() {
             tabIDs.add(ChapterTab.QUIZ)
         }
 
+        currentTabID = tabIDs[0]
+
         val sectionsPagerAdapter = SectionsPagerAdapter(
             this,
             supportFragmentManager,
@@ -70,7 +80,8 @@ class ChapterActivity : AppCompatActivity() {
 
         viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
-                if (tabIDs[position] == ChapterTab.QUIZ) {
+                currentTabID = tabIDs[position]
+                if (currentTabID == ChapterTab.QUIZ) {
                     fab.hide()
                 } else {
                     fab.show()
@@ -79,8 +90,11 @@ class ChapterActivity : AppCompatActivity() {
         })
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "This is chapter $chapterID of course $courseID", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            when {
+                musicService.mediaPlayer.isPlaying -> musicService.stopPlaying()
+                currentTabID == ChapterTab.VOCABULARY -> startPlaying(pageViewModel.chapter.value!!.getVocabularyPlaylist())
+                currentTabID == ChapterTab.CONVERSATIONS -> startPlaying(pageViewModel.chapter.value!!.getConversationPlaylist())
+            }
         }
 
         if (!hasSeenTutorial(applicationContext)) {
@@ -120,5 +134,90 @@ class ChapterActivity : AppCompatActivity() {
         openIntent.putExtras(bundle)
         finish()
         startActivity(openIntent)
+    }
+
+
+    // MUSIC SERVICE
+    // Communication handlers
+    private var playIntent: Intent? = null
+    private val musicConnection = object : ServiceConnection {
+
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as MusicPlayerService.MusicBinder
+            this@ChapterActivity.musicService = binder.getService()
+            bindToService()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            unbindService()
+        }
+    }
+
+    private val guiUpdateRunnable = Runnable { setPlayPauseIcon() }
+
+
+    override fun onStart() {
+        super.onStart()
+        if (playIntent == null) {
+            playIntent = Intent(this, MusicPlayerService::class.java)
+            bindService(playIntent!!, musicConnection, Context.BIND_AUTO_CREATE)
+            startService(playIntent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!musicBound) bindToService()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        musicService.stopPlaying()
+        unbindService()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        musicService.stopPlaying()
+        unbindService()
+    }
+
+    // Service communication
+    fun bindToService() {
+        musicService.files = listOf()
+        musicService.guiUpdateRunnable = guiUpdateRunnable
+        musicService.stateChangeCallback = this::stateChangeCallback
+        musicBound = true
+
+        if (musicService.nowPlaying != null) {
+            musicService.startUpdating()
+        }
+        setPlayPauseIcon()
+    }
+
+    fun unbindService() {
+        musicService.guiUpdateRunnable = null
+        musicService.stateChangeCallback = null
+        musicBound = false
+    }
+
+    // Callbacks
+    fun startPlaying(playlist: List<File>) {
+        musicService.files = playlist
+        musicService.startPlaying(playlist[0])
+        setPlayPauseIcon()
+    }
+
+    fun startPlaying(file: File) {
+        startPlaying(listOf(file))
+    }
+
+    private fun setPlayPauseIcon() {
+        if (musicService.state == AudioState.PLAY) fab.setImageResource(R.drawable.ic_action_stop_chapter)
+        else fab.setImageResource(R.drawable.ic_action_play_chapter)
+    }
+
+    private fun stateChangeCallback(type: AudioState) {
+        setPlayPauseIcon()
     }
 }

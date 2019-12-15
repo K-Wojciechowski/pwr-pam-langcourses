@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.krzysztofwojciechowski.langcourses.*
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.PageViewModel
 
 class VocabularyFragment : Fragment() {
@@ -35,7 +36,7 @@ class VocabularyFragment : Fragment() {
                 chapter.vocabulary
             )
         val span = getBestVocabularySpan(vocabularyListItems)
-        var viewManager: RecyclerView.LayoutManager?
+        val viewManager: RecyclerView.LayoutManager?
         if (span == 1) {
             viewManager = LinearLayoutManager(context)
         } else {
@@ -66,11 +67,14 @@ class VocabularyFragment : Fragment() {
     }
 
 
-    fun openDefinition(entry: VocabularyEntry) {
+    private fun openDefinition(entry: VocabularyEntry) {
+        val audioFile = entry.audioFile
+        if (audioFile != null) {
+            (activity as ChapterActivity).startPlaying(audioFile)
+        }
         val openIntent = Intent(context, DefinitionDialogActivity::class.java)
         val bundle = Bundle()
         bundle.putParcelable(IE_DEF_IMAGEURI, entry.imageUri)
-//        bundle.putString(IE_DEF_AUDIO, entry.audio)
         bundle.putString(IE_DEF_WORD, entry.word)
         bundle.putString(IE_DEF_TRANSLATION, entry.translation)
         bundle.putString(IE_DEF_DEFINITION, entry.definition)

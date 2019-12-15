@@ -6,6 +6,7 @@ import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedAsset
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedCourseItem
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedEntity
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ResourceManager
+import java.io.File
 
 data class Course(
     val courseID: Int,
@@ -33,11 +34,21 @@ data class Chapter(
     val conversations: List<ConversationItem>,
     val quiz: List<Question>
 ) : ManagedCourseItem() {
-    fun getVocabularyPlaylist(): List<ManagedAsset> =
-        vocabulary.flatMap(VocabularyBox::getWordPlaylist)
+    fun getVocabularyPlaylist(): List<File> =
+        vocabularyListItems.flatMap { vli -> vli.entry.allAudioFiles }
 
-    fun getConversationPlaylist(): List<ManagedAsset> =
-        conversations.map { it.audio }.map { resourceManager!!.getAsset(course!!, it) }
+    fun getConversationPlaylist(): List<File> =
+        conversations.map { it.audioFile }
+
+    private var _vocabularyListItems: List<VocabularyListItem>? = null
+
+    val vocabularyListItems: List<VocabularyListItem>
+        get() =
+            if (_vocabularyListItems != null) _vocabularyListItems!!
+            else {
+                    _vocabularyListItems = buildVocabularyListItems(vocabulary)
+                    _vocabularyListItems!!
+                }
 
     override fun registerResourceManager(resourceManager: ResourceManager, course: Course) {
         super.registerResourceManager(resourceManager, course)
@@ -47,35 +58,49 @@ data class Chapter(
     }
 }
 
+abstract class VocabularyBase: ManagedCourseItem() {
+    abstract val audioFile: File?
+    abstract val translatedAudioFile: File?
+
+    val allAudioFiles: List<File>
+        get() = listOfNotNull(audioFile, translatedAudioFile)
+}
+
 data class VocabularyBox(
     val header: String,
     val translatedHeader: String,
-    val words: List<VocabularyEntry>
-) : ManagedCourseItem() {
+    val words: List<VocabularyEntry>,
+    val audio: String?,
+    val translatedAudio: String?
+) : VocabularyBase() {
     override fun registerResourceManager(resourceManager: ResourceManager, course: Course) {
         super.registerResourceManager(resourceManager, course)
         words.forEach { w -> w.registerResourceManager(resourceManager, course) }
     }
 
-    fun getWordPlaylist(): List<ManagedAsset> =
-        words.mapNotNull { it.audio }.map { resourceManager!!.getAsset(course!!, it) }
+    override val audioFile: File?
+        get() = getAssetFile(audio)
+
+    override val translatedAudioFile: File?
+        get() = getAssetFile(translatedAudio)
 }
 
 data class VocabularyEntry(
     val image: String?,
-    val audio: String?,
     val word: String,
     val translation: String,
-    val definition: String?
-) : ManagedCourseItem() {
+    val definition: String?,
+    val audio: String?,
+    val translatedAudio: String?
+) : VocabularyBase() {
     val imageUri: Uri?
-        get() {
-            return if (image == null) {
-                null
-            } else {
-                resourceManager!!.getAsset(course!!, image).getUri()
-            }
-        }
+        get() = getAssetUri(image)
+
+    override val audioFile: File?
+        get() = getAssetFile(audio)
+
+    override val translatedAudioFile: File?
+        get() = getAssetFile(translatedAudio)
 }
 
 enum class ConversationSide {
@@ -94,7 +119,10 @@ data class ConversationItem(
     val audio: String,
     val text: String,
     val translation: String
-) : ManagedCourseItem()
+) : ManagedCourseItem() {
+    val audioFile: File
+        get() = resourceManager!!.getAsset(course!!, audio).getFile()
+}
 
 data class Question(
     val question: String,
@@ -108,13 +136,7 @@ data class Question(
     }
 
     val imageUri: Uri?
-        get() {
-            return if (image == null) {
-                null
-            } else {
-                resourceManager!!.getAsset(course!!, image).getUri()
-            }
-        }
+        get() = getAssetUri(image)
 }
 
 data class QuizAnswer(
@@ -124,11 +146,43 @@ data class QuizAnswer(
 ) : ManagedCourseItem() {
 
     val imageUri: Uri?
-        get() {
-            return if (image == null) {
-                null
-            } else {
-                resourceManager!!.getAsset(course!!, image).getUri()
-            }
-        }
+        get() = getAssetUri(image)
+}
+
+enum class VocabularyListItemType(val num: Int) { TITLE(1), ENTRY(2) }
+class VocabularyListItem(
+    val type: VocabularyListItemType,
+    val original: String,
+    val translated: String,
+    val entry: VocabularyBase
+): ManagedCourseItem() {
+
+    val audioFile: File?
+        get() = entry.audioFile
+
+    val translatedAudioFile: File?
+        get() = entry.translatedAudioFile
+}
+
+fun buildVocabularyListItems(boxes: List<VocabularyBox>): List<VocabularyListItem> {
+    val items = mutableListOf<VocabularyListItem>()
+    boxes.forEach { box ->
+        items.add(
+            VocabularyListItem(
+                VocabularyListItemType.TITLE,
+                box.header,
+                box.translatedHeader,
+                box
+            )
+        )
+        items.addAll(box.words.map {
+            VocabularyListItem(
+                VocabularyListItemType.ENTRY,
+                it.word,
+                it.translation,
+                it
+            )
+        })
+    }
+    return items
 }

@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import pl.krzysztofwojciechowski.langcourses.ConversationItem
 import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.PageViewModel
 
 class ConversationFragment : Fragment() {
@@ -30,6 +32,7 @@ class ConversationFragment : Fragment() {
         val viewManager = LinearLayoutManager(context)
         val viewAdapter =
             ConversationListAdapter(
+                this::playPhrase,
                 pageViewModel.chapter.value!!
             )
 
@@ -43,6 +46,10 @@ class ConversationFragment : Fragment() {
         }
 
         return root
+    }
+
+    private fun playPhrase(item: ConversationItem) {
+        (activity as ChapterActivity).startPlaying(item.audioFile)
     }
 
     companion object {

@@ -14,28 +14,32 @@
                 {
                     "header": "Pets",
                     "translatedHeader": "Zwierzęta domowe",
+                    "audio": "animals/audio/animals-vocab1-en_GB.mp3",
+                    "translatedAudio": "animals/audio/animals-vocab1-pl_PL.mp3",
                     "words": [
-                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."},
-                        {"image": "animals/img/dog.jpg", "audio": "animals/audio/dog.mp3", "word": "dog", "translation": "pies", "definition": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."},
-                        {"image": "animals/img/rabbit.jpg", "audio": "animals/audio/rabbit.mp3", "word": "rabbit", "translation": "królik", "definition": "A gregarious burrowing plant-eating mammal, with long ears, long hind legs, and a short tail."}
+                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "translatedAudio": "animals/audio/cat_pl.mp3", "word": "cat", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."},
+                        {"image": "animals/img/dog.jpg", "audio": "animals/audio/dog.mp3", "translatedAudio": "animals/audio/dog_pl.mp3", "word": "dog", "translation": "pies", "definition": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."},
+                        {"image": "animals/img/rabbit.jpg", "audio": "animals/audio/rabbit.mp3", "translatedAudio": "animals/audio/rabbit_pl.mp3", "word": "rabbit", "translation": "królik", "definition": "A gregarious burrowing plant-eating mammal, with long ears, long hind legs, and a short tail."}
                     ]
                 },
                 {
                     "header": "In the zoo",
                     "translatedHeader": "W zoo",
+                    "audio": "animals/audio/animals-vocab2-en_GB.mp3",
+                    "translatedAudio": "animals/audio/animals-vocab2-pl_PL.mp3",
                     "words": [
-                        {"image": "animals/img/horse.jpg", "audio": "animals/audio/horse.mp3", "word": "horse", "translation": "koń", "definition": "A large plant-eating domesticated mammal with solid hoofs and a flowing mane and tail, used for riding, racing, and to carry and pull loads."},
-                        {"image": "animals/img/tiger.jpg", "audio": "animals/audio/tiger.mp3", "word": "tiger", "translation": "tygrys", "definition": "A very large solitary cat with a yellow-brown coat striped with black, native to the forests of Asia but becoming increasingly rare."}
+                        {"image": "animals/img/horse.jpg", "audio": "animals/audio/horse.mp3", "translatedAudio": "animals/audio/horse_pl.mp3", "word": "horse", "translation": "koń", "definition": "A large plant-eating domesticated mammal with solid hoofs and a flowing mane and tail, used for riding, racing, and to carry and pull loads."},
+                        {"image": "animals/img/tiger.jpg", "audio": "animals/audio/tiger.mp3", "translatedAudio": "animals/audio/tiger_pl.mp3", "word": "tiger", "translation": "tygrys", "definition": "A very large solitary cat with a yellow-brown coat striped with black, native to the forests of Asia but becoming increasingly rare."}
                     ]
                 }
             ],
             "conversations": [
                 {"side": "me", "audio": "animals/audio/animals-conv1-q-en_GB.mp3", "text": "Have you got a pet?", "translation": "Czy masz zwierzątko?"},
-                {"side": "them", "audio": "animals/audio/animals-conv2-a-en_GB.mp3", "text": "Yes, I do.", "translation": "Tak, mam."},
+                {"side": "them", "audio": "animals/audio/animals-conv1-a-en_GB.mp3", "text": "Yes, I do.", "translation": "Tak, mam."},
                 {"side": "me", "audio": "animals/audio/animals-conv2-q-en_GB.mp3", "text": "What is it?", "translation": "Co to za zwierzątko?"},
-                {"side": "them", "audio": "animals/audio/animals-conv3-a-en_GB.mp3", "text": "It’s a cat.", "translation": "To jest kot."},
-                {"side": "me", "audio": "animals/audio/animals-conv4-q-en_GB.mp3", "text": "What is your cat’s name?", "translation": "Jak wabi się twój kot?"},
-                {"side": "them", "audio": "animals/audio/animals-conv5-a-en_GB.mp3", "text": "My cat’s name is Max.", "translation": "Mój kot wabi się Max."}
+                {"side": "them", "audio": "animals/audio/animals-conv2-a-en_GB.mp3", "text": "It’s a cat.", "translation": "To jest kot."},
+                {"side": "me", "audio": "animals/audio/animals-conv3-q-en_GB.mp3", "text": "What is your cat’s name?", "translation": "Jak wabi się twój kot?"},
+                {"side": "them", "audio": "animals/audio/animals-conv3-a-en_GB.mp3", "text": "My cat’s name is Max.", "translation": "Mój kot wabi się Max."}
 
             ],
             "quiz": [
@@ -81,8 +85,10 @@
                 {
                     "header": "Vocabulary",
                     "translatedHeader": "Słownictwo",
+                    "audio": "animals/audio/animals-vocab1-en_GB.mp3",
+                    "translatedAudio": "animals/audio/animals-vocab1-pl_PL.mp3",
                     "words": [
-                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat12345678901234", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
+                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "translatedAudio": "animals/audio/cat_pl.mp3", "word": "cat12345678901234", "translation": "kot", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
                     ]
                 }
             ],
@@ -110,8 +116,10 @@
                 {
                     "header": "Vocabulary",
                     "translatedHeader": "Słownictwo",
+                    "audio": "animals/audio/animals-vocab1-en_GB.mp3",
+                    "translatedAudio": "animals/audio/animals-vocab1-pl_PL.mp3",
                     "words": [
-                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "word": "cat", "translation": "qwertyuiop asdfghjkl zxcvbnm", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
+                        {"image": "animals/img/cat.jpg", "audio": "animals/audio/cat.mp3", "translatedAudio": "animals/audio/cat_pl.mp3", "word": "cat", "translation": "qwertyuiop asdfghjkl zxcvbnm", "definition": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."}
                     ]
                 }
             ],

@@ -6,8 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import pl.krzysztofwojciechowski.langcourses.Chapter
 import pl.krzysztofwojciechowski.langcourses.Question
-import pl.krzysztofwojciechowski.langcourses.QuizState
-import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.quiz.QuizState
 
 class PageViewModel : ViewModel() {
     val chapter = MutableLiveData<Chapter>()

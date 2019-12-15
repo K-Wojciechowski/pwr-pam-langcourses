@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pl.krzysztofwojciechowski.langcourses.R
 import pl.krzysztofwojciechowski.langcourses.VocabularyEntry
+import pl.krzysztofwojciechowski.langcourses.VocabularyListItem
+import pl.krzysztofwojciechowski.langcourses.VocabularyListItemType
 
 class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Unit, private val items: List<VocabularyListItem> = mutableListOf(), private val isGridMode: Boolean) :
     RecyclerView.Adapter<VocabularyListAdapter.VocabularyViewHolder>() {
@@ -67,7 +69,7 @@ class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Uni
             val entryHolder = holder as VocabularyEntryViewHolder
             entryHolder.original.text = item.original
             entryHolder.translated.text = item.translated
-            entryHolder.image.setImageURI(item.entry!!.imageUri)
+            entryHolder.image.setImageURI((item.entry as VocabularyEntry).imageUri)
 
             holder.itemView.setOnClickListener {
                 openDefinition(item.entry)
