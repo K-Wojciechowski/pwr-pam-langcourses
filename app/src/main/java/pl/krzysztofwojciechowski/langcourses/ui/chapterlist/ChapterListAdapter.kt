@@ -12,10 +12,10 @@ import pl.krzysztofwojciechowski.langcourses.db.ChapterProgress
 
 class ChapterListAdapter(
     private val openChapter: (Chapter) -> Unit,
-    private val items: List<Chapter> = mutableListOf(),
-    private val progress: Map<Chapter, ChapterProgress>
+    private val items: List<Chapter> = mutableListOf()
 ) :
     RecyclerView.Adapter<ChapterListAdapter.ChapterViewHolder>() {
+    private var progress: Map<Chapter, ChapterProgress> = mapOf()
     class ChapterViewHolder(itemView: View, var context: Context) :
         RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.rv_course_chapter_name)
@@ -47,13 +47,18 @@ class ChapterListAdapter(
                 ChapterProgress.NOT_STARTED -> R.drawable.rv_course_chapters_circle_notstarted
                 ChapterProgress.IN_PROGRESS -> R.drawable.rv_course_chapters_circle_inprogress
                 ChapterProgress.COMPLETE -> R.drawable.rv_course_chapters_circle_complete
-                else -> R.drawable.rv_course_chapters_circle_notstarted
+                null -> R.drawable.rv_course_chapters_circle_notstarted
             }
         )
 
         holder.itemView.setOnClickListener {
             openChapter(item)
         }
+    }
+
+    fun setProgress(progress: Map<Chapter, ChapterProgress>) {
+        this.progress = progress
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = items.size

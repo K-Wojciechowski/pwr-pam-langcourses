@@ -4,7 +4,6 @@ import android.content.Context
 import org.threeten.bp.LocalDateTime
 import pl.krzysztofwojciechowski.langcourses.TEXT_DATE_TIME_FORMAT
 import pl.krzysztofwojciechowski.langcourses.quizPassed
-import java.util.*
 
 enum class ChapterProgress {
     NOT_STARTED,
@@ -43,7 +42,7 @@ fun getNextChapterId(courseID: Int, context: Context): Int? {
     return if (next <= course.chapterCount) next else null
 }
 
-fun saveInteractionWith(courseID: Int, chapterID: Int, context: Context) {
+suspend fun saveInteractionWith(courseID: Int, chapterID: Int, context: Context) {
     val db = MLCDatabase.getDatabase(context)
     val courseProgressDao = db.courseProgressDao()
     val progress = courseProgressDao.getProgressForChapter(courseID, chapterID)
@@ -57,7 +56,13 @@ fun saveInteractionWith(courseID: Int, chapterID: Int, context: Context) {
     }
 }
 
-fun saveQuizAttempt(courseID: Int, chapterID: Int, correct: Int, total: Int, context: Context) {
+suspend fun saveQuizAttempt(
+    courseID: Int,
+    chapterID: Int,
+    correct: Int,
+    total: Int,
+    context: Context
+) {
     val db = MLCDatabase.getDatabase(context)
     val quizAttemptDao = db.quizAttemptDao()
     val courseProgressDao = db.courseProgressDao()

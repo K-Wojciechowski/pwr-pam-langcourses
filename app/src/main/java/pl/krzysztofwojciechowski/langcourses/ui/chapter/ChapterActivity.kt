@@ -10,10 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.viewModelScope
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_chapter.*
+import kotlinx.coroutines.launch
 import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
 import pl.krzysztofwojciechowski.langcourses.db.saveInteractionWith
@@ -107,7 +109,9 @@ class ChapterActivity : AppCompatActivity() {
 
     fun saveInteraction() {
         val chapter = pageViewModel.chapter.value!!
-        saveInteractionWith(chapter.course!!.courseID, chapter.chapterID, applicationContext)
+        pageViewModel.viewModelScope.launch {
+            saveInteractionWith(chapter.course!!.courseID, chapter.chapterID, applicationContext)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

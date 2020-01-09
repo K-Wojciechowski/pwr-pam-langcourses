@@ -11,8 +11,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.viewModelScope
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_base.*
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_text.*
+import kotlinx.coroutines.launch
 import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
 import pl.krzysztofwojciechowski.langcourses.db.saveQuizAttempt
@@ -224,7 +226,15 @@ class QuizFragment : Fragment() {
                 }
 
                 val chapter = pageViewModel.chapter.value!!
-                saveQuizAttempt(chapter.course!!.courseID, chapter.chapterID, correct, total, context!!)
+                pageViewModel.viewModelScope.launch {
+                    saveQuizAttempt(
+                        chapter.course!!.courseID,
+                        chapter.chapterID,
+                        correct,
+                        total,
+                        context!!
+                    )
+                }
             }
         }
     }

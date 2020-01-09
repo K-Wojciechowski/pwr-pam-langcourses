@@ -5,18 +5,20 @@ import androidx.room.*
 @Dao
 interface AvailableCourseDao {
     @Query("SELECT * from available_course")
+    // TODO livedata
     fun getAvailableCourses(): List<AvailableCourse>
 
     @Query("SELECT * from available_course WHERE id = :courseID")
+    // TODO livedata
     fun getCourse(courseID: Int): AvailableCourse
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    // TODO suspend
 //    suspend fun insert(course: AvailableCourse)
     fun insert(course: AvailableCourse)
 
     @Update
-//  TODO  suspend fun update(course: AvailableCourse)
-    fun update(course: AvailableCourse)
+    suspend fun update(course: AvailableCourse)
 
     @Query("DELETE FROM available_course")
     suspend fun deleteAll()
@@ -26,15 +28,18 @@ interface AvailableCourseDao {
 @Dao
 interface DownloadedCourseDao {
     @Query(value = "SELECT * FROM downloaded_course")
+    // TODO livedata
     fun getDownloadedCourses(): List<DownloadedCourse>
 
     @Query(value = "SELECT * FROM downloaded_course WHERE courseid IN (:courseIDs) ORDER BY courseid ASC, version ASC")
+    // TODO livedata
     fun getDownloadedCourses(courseIDs: IntArray): List<DownloadedCourse>
 
     @Query("DELETE FROM downloaded_course WHERE courseid=:courseID")
     suspend fun deleteById(courseID: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    // TODO suspend
 //    suspend fun insert(course: DownloadedCourse)
     fun insert(course: DownloadedCourse)
 
@@ -47,15 +52,16 @@ interface DownloadedCourseDao {
 
 @Dao
 interface CourseProgressDao {
-    @Query("SELECT * FROM course_progress WHERE courseid = :courseID")
+    @Query("SELECT * FROM course_progress WHERE courseid = :courseID ORDER BY chapterid")
+    // TODO livedata
     fun getProgressForCourse(courseID: Int): List<CourseProgress>
 
     @Query("SELECT * FROM course_progress WHERE courseid = :courseID and chapterid = :chapterID")
+    // TODO livedata
     fun getProgressForChapter(courseID: Int, chapterID: Int): CourseProgress?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insert(progress: CourseProgress)
-    fun insert(progress: CourseProgress)
+    suspend fun insert(progress: CourseProgress)
 
     @Update
     suspend fun update(progress: CourseProgress)
@@ -73,8 +79,7 @@ interface QuizAttemptDao {
     fun getAttemptsForChapter(courseID: Int, chapterID: Int): QuizAttempt?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insert(attempt: QuizAttempt)
-    fun insert(attempt: QuizAttempt)
+    suspend fun insert(attempt: QuizAttempt)
 
     @Update
     suspend fun update(attempt: QuizAttempt)

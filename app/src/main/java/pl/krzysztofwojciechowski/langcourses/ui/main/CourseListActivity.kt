@@ -90,19 +90,13 @@ class CourseListActivity : AppCompatActivity(),
                 applicationContext
             )
 
-        refreshCourseCards(onStart = true)
-//        courseCardData = getCourseCardDataFromDatabase()
-
         viewManager = LinearLayoutManager(this)
         viewAdapter =
             CourseListAdapter(
                 this::downloadCourse,
                 this::showCourse,
-                this::continueCourse,
-                mutableListOf()
+                this::continueCourse
             )
-
-        viewAdapter.setList(courseCardData)
 
         recyclerView = findViewById<RecyclerView>(R.id.main_rv_courselist).apply {
             setHasFixedSize(false)
@@ -113,11 +107,18 @@ class CourseListActivity : AppCompatActivity(),
 
         offline_btn.setOnClickListener { refreshCourseCards() }
         swiperefresh.setOnRefreshListener(this::refreshCourseCards)
+
+        refreshCourseCards(onStart = true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        courseCardData = getCourseCardDataFromDatabase()
+        viewAdapter.setList(courseCardData)
     }
 
     private fun getCourseCardDataFromDatabase(): List<CourseCardData> {
         val db = MLCDatabase.getDatabase(applicationContext)
-        // TODO val availableCourses: List<AvailableCourse> = db.availableCourseDao().getAvailableCourses().value!!
         val availableCourses: List<AvailableCourse> = db.availableCourseDao().getAvailableCourses()
         val ccById: Map<Int, CourseCardData> =
             availableCourses.map { CourseCardData(it, null, false, 0.0) }

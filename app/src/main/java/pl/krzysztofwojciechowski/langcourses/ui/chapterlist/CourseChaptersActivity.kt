@@ -5,10 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import pl.krzysztofwojciechowski.langcourses.Chapter
-import pl.krzysztofwojciechowski.langcourses.IE_CHAPTERID
-import pl.krzysztofwojciechowski.langcourses.IE_COURSEID
-import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.db.ChapterProgress
 import pl.krzysztofwojciechowski.langcourses.db.getChapterProgress
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getResourceManager
@@ -18,30 +15,25 @@ class CourseChaptersActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: ChapterListAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private var courseID: Int = -1
+    private lateinit var course: Course
+    private var chaptersByID: Map<Int, Chapter> = mapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_chapters)
         supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
 
-        val courseID = intent.extras!!.getInt(IE_COURSEID)
+        courseID = intent.extras!!.getInt(IE_COURSEID)
         val resourceManager = getResourceManager(applicationContext)
-        val course = resourceManager.getCourseData(courseID)
+        course = resourceManager.getCourseData(courseID)
         val chapters = course.chapters
         supportActionBar?.title = course.name
 
-        val chaptersByID = course.chapters.associateBy { it.chapterID }
-        val progress = course.chapters.associateWith { ChapterProgress.NOT_STARTED }.toMutableMap()
-        val progressInts = getChapterProgress(courseID, applicationContext)
-        progress.putAll(progressInts.mapKeys { chaptersByID[it.key] ?: error("Unknown chapter") })
+        chaptersByID = course.chapters.associateBy { it.chapterID }
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter =
-            ChapterListAdapter(
-                this::showChapter,
-                chapters,
-                progress
-            )
+        viewAdapter = ChapterListAdapter(this::showChapter, chapters)
 
         recyclerView = findViewById<RecyclerView>(R.id.cc_rv_course_chapters).apply {
             setHasFixedSize(false)
@@ -49,6 +41,18 @@ class CourseChaptersActivity : AppCompatActivity() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setProgress()
+    }
+
+    private fun setProgress() {
+        val progress = course.chapters.associateWith { ChapterProgress.NOT_STARTED }.toMutableMap()
+        val progressInts = getChapterProgress(courseID, applicationContext)
+        progress.putAll(progressInts.mapKeys { chaptersByID[it.key] ?: error("Unknown chapter") })
+        viewAdapter.setProgress(progress)
     }
 
     private fun showChapter(chapter: Chapter) {

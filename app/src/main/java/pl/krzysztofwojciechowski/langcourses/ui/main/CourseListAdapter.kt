@@ -31,10 +31,11 @@ fun bytesToString(bytes: Double): String {
 class CourseListAdapter(
     private val downloadCourse: (AvailableCourse, Boolean) -> Unit,
     private val openCourse: (AvailableCourse) -> Unit,
-    private val continueCourse: (AvailableCourse) -> Unit,
-    private val courses: MutableList<CourseCardData> = mutableListOf()
+    private val continueCourse: (AvailableCourse) -> Unit
 ) :
     RecyclerView.Adapter<CourseListAdapter.CourseCardViewHolder>() {
+    private val courses: MutableList<CourseCardData> = mutableListOf()
+
     class CourseCardViewHolder(itemView: View, var context: Context) :
         RecyclerView.ViewHolder(itemView) {
         val card: CardView = itemView.findViewById(R.id.rv_main_courses_card)
@@ -98,23 +99,19 @@ class CourseListAdapter(
 
         var buttonIsStart = false
 
-        when (item.currentProgress) {
-            0.0 -> {
-                holder.progress.setText(R.string.rv_main_courses_progress_zero)
-                holder.startContBtn.setText(R.string.rv_main_courses_start)
-                buttonIsStart = true
-                holder.openBtn.visibility = View.GONE
-            }
-            1.0 -> {
-                holder.progress.setText(R.string.rv_main_courses_progress_complete)
-            }
-            else -> {
-                holder.progress.text =
-                    holder.context.getString(
-                        R.string.rv_main_courses_progress_partial,
-                        item.currentProgress * 100
-                    )
-            }
+        if (!item.inProgress) {
+            holder.progress.setText(R.string.rv_main_courses_progress_zero)
+            holder.startContBtn.setText(R.string.rv_main_courses_start)
+            buttonIsStart = true
+            holder.openBtn.visibility = View.GONE
+        } else if (item.currentProgress == 1.0) {
+            holder.progress.setText(R.string.rv_main_courses_progress_complete)
+        } else {
+            holder.progress.text =
+                holder.context.getString(
+                    R.string.rv_main_courses_progress_partial,
+                    item.currentProgress * 100
+                )
         }
 
         Glide.with(holder.context).load(item.course.coverImage).into(holder.coverImage)
