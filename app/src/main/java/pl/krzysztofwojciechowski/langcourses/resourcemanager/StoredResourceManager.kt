@@ -5,7 +5,6 @@ import android.net.Uri
 import com.google.gson.Gson
 import pl.krzysztofwojciechowski.langcourses.Course
 import pl.krzysztofwojciechowski.langcourses.db.DownloadedCourse
-import pl.krzysztofwojciechowski.langcourses.db.getCoursePath
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -13,13 +12,10 @@ import java.util.zip.ZipFile
 
 class StoredResourceManager(val context: Context) : ResourceManager() {
 
-    override fun getCourseData(courseID: Int): Course {
-        val coursePath = getCoursePath(
-            courseID,
-            context
-        )
+    override fun getCourseData(courseID: Int, coursePath: String): Course {
         val file = context.filesDir.resolve("coursedata/$coursePath/coursecontent.json")
         val course = Gson().fromJson(file.reader(), Course::class.java)
+        course.path = coursePath
         course.registerResourceManager(this)
         return course
     }
@@ -31,12 +27,7 @@ class StoredResourceManager(val context: Context) : ResourceManager() {
         }
     }
 
-
-    override fun getAsset(courseID: Int, path: String): ManagedAsset {
-        val coursePath = getCoursePath(
-            courseID,
-            context
-        )
+    override fun getAsset(courseID: Int, coursePath: String, path: String): ManagedAsset {
         return StoredManagedAsset(
             context, "coursedata/$coursePath/assets/$path"
         )

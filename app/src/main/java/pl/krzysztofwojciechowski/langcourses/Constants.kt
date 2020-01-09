@@ -5,6 +5,7 @@ import org.threeten.bp.format.DateTimeFormatter
 val QUIZ_CORRECT_PERCENT = 75
 
 val IE_COURSEID = "courseID"
+val IE_COURSEPATH = "coursePath"
 val IE_CHAPTERID = "chapterID"
 val IE_DEF_IMAGEURI = "defImageURI"
 val IE_DEF_WORD = "defWord"

@@ -25,8 +25,9 @@ class CourseChaptersActivity : AppCompatActivity() {
         supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
 
         courseID = intent.extras!!.getInt(IE_COURSEID)
+        val coursePath = intent.extras!!.getString(IE_COURSEPATH)!!
         val resourceManager = getResourceManager(applicationContext)
-        course = resourceManager.getCourseData(courseID)
+        course = resourceManager.getCourseData(courseID, coursePath)
         val chapters = course.chapters
         supportActionBar?.title = course.name
 
@@ -59,6 +60,7 @@ class CourseChaptersActivity : AppCompatActivity() {
         val openIntent = Intent(applicationContext, ChapterActivity::class.java)
         val bundle = Bundle()
         bundle.putInt(IE_COURSEID, chapter.course!!.courseID)
+        bundle.putString(IE_COURSEPATH, chapter.course!!.path)
         bundle.putInt(IE_CHAPTERID, chapter.chapterID)
         openIntent.putExtras(bundle)
         startActivity(openIntent)

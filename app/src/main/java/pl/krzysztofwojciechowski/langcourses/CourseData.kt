@@ -13,7 +13,8 @@ data class Course(
     val language: String,
     val baselang: String,
     val level: String,
-    val chapters: List<Chapter>
+    val chapters: List<Chapter>,
+    var path: String? = null
 ) : ManagedEntity() {
     override fun registerResourceManager(resourceManager: ResourceManager) {
         super.registerResourceManager(resourceManager)

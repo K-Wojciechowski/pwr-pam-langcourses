@@ -39,12 +39,13 @@ class ChapterActivity : AppCompatActivity() {
         musicService = MusicPlayerService()
 
         val courseID = intent.extras!!.getInt(IE_COURSEID)
+        val coursePath = intent.extras!!.getString(IE_COURSEPATH)!!
         val chapterID = intent.extras!!.getInt(IE_CHAPTERID)
-        loadChapter(courseID, chapterID)
+        loadChapter(courseID, coursePath, chapterID)
     }
 
-    private fun loadChapter(courseID: Int, chapterID: Int) {
-        val chapter = getChapter(applicationContext, courseID, chapterID)
+    private fun loadChapter(courseID: Int, coursePath: String, chapterID: Int) {
+        val chapter = getChapter(applicationContext, courseID, coursePath, chapterID)
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
         pageViewModel.chapter.value = chapter
 

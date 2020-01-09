@@ -238,6 +238,7 @@ class CourseListActivity : AppCompatActivity(),
         val openIntent = Intent(applicationContext, CourseChaptersActivity::class.java)
         val bundle = Bundle()
         bundle.putInt(IE_COURSEID, course.id)
+        bundle.putString(IE_COURSEPATH, course.path)
         openIntent.putExtras(bundle)
         startActivity(openIntent)
     }
@@ -246,6 +247,7 @@ class CourseListActivity : AppCompatActivity(),
         val openIntent = Intent(applicationContext, ChapterActivity::class.java)
         val bundle = Bundle()
         bundle.putInt(IE_COURSEID, course.id)
+        bundle.putString(IE_COURSEPATH, course.path)
         val chapterID =
             getNextChapterId(
                 course.id,

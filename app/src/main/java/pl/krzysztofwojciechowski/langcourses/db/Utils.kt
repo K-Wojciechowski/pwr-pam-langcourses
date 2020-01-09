@@ -26,11 +26,6 @@ fun getChapterProgress(courseID: Int, context: Context): Map<Int, ChapterProgres
     }
 }
 
-fun getCoursePath(courseID: Int, context: Context): String {
-    val db = MLCDatabase.getDatabase(context)
-    return db.availableCourseDao().getCourse(courseID).path
-}
-
 fun getNextChapterId(courseID: Int, context: Context): Int? {
     val db = MLCDatabase.getDatabase(context)
     val course = db.availableCourseDao().getCourse(courseID)

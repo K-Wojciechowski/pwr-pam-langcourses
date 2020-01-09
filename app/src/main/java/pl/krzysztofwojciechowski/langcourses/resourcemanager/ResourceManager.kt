@@ -9,14 +9,14 @@ import java.io.File
 import java.io.FileInputStream
 
 abstract class ResourceManager {
-    abstract fun getCourseData(courseID: Int): Course
-    fun getAsset(course: Course, path: String): ManagedAsset = getAsset(course.courseID, path)
-    abstract fun getAsset(courseID: Int, path: String): ManagedAsset
+    abstract fun getCourseData(courseID: Int, coursePath: String): Course
+    fun getAsset(course: Course, path: String): ManagedAsset = getAsset(course.courseID, course.path!!, path)
+    abstract fun getAsset(courseID: Int, coursePath: String, path: String): ManagedAsset
     abstract fun extractZipData(zipFile: File, coursePath: String)  // TODO file handle?
     abstract fun deleteOldDownloads(downloadedCourses: List<DownloadedCourse>)
 
-    fun getChapter(courseID: Int, chapterID: Int): Chapter {
-        return getCourseData(courseID).getChapterByID(chapterID)
+    fun getChapter(courseID: Int, coursePath: String, chapterID: Int): Chapter {
+        return getCourseData(courseID, coursePath).getChapterByID(chapterID)
     }
 }
 
@@ -66,6 +66,6 @@ fun getResourceManager(context: Context): ResourceManager {
     )
 }
 
-fun getChapter(context: Context, courseID: Int, chapterID: Int): Chapter {
-    return getResourceManager(context).getChapter(courseID, chapterID)
+fun getChapter(context: Context, courseID: Int, coursePath: String, chapterID: Int): Chapter {
+    return getResourceManager(context).getChapter(courseID, coursePath, chapterID)
 }
