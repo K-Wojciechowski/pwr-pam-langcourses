@@ -68,6 +68,7 @@ class VocabularyFragment : Fragment() {
 
 
     private fun openDefinition(entry: VocabularyEntry) {
+        (activity as ChapterActivity).saveInteraction()
         val audioFile = entry.audioFile
         if (audioFile != null) {
             (activity as ChapterActivity).startPlaying(audioFile)

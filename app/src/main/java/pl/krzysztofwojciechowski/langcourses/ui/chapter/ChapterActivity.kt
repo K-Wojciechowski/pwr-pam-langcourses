@@ -16,6 +16,7 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_chapter.*
 import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
+import pl.krzysztofwojciechowski.langcourses.db.saveInteractionWith
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.tutorial.TutorialActivity
 import java.io.File
@@ -91,6 +92,7 @@ class ChapterActivity : AppCompatActivity() {
         })
 
         fab.setOnClickListener { view ->
+            saveInteraction()
             when {
                 musicService.mediaPlayer.isPlaying -> musicService.stopPlaying()
                 currentTabID == ChapterTab.VOCABULARY -> startPlaying(pageViewModel.chapter.value!!.getVocabularyPlaylist())
@@ -101,6 +103,11 @@ class ChapterActivity : AppCompatActivity() {
         if (!hasSeenTutorial(applicationContext)) {
             openTutorial(false)
         }
+    }
+
+    fun saveInteraction() {
+        val chapter = pageViewModel.chapter.value!!
+        saveInteractionWith(chapter.course!!.courseID, chapter.chapterID, applicationContext)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

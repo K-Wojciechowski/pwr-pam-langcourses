@@ -13,10 +13,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_base.*
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_text.*
-import pl.krzysztofwojciechowski.langcourses.Question
-import pl.krzysztofwojciechowski.langcourses.QuestionType
-import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
+import pl.krzysztofwojciechowski.langcourses.db.saveQuizAttempt
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.PageViewModel
 
@@ -47,6 +46,8 @@ class QuizFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         root = inflater.inflate(R.layout.fragment_chapter_quiz_base, container, false)
+        root.findViewById<TextView>(R.id.quiz_notstarted_requirement).text = getString(R.string.quiz_notstarted_requirement_text, QUIZ_CORRECT_PERCENT)
+
         quizButton = root.findViewById(R.id.quiz_button)
         quizButton.setOnClickListener(this::handleButton)
         pageViewModel.currentQuizQuestion.observeForever(this::showQuestion)
@@ -194,16 +195,17 @@ class QuizFragment : Fragment() {
                 root.findViewById<TextView>(R.id.question_correct)
                     .setText(R.string.quiz_question_correct_notinprogress)
 
-                val percCorrect =
-                    pageViewModel.correctCount.value!! / pageViewModel.chapter.value!!.quiz.size.toFloat()
+                val correct = pageViewModel.correctCount.value!!
+                val total = pageViewModel.chapter.value!!.quiz.size
+                val percCorrect = correct / total.toFloat()
 
                 root.findViewById<TextView>(R.id.quiz_finished_counter).text = getString(
                     R.string.quiz_finished_qcount,
-                    pageViewModel.correctCount.value!!,
-                    pageViewModel.chapter.value!!.quiz.size,
+                    correct,
+                    total,
                     (percCorrect * 100).toInt()
                 )
-                if (percCorrect >= 0.75) {
+                if (quizPassed(correct, total)) {
                     root.findViewById<TextView>(R.id.quiz_finished_result)
                         .setText(R.string.quiz_finished_success)
                     val nextChapterId =
@@ -214,13 +216,15 @@ class QuizFragment : Fragment() {
                     root.findViewById<Button>(R.id.quiz_finished_next).visibility =
                         if (nextChapterId == null) View.GONE else View.VISIBLE
                     quizButton.isEnabled = false
-                    // TODO mark complete
                 } else {
-                    root.findViewById<TextView>(R.id.quiz_finished_result)
-                        .setText(R.string.quiz_finished_failure)
+                    root.findViewById<TextView>(R.id.quiz_finished_result).text =
+                        getString(R.string.quiz_finished_failure, QUIZ_CORRECT_PERCENT)
                     root.findViewById<Button>(R.id.quiz_finished_next).visibility = View.GONE
                     quizButton.isEnabled = true
                 }
+
+                val chapter = pageViewModel.chapter.value!!
+                saveQuizAttempt(chapter.course!!.courseID, chapter.chapterID, correct, total, context!!)
             }
         }
     }
@@ -253,6 +257,7 @@ class QuizFragment : Fragment() {
     }
 
     private fun startQuiz() {
+        (activity as ChapterActivity).saveInteraction()
         pageViewModel.startQuiz()
     }
 

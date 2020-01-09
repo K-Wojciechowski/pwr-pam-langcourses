@@ -1,5 +1,9 @@
 package pl.krzysztofwojciechowski.langcourses
 
+import org.threeten.bp.format.DateTimeFormatter
+
+val QUIZ_CORRECT_PERCENT = 75
+
 val IE_COURSEID = "courseID"
 val IE_CHAPTERID = "chapterID"
 val IE_DEF_IMAGEURI = "defImageURI"
@@ -19,3 +23,5 @@ const val INTENT_NEXT = "pl.krzysztofwojciechowski.langcourses.next"
 const val INTENT_STOP = "pl.krzysztofwojciechowski.langcourses.stop"
 
 enum class ChapterTab { VOCABULARY, CONVERSATIONS, QUIZ, BLANK }
+
+val TEXT_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")

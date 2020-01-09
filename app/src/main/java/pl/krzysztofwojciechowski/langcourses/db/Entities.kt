@@ -37,7 +37,7 @@ data class AvailableCourse(
     )]
 )
 data class DownloadedCourse(
-    @PrimaryKey @ColumnInfo(name = "courseid") var courseId: Int,
+    @PrimaryKey @ColumnInfo(name = "courseid") var courseID: Int,
     var version: Int
 )
 
@@ -51,8 +51,8 @@ data class DownloadedCourse(
     primaryKeys = ["courseid", "chapterid"]
 )
 data class CourseProgress(
-    @ColumnInfo(name = "courseid") var courseId: Int,
-    @ColumnInfo(name = "chapterid") var chapterId: Int,
+    @ColumnInfo(name = "courseid") var courseID: Int,
+    @ColumnInfo(name = "chapterid") var chapterID: Int,
     var started: Boolean,
     var completed: Boolean
 )
@@ -67,8 +67,8 @@ data class CourseProgress(
     primaryKeys = ["courseid", "chapterid", "attempt_date"]
 )
 data class QuizAttempt(
-    @ColumnInfo(name = "courseid") var courseId: Int,
-    @ColumnInfo(name = "chapterid") var chapterId: Int,
+    @ColumnInfo(name = "courseid") var courseID: Int,
+    @ColumnInfo(name = "chapterid") var chapterID: Int,
     @ColumnInfo(name = "attempt_date") var attemptDate: String, // timestamp
     var correct: Int,
     var total: Int

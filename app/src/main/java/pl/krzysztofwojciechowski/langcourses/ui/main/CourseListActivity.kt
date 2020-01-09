@@ -122,16 +122,16 @@ class CourseListActivity : AppCompatActivity(),
         val ccById: Map<Int, CourseCardData> =
             availableCourses.map { CourseCardData(it, null, false, 0.0) }
                 .associateBy { it.course.id }
-        val courseIds: IntArray = availableCourses.map { it.id }.toIntArray()
-        db.downloadedCourseDao().getDownloadedCourses(courseIds).forEach {
-            ccById[it.courseId]?.downloadedVersion = it.version
+        val courseIDs: IntArray = availableCourses.map { it.id }.toIntArray()
+        db.downloadedCourseDao().getDownloadedCourses(courseIDs).forEach {
+            ccById[it.courseID]?.downloadedVersion = it.version
         }
         val ccs = ccById.values.toList()
         ccs.forEach { cc ->
             val progressInfo: List<CourseProgress> =
                 db.courseProgressDao().getProgressForCourse(cc.course.id)
             val completed =
-                progressInfo.distinctBy { Pair(it.courseId, it.chapterId) }.filter { it.completed }
+                progressInfo.distinctBy { Pair(it.courseID, it.chapterID) }.filter { it.completed }
                     .count()
             cc.currentProgress = completed / cc.course.chapterCount.toDouble()
             cc.inProgress = progressInfo.any { it.started || it.completed }
@@ -274,17 +274,17 @@ class CourseListActivity : AppCompatActivity(),
         val openIntent = Intent(applicationContext, ChapterActivity::class.java)
         val bundle = Bundle()
         bundle.putInt(IE_COURSEID, course.id)
-        val chapterId =
+        val chapterID =
             getNextChapterId(
                 course.id,
                 applicationContext
             )
-        if (chapterId == null) {
+        if (chapterID == null) {
             // fallback
             showCourse(course)
             return
         } else {
-            bundle.putInt(IE_CHAPTERID, chapterId)
+            bundle.putInt(IE_CHAPTERID, chapterID)
         }
         openIntent.putExtras(bundle)
         startActivity(openIntent)

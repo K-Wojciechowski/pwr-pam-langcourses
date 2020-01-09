@@ -44,12 +44,12 @@
     <string name="quiz_notstarted_intro1">How well did you remember what you learnt? You can test your knowledge in the Quiz.</string>
     <string name="quiz_notstarted_intro2">The quiz for this chapter contains</string>
     <string name="quiz_notstarted_qcount">%1$d questions</string>
-    <string name="quiz_notstarted_intro3">You need to get 75% of the questions correct to complete this chapter.</string>
+    <string name="quiz_notstarted_requirement_text">You need to get %1$d%% of the questions correct to complete this chapter.</string>
     <string name="quiz_finished_intro1">Thanks for taking the quiz!</string>
     <string name="quiz_finished_intro2">Correct answers:</string>
     <string name="quiz_finished_success">Congratulations! You completed another chapter!</string>
     <string name="quiz_finished_qcount">%1$d/%2$d (%3$d%%)</string>
-    <string name="quiz_finished_failure">You failed to achieve 75% correct responses… You can try again. Good luck!</string>
+    <string name="quiz_finished_failure">You failed to achieve %1$d%% correct responses… You can try again. Good luck!</string>
     <string name="quiz_finished_start_next">See what’s next</string>
     <string name="menu_refresh">Refresh</string>
     <string name="refresh_failed">Failed to refresh list!</string>

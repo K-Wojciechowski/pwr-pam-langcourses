@@ -41,11 +41,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/quiz_notstarted_requirement"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/quiz_notstarted_intro3"
+        android:text="@string/quiz_notstarted_requirement_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quiz_notstarted_counter" />

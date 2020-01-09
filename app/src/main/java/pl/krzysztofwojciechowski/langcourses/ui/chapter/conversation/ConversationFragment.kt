@@ -49,6 +49,7 @@ class ConversationFragment : Fragment() {
     }
 
     private fun playPhrase(item: ConversationItem) {
+        (activity as ChapterActivity).saveInteraction()
         (activity as ChapterActivity).startPlaying(item.audioFile)
     }
 

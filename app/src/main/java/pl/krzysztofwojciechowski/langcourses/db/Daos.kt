@@ -28,11 +28,11 @@ interface DownloadedCourseDao {
     @Query(value = "SELECT * FROM downloaded_course")
     fun getDownloadedCourses(): List<DownloadedCourse>
 
-    @Query(value = "SELECT * FROM downloaded_course WHERE courseid IN (:courseIds) ORDER BY courseid ASC, version ASC")
-    fun getDownloadedCourses(courseIds: IntArray): List<DownloadedCourse>
+    @Query(value = "SELECT * FROM downloaded_course WHERE courseid IN (:courseIDs) ORDER BY courseid ASC, version ASC")
+    fun getDownloadedCourses(courseIDs: IntArray): List<DownloadedCourse>
 
-    @Query("DELETE FROM downloaded_course WHERE courseid=:courseId")
-    suspend fun deleteById(courseId: Int)
+    @Query("DELETE FROM downloaded_course WHERE courseid=:courseID")
+    suspend fun deleteById(courseID: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    suspend fun insert(course: DownloadedCourse)
@@ -47,14 +47,15 @@ interface DownloadedCourseDao {
 
 @Dao
 interface CourseProgressDao {
-    @Query("SELECT * FROM course_progress WHERE courseid = :courseId")
-    fun getProgressForCourse(courseId: Int): List<CourseProgress>
+    @Query("SELECT * FROM course_progress WHERE courseid = :courseID")
+    fun getProgressForCourse(courseID: Int): List<CourseProgress>
 
-    @Query("SELECT * FROM course_progress WHERE courseid = :courseId and chapterid = :chapterId")
-    fun getProgressForChapter(courseId: Int, chapterId: Int): CourseProgress?
+    @Query("SELECT * FROM course_progress WHERE courseid = :courseID and chapterid = :chapterID")
+    fun getProgressForChapter(courseID: Int, chapterID: Int): CourseProgress?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(progress: CourseProgress)
+//    suspend fun insert(progress: CourseProgress)
+    fun insert(progress: CourseProgress)
 
     @Update
     suspend fun update(progress: CourseProgress)
@@ -65,14 +66,15 @@ interface CourseProgressDao {
 
 @Dao
 interface QuizAttemptDao {
-    @Query("SELECT * FROM quiz_attempt WHERE courseid = :courseId")
-    fun getAttemptsForCourse(courseId: Int): List<QuizAttempt>
+    @Query("SELECT * FROM quiz_attempt WHERE courseid = :courseID")
+    fun getAttemptsForCourse(courseID: Int): List<QuizAttempt>
 
-    @Query("SELECT * FROM quiz_attempt WHERE courseid = :courseId and chapterid = :chapterId")
-    fun getAttemptsForChapter(courseId: Int, chapterId: Int): QuizAttempt?
+    @Query("SELECT * FROM quiz_attempt WHERE courseid = :courseID and chapterid = :chapterID")
+    fun getAttemptsForChapter(courseID: Int, chapterID: Int): QuizAttempt?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(attempt: QuizAttempt)
+//    suspend fun insert(attempt: QuizAttempt)
+    fun insert(attempt: QuizAttempt)
 
     @Update
     suspend fun update(attempt: QuizAttempt)
