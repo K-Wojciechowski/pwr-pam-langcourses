@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -113,10 +114,10 @@ class CourseListActivity : AppCompatActivity(),
         offline_btn.setOnClickListener { refreshCourseCards() }
         swiperefresh.setOnRefreshListener(this::refreshCourseCards)
 
-        viewModel.courseCardData.observeForever {
+        viewModel.courseCardData.observe(this, Observer {
             courseCardData = it
             viewAdapter.setList(courseCardData)
-        }
+        })
         refreshCourseCards(onStart = true)
     }
 

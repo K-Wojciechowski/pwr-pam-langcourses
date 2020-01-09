@@ -53,8 +53,7 @@ interface DownloadedCourseDao {
 @Dao
 interface CourseProgressDao {
     @Query("SELECT * FROM course_progress WHERE courseid = :courseID ORDER BY chapterid")
-    // TODO livedata
-    fun getProgressForCourse(courseID: Int): List<CourseProgress>
+    fun getProgressForCourse(courseID: Int): LiveData<List<CourseProgress>>
 
     @Query("SELECT * FROM course_progress WHERE courseid = :courseID and chapterid = :chapterID")
     // TODO livedata

@@ -11,25 +11,12 @@ enum class ChapterProgress {
     COMPLETE
 }
 
-fun getChapterProgress(courseID: Int, context: Context): Map<Int, ChapterProgress> {
-    val db = MLCDatabase.getDatabase(context)
-    val progress = db.courseProgressDao().getProgressForCourse(courseID)
-    return progress.associate {
-        Pair(
-            it.chapterID,
-            when {
-                it.completed -> ChapterProgress.COMPLETE
-                it.started -> ChapterProgress.IN_PROGRESS
-                else -> ChapterProgress.NOT_STARTED
-            }
-        )
-    }
-}
-
 fun getNextChapterId(courseID: Int, context: Context): Int? {
     val db = MLCDatabase.getDatabase(context)
     val course = db.availableCourseDao().getCourse(courseID)
-    val progress = db.courseProgressDao().getProgressForCourse(courseID)
+    val progressLD = db.courseProgressDao().getProgressForCourse(courseID)
+    while (progressLD.value == null) { android.util.Log.e("WAIT", "TODO") }
+    val progress = progressLD.value!!
     val startedIncomplete = progress.firstOrNull { it.started && !it.completed }
     if (startedIncomplete != null) return startedIncomplete.chapterID
     val lastComplete = progress.lastOrNull { it.completed } ?: return 1 // first chapter
