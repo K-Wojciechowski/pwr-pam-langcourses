@@ -2,8 +2,10 @@ package pl.krzysztofwojciechowski.langcourses.db
 
 import android.content.Context
 import org.threeten.bp.LocalDateTime
+import pl.krzysztofwojciechowski.langcourses.Course
 import pl.krzysztofwojciechowski.langcourses.TEXT_DATE_TIME_FORMAT
 import pl.krzysztofwojciechowski.langcourses.quizPassed
+import pl.krzysztofwojciechowski.langcourses.resourcemanager.getResourceManager
 
 enum class ChapterProgress {
     NOT_STARTED,
@@ -11,17 +13,25 @@ enum class ChapterProgress {
     COMPLETE
 }
 
-fun getNextChapterId(courseID: Int, context: Context): Int? {
+suspend fun getNextChapterId(courseID: Int, context: Context): Int? {
     val db = MLCDatabase.getDatabase(context)
-    val course = db.availableCourseDao().getCourse(courseID)
-    val progressLD = db.courseProgressDao().getProgressForCourse(courseID)
-    while (progressLD.value == null) { android.util.Log.e("WAIT", "TODO") }
-    val progress = progressLD.value!!
+    val progress = db.courseProgressDao().getProgressForCourseDirect(courseID)
+    val avCourse = db.availableCourseDao().getCourse(courseID)
+    val course = getResourceManager(context).getCourseData(courseID, avCourse.path)
+    return getNextChapterId(course, progress, context)
+}
+
+fun getNextChapterId(course: Course, progress: List<CourseProgress>, context: Context): Int? {
     val startedIncomplete = progress.firstOrNull { it.started && !it.completed }
     if (startedIncomplete != null) return startedIncomplete.chapterID
-    val lastComplete = progress.lastOrNull { it.completed } ?: return 1 // first chapter
-    val next = lastComplete.chapterID + 1
-    return if (next <= course.chapterCount) next else null
+    val lastComplete = progress.lastOrNull { it.completed }
+    return if (lastComplete == null) {
+        course.chapters.first().chapterID
+    } else {
+        val lastCompleteIndex =
+            course.chapters.indexOfFirst { it.chapterID == lastComplete.chapterID }
+        course.chapters.getOrNull(lastCompleteIndex + 1)?.chapterID
+    }
 }
 
 suspend fun saveInteractionWith(courseID: Int, chapterID: Int, context: Context) {

@@ -1,28 +1,44 @@
 package pl.krzysztofwojciechowski.langcourses.ui.chapter
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
 import pl.krzysztofwojciechowski.langcourses.Chapter
 import pl.krzysztofwojciechowski.langcourses.Question
+import pl.krzysztofwojciechowski.langcourses.db.CourseProgress
+import pl.krzysztofwojciechowski.langcourses.db.CourseProgressDao
+import pl.krzysztofwojciechowski.langcourses.db.MLCDatabase
+import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.quiz.QuizState
 
-class PageViewModel : ViewModel() {
+class PageViewModel(application: Application) : AndroidViewModel(application) {
     val chapter = MutableLiveData<Chapter>()
 
     val currentQuizQuestion = MutableLiveData<Question?>()
     val currentQuizQuestionNumber = MutableLiveData<Int>()
-    val quizAnswers = MutableLiveData<Map<Question, Int>>()
+    private val quizAnswers = MutableLiveData<Map<Question, Int>>()
     val quizState = MutableLiveData(QuizState.NOTSTARTED)
     val answerRevealed = MutableLiveData(false)
 
     var correctQuizAnswers: Map<Question, Int> = mapOf()
 
+    private var courseProgress: LiveData<List<CourseProgress>>? = null
+    private val courseProgressDao: CourseProgressDao
+    val nextChapterID = MutableLiveData<Int?>(null)
+    private val courseProgressObserver = Observer<List<CourseProgress>> {
+        nextChapterID.value = getNextChapterId(chapter.value!!.course!!, it, application)
+    }
+
     init {
+        val database = MLCDatabase.getDatabase(application)
+        courseProgressDao = database.courseProgressDao()
+
         chapter.observeForever {
             correctQuizAnswers =
                 it.quiz.associateWith { q -> q.answers.indexOfFirst { a -> a.correct } }
+
+            if (courseProgress != null) courseProgress!!.removeObserver(courseProgressObserver)
+            courseProgress = courseProgressDao.getProgressForCourse(it.course!!.courseID)
+            courseProgress!!.observeForever(courseProgressObserver)
         }
     }
 

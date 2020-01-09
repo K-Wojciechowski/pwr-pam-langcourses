@@ -10,13 +10,12 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_base.*
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_text.*
 import kotlinx.coroutines.launch
 import pl.krzysztofwojciechowski.langcourses.*
-import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
 import pl.krzysztofwojciechowski.langcourses.db.saveQuizAttempt
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.PageViewModel
@@ -39,7 +38,7 @@ class QuizFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pageViewModel = activity?.run {
-            ViewModelProviders.of(this).get(PageViewModel::class.java)
+            ViewModelProvider(this).get(PageViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
     }
 
@@ -210,11 +209,7 @@ class QuizFragment : Fragment() {
                 if (quizPassed(correct, total)) {
                     root.findViewById<TextView>(R.id.quiz_finished_result)
                         .setText(R.string.quiz_finished_success)
-                    val nextChapterId =
-                        getNextChapterId(
-                            pageViewModel.chapter.value!!.course!!.courseID,
-                            context!!
-                        )
+                    val nextChapterId = pageViewModel.nextChapterID.value
                     root.findViewById<Button>(R.id.quiz_finished_next).visibility =
                         if (nextChapterId == null) View.GONE else View.VISIBLE
                     quizButton.isEnabled = false

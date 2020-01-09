@@ -36,7 +36,7 @@ abstract class MLCDatabase : RoomDatabase() {
                     "mlc_database"
                     // TODO
 //                ).allowMainThreadQueries().build()
-                ).allowMainThreadQueries().build()
+                ).build()
                 INSTANCE = instance
                 return instance
             }

@@ -1,9 +1,16 @@
 package pl.krzysztofwojciechowski.langcourses.ui.chapterlist
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import pl.krzysztofwojciechowski.langcourses.Chapter
-import pl.krzysztofwojciechowski.langcourses.db.*
+import pl.krzysztofwojciechowski.langcourses.db.ChapterProgress
+import pl.krzysztofwojciechowski.langcourses.db.CourseProgress
+import pl.krzysztofwojciechowski.langcourses.db.CourseProgressDao
+import pl.krzysztofwojciechowski.langcourses.db.MLCDatabase
+import kotlin.collections.set
 
 class ChapterListViewModel(application: Application) : AndroidViewModel(application) {
     var courseID = MutableLiveData(-1)

@@ -4,14 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.krzysztofwojciechowski.langcourses.*
-import pl.krzysztofwojciechowski.langcourses.db.ChapterProgress
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getResourceManager
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
-import pl.krzysztofwojciechowski.langcourses.ui.main.CourseListViewModel
 
 class CourseChaptersActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -33,7 +31,7 @@ class CourseChaptersActivity : AppCompatActivity() {
         val chapters = course.chapters
         supportActionBar?.title = course.name
 
-        viewModel = ViewModelProviders.of(this).get(ChapterListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ChapterListViewModel::class.java)
         viewModel.courseID.value = courseID
         viewModel.chapters.value = chapters
 

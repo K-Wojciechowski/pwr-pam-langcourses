@@ -9,8 +9,7 @@ interface AvailableCourseDao {
     fun getAvailableCourses(): LiveData<List<AvailableCourse>>
 
     @Query("SELECT * from available_course WHERE id = :courseID")
-    // TODO livedata
-    fun getCourse(courseID: Int): AvailableCourse
+    suspend fun getCourse(courseID: Int): AvailableCourse
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(course: AvailableCourse)
@@ -29,8 +28,7 @@ interface DownloadedCourseDao {
     fun getDownloadedCourses(): LiveData<List<DownloadedCourse>>
 
     @Query(value = "SELECT * FROM downloaded_course WHERE courseid IN (:courseIDs) ORDER BY courseid ASC, version ASC")
-    // TODO livedata
-    fun getDownloadedCourses(courseIDs: IntArray): List<DownloadedCourse>
+    suspend fun getDownloadedCourses(courseIDs: IntArray): List<DownloadedCourse>
 
     @Query("DELETE FROM downloaded_course WHERE courseid=:courseID")
     suspend fun deleteByID(courseID: Int)
@@ -39,9 +37,7 @@ interface DownloadedCourseDao {
     suspend fun deleteByIDs(courseIDs: IntArray)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    // TODO suspend
-//    suspend fun insert(course: DownloadedCourse)
-    fun insert(course: DownloadedCourse)
+    suspend fun insert(course: DownloadedCourse)
 
     @Update
     suspend fun update(course: DownloadedCourse)
@@ -55,9 +51,11 @@ interface CourseProgressDao {
     @Query("SELECT * FROM course_progress WHERE courseid = :courseID ORDER BY chapterid")
     fun getProgressForCourse(courseID: Int): LiveData<List<CourseProgress>>
 
+    @Query("SELECT * FROM course_progress WHERE courseid = :courseID ORDER BY chapterid")
+    suspend fun getProgressForCourseDirect(courseID: Int): List<CourseProgress>
+
     @Query("SELECT * FROM course_progress WHERE courseid = :courseID and chapterid = :chapterID")
-    // TODO livedata
-    fun getProgressForChapter(courseID: Int, chapterID: Int): CourseProgress?
+    suspend fun getProgressForChapter(courseID: Int, chapterID: Int): CourseProgress?
 
     @Query("SELECT * FROM course_progress ORDER BY courseid")
     fun getProgress(): LiveData<List<CourseProgress>>

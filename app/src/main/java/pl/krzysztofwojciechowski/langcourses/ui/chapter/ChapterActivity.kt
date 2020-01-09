@@ -9,7 +9,7 @@ import android.os.IBinder
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,7 +17,6 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_chapter.*
 import kotlinx.coroutines.launch
 import pl.krzysztofwojciechowski.langcourses.*
-import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
 import pl.krzysztofwojciechowski.langcourses.db.saveInteractionWith
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.tutorial.TutorialActivity
@@ -46,7 +45,7 @@ class ChapterActivity : AppCompatActivity() {
 
     private fun loadChapter(courseID: Int, coursePath: String, chapterID: Int) {
         val chapter = getChapter(applicationContext, courseID, coursePath, chapterID)
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java)
+        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
         pageViewModel.chapter.value = chapter
 
 
@@ -138,14 +137,12 @@ class ChapterActivity : AppCompatActivity() {
 
     fun startNextChapter() {
         val courseID = pageViewModel.chapter.value!!.course!!.courseID
-        val nextChapterID = getNextChapterId(
-            courseID,
-            applicationContext
-        ) ?: return
+        val nextChapterID = pageViewModel.nextChapterID.value ?: return
         val openIntent = Intent(applicationContext, ChapterActivity::class.java)
         openIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
         val bundle = Bundle()
         bundle.putInt(IE_COURSEID, courseID)
+        bundle.putString(IE_COURSEPATH, pageViewModel.chapter.value!!.course!!.path)
         bundle.putInt(IE_CHAPTERID, nextChapterID)
         openIntent.putExtras(bundle)
         finish()

@@ -13,7 +13,8 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_courselist.*
+import kotlinx.coroutines.launch
 import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.db.AvailableCourse
 import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
@@ -87,7 +89,7 @@ class CourseListActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courselist)
 
-        viewModel = ViewModelProviders.of(this).get(CourseListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CourseListViewModel::class.java)
 
         volleyQueue = Volley.newRequestQueue(this)
 
@@ -249,19 +251,20 @@ class CourseListActivity : AppCompatActivity(),
         val bundle = Bundle()
         bundle.putInt(IE_COURSEID, course.id)
         bundle.putString(IE_COURSEPATH, course.path)
-        val chapterID =
-            getNextChapterId(
-                course.id,
-                applicationContext
-            )
-        if (chapterID == null) {
-            // fallback
-            showCourse(course)
-            return
-        } else {
-            bundle.putInt(IE_CHAPTERID, chapterID)
+        viewModel.viewModelScope.launch {
+            val chapterID =
+                getNextChapterId(
+                    course.id,
+                    applicationContext
+                )
+            if (chapterID == null) {
+                // fallback
+                showCourse(course)
+            } else {
+                bundle.putInt(IE_CHAPTERID, chapterID)
+                openIntent.putExtras(bundle)
+                startActivity(openIntent)
+            }
         }
-        openIntent.putExtras(bundle)
-        startActivity(openIntent)
     }
 }
