@@ -70,25 +70,36 @@
                 card_view:layout_constraintTop_toBottomOf="@+id/rv_main_courses_version_lbl" />
 
             <Button
+                android:id="@+id/rv_main_courses_download_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/rv_main_courses_download"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toStartOf="@+id/rv_main_courses_startcont_btn"
+                card_view:layout_constraintHorizontal_bias="0.9"
+                card_view:layout_constraintStart_toStartOf="@+id/rv_main_courses_progress_lbl"
+                card_view:layout_constraintTop_toBottomOf="@+id/rv_main_courses_progress_lbl"
+                card_view:layout_constraintVertical_bias="1.0" />
+
+            <Button
                 android:id="@+id/rv_main_courses_startcont_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/rv_main_courses_start"
                 card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/rv_main_courses_progress_lbl"
-                card_view:layout_constraintVertical_bias="0.0" />
+                card_view:layout_constraintStart_toEndOf="@+id/rv_main_courses_download_btn"
+                card_view:layout_constraintTop_toBottomOf="@+id/rv_main_courses_progress_lbl" />
 
             <Button
                 android:id="@+id/rv_main_courses_open_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:text="@string/rv_main_courses_open"
                 card_view:layout_constraintBottom_toBottomOf="@+id/rv_main_courses_startcont_btn"
                 card_view:layout_constraintStart_toEndOf="@+id/rv_main_courses_startcont_btn"

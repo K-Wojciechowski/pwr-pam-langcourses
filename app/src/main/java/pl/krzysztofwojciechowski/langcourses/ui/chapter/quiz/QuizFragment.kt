@@ -13,7 +13,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_base.*
 import kotlinx.android.synthetic.main.fragment_chapter_quiz_text.*
-import pl.krzysztofwojciechowski.langcourses.*
+import pl.krzysztofwojciechowski.langcourses.Question
+import pl.krzysztofwojciechowski.langcourses.QuestionType
+import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.PageViewModel
 
@@ -68,7 +71,8 @@ class QuizFragment : Fragment() {
             root.findViewById(R.id.quiz_img_answer4)
         )
 
-        root.findViewById<Button>(R.id.quiz_finished_next).setOnClickListener(this::startNextChapter)
+        root.findViewById<Button>(R.id.quiz_finished_next)
+            .setOnClickListener(this::startNextChapter)
 
         val displayMetrics = context!!.resources.displayMetrics
         val quizImageSize = (displayMetrics.widthPixels / 2f - 48 * displayMetrics.density).toInt()
@@ -79,9 +83,11 @@ class QuizFragment : Fragment() {
             iv.setOnClickListener { imageAnswerClicked(index) }
         }
 
-        answerRadios.forEachIndexed { index, rb -> rb.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) currentSelectedAnswer.value = index
-        } }
+        answerRadios.forEachIndexed { index, rb ->
+            rb.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) currentSelectedAnswer.value = index
+            }
+        }
 
         return root
     }
@@ -104,7 +110,7 @@ class QuizFragment : Fragment() {
     private fun markImages() {
         val currentAnswerInt = currentSelectedAnswer.value!!
         val answerRevealed = pageViewModel.answerRevealed.value!!
-        val correctAnswer=
+        val correctAnswer =
             pageViewModel.correctQuizAnswers[pageViewModel.currentQuizQuestion.value!!] ?: error("")
         answerImages.forEachIndexed { index, iv ->
             when {
@@ -156,12 +162,18 @@ class QuizFragment : Fragment() {
                 root.findViewById<View>(R.id.quiz_notstarted).visibility = View.VISIBLE
                 root.findViewById<View>(R.id.quiz_answer_holder).visibility = View.GONE
                 root.findViewById<View>(R.id.quiz_finished).visibility = View.GONE
-                root.findViewById<TextView>(R.id.quiz_question).setText(R.string.quiz_notstarted_intro)
+                root.findViewById<TextView>(R.id.quiz_question)
+                    .setText(R.string.quiz_notstarted_intro)
                 root.findViewById<TextView>(R.id.quiz_notstarted_counter).text =
-                    getString(R.string.quiz_notstarted_qcount, pageViewModel.chapter.value!!.quiz.size)
+                    getString(
+                        R.string.quiz_notstarted_qcount,
+                        pageViewModel.chapter.value!!.quiz.size
+                    )
                 root.findViewById<Button>(R.id.quiz_button).setText(R.string.quiz_start)
-                root.findViewById<TextView>(R.id.question_number).setText(R.string.quiz_question_number_notinprogress)
-                root.findViewById<TextView>(R.id.question_correct).setText(R.string.quiz_question_correct_notinprogress)
+                root.findViewById<TextView>(R.id.question_number)
+                    .setText(R.string.quiz_question_number_notinprogress)
+                root.findViewById<TextView>(R.id.question_correct)
+                    .setText(R.string.quiz_question_correct_notinprogress)
             }
             QuizState.INPROGRESS -> {
                 quiz_notstarted.visibility = View.GONE
@@ -174,12 +186,16 @@ class QuizFragment : Fragment() {
                 quiz_notstarted.visibility = View.GONE
                 quiz_answer_holder.visibility = View.GONE
                 quiz_finished.visibility = View.VISIBLE
-                root.findViewById<TextView>(R.id.quiz_question).setText(R.string.quiz_finished_intro)
+                root.findViewById<TextView>(R.id.quiz_question)
+                    .setText(R.string.quiz_finished_intro)
                 quizButton.setText(R.string.quiz_try_again)
-                root.findViewById<TextView>(R.id.question_number).setText(R.string.quiz_question_number_notinprogress)
-                root.findViewById<TextView>(R.id.question_correct).setText(R.string.quiz_question_correct_notinprogress)
+                root.findViewById<TextView>(R.id.question_number)
+                    .setText(R.string.quiz_question_number_notinprogress)
+                root.findViewById<TextView>(R.id.question_correct)
+                    .setText(R.string.quiz_question_correct_notinprogress)
 
-                val percCorrect = pageViewModel.correctCount.value!! / pageViewModel.chapter.value!!.quiz.size.toFloat()
+                val percCorrect =
+                    pageViewModel.correctCount.value!! / pageViewModel.chapter.value!!.quiz.size.toFloat()
 
                 root.findViewById<TextView>(R.id.quiz_finished_counter).text = getString(
                     R.string.quiz_finished_qcount,
@@ -188,14 +204,20 @@ class QuizFragment : Fragment() {
                     (percCorrect * 100).toInt()
                 )
                 if (percCorrect >= 0.75) {
-                    root.findViewById<TextView>(R.id.quiz_finished_result).setText(R.string.quiz_finished_success)
+                    root.findViewById<TextView>(R.id.quiz_finished_result)
+                        .setText(R.string.quiz_finished_success)
+                    val nextChapterId =
+                        getNextChapterId(
+                            pageViewModel.chapter.value!!.course!!.courseID,
+                            context!!
+                        )
                     root.findViewById<Button>(R.id.quiz_finished_next).visibility =
-                        if (getNextChapterId(pageViewModel.chapter.value!!.course!!.courseID) == null) View.GONE
-                        else View.VISIBLE
+                        if (nextChapterId == null) View.GONE else View.VISIBLE
                     quizButton.isEnabled = false
                     // TODO mark complete
                 } else {
-                    root.findViewById<TextView>(R.id.quiz_finished_result).setText(R.string.quiz_finished_failure)
+                    root.findViewById<TextView>(R.id.quiz_finished_result)
+                        .setText(R.string.quiz_finished_failure)
                     root.findViewById<Button>(R.id.quiz_finished_next).visibility = View.GONE
                     quizButton.isEnabled = true
                 }
@@ -290,8 +312,14 @@ class QuizFragment : Fragment() {
                 answerRadios[i].isEnabled = false
                 answerRadios[i].text =
                     when {
-                        question.answers[i].correct -> getString(R.string.quiz_answer_correct_wrap, baseText)
-                        currentSelectedAnswer.value!! == i -> getString(R.string.quiz_answer_incorrect_wrap, baseText)
+                        question.answers[i].correct -> getString(
+                            R.string.quiz_answer_correct_wrap,
+                            baseText
+                        )
+                        currentSelectedAnswer.value!! == i -> getString(
+                            R.string.quiz_answer_incorrect_wrap,
+                            baseText
+                        )
                         else -> baseText
                     }
             }
@@ -313,13 +341,14 @@ class QuizFragment : Fragment() {
     }
 
     private fun setCorrectCount(n: Int) {
-        root.findViewById<TextView>(R.id.question_correct).text = getString(R.string.quiz_correct_count, n)
+        root.findViewById<TextView>(R.id.question_correct).text =
+            getString(R.string.quiz_correct_count, n)
     }
 
-        companion object {
-            @JvmStatic
-            fun newInstance(): QuizFragment {
-                return QuizFragment()
-            }
+    companion object {
+        @JvmStatic
+        fun newInstance(): QuizFragment {
+            return QuizFragment()
         }
     }
+}

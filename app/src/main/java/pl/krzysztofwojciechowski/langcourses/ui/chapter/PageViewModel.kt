@@ -22,7 +22,7 @@ class PageViewModel : ViewModel() {
     init {
         chapter.observeForever {
             correctQuizAnswers =
-                it.quiz.associateWith { q -> q.answers.indexOfFirst { a -> a.correct }}
+                it.quiz.associateWith { q -> q.answers.indexOfFirst { a -> a.correct } }
         }
     }
 

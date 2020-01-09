@@ -2,7 +2,6 @@ package pl.krzysztofwojciechowski.langcourses
 
 import android.net.Uri
 import com.google.gson.annotations.SerializedName
-import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedAsset
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedCourseItem
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ManagedEntity
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ResourceManager
@@ -46,9 +45,9 @@ data class Chapter(
         get() =
             if (_vocabularyListItems != null) _vocabularyListItems!!
             else {
-                    _vocabularyListItems = buildVocabularyListItems(vocabulary)
-                    _vocabularyListItems!!
-                }
+                _vocabularyListItems = buildVocabularyListItems(vocabulary)
+                _vocabularyListItems!!
+            }
 
     override fun registerResourceManager(resourceManager: ResourceManager, course: Course) {
         super.registerResourceManager(resourceManager, course)
@@ -58,7 +57,7 @@ data class Chapter(
     }
 }
 
-abstract class VocabularyBase: ManagedCourseItem() {
+abstract class VocabularyBase : ManagedCourseItem() {
     abstract val audioFile: File?
     abstract val translatedAudioFile: File?
 
@@ -104,14 +103,19 @@ data class VocabularyEntry(
 }
 
 enum class ConversationSide {
-    @SerializedName("me") ME,
-    @SerializedName("them") THEM
+    @SerializedName("me")
+    ME,
+    @SerializedName("them")
+    THEM
 }
 
 enum class QuestionType {
-    @SerializedName("images") IMAGES,
-    @SerializedName("describe") DESCRIBE,
-    @SerializedName("text") TEXT
+    @SerializedName("images")
+    IMAGES,
+    @SerializedName("describe")
+    DESCRIBE,
+    @SerializedName("text")
+    TEXT
 }
 
 data class ConversationItem(
@@ -155,7 +159,7 @@ class VocabularyListItem(
     val original: String,
     val translated: String,
     val entry: VocabularyBase
-): ManagedCourseItem() {
+) : ManagedCourseItem() {
 
     val audioFile: File?
         get() = entry.audioFile

@@ -7,22 +7,30 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import pl.krzysztofwojciechowski.langcourses.R
 import pl.krzysztofwojciechowski.langcourses.VocabularyEntry
 import pl.krzysztofwojciechowski.langcourses.VocabularyListItem
 import pl.krzysztofwojciechowski.langcourses.VocabularyListItemType
 
-class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Unit, private val items: List<VocabularyListItem> = mutableListOf(), private val isGridMode: Boolean) :
+class VocabularyListAdapter(
+    private val openDefinition: (VocabularyEntry) -> Unit,
+    private val items: List<VocabularyListItem> = mutableListOf(),
+    private val isGridMode: Boolean
+) :
     RecyclerView.Adapter<VocabularyListAdapter.VocabularyViewHolder>() {
 
-    open class VocabularyViewHolder(itemView: View, var context: Context) : RecyclerView.ViewHolder(itemView)
+    open class VocabularyViewHolder(itemView: View, var context: Context) :
+        RecyclerView.ViewHolder(itemView)
 
-    class VocabularyTitleViewHolder(itemView: View, context: Context) : VocabularyViewHolder(itemView, context) {
+    class VocabularyTitleViewHolder(itemView: View, context: Context) :
+        VocabularyViewHolder(itemView, context) {
         val original: TextView = itemView.findViewById(R.id.rv_chapter_vocab_title_original)
         val translated: TextView = itemView.findViewById(R.id.rv_chapter_vocab_title_translated)
     }
 
-    class VocabularyEntryViewHolder(itemView: View, context: Context) : VocabularyViewHolder(itemView, context) {
+    class VocabularyEntryViewHolder(itemView: View, context: Context) :
+        VocabularyViewHolder(itemView, context) {
         val original: TextView = itemView.findViewById(R.id.rv_chapter_vocab_original)
         val translated: TextView = itemView.findViewById(R.id.rv_chapter_vocab_translated)
         val image: ImageView = itemView.findViewById(R.id.rv_chapter_vocab_image)
@@ -69,7 +77,8 @@ class VocabularyListAdapter(private val openDefinition: (VocabularyEntry) -> Uni
             val entryHolder = holder as VocabularyEntryViewHolder
             entryHolder.original.text = item.original
             entryHolder.translated.text = item.translated
-            entryHolder.image.setImageURI((item.entry as VocabularyEntry).imageUri)
+            Glide.with(holder.context).load((item.entry as VocabularyEntry).imageUri)
+                .into(entryHolder.image)
 
             holder.itemView.setOnClickListener {
                 openDefinition(item.entry)

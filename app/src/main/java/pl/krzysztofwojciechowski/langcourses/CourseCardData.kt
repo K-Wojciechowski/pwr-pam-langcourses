@@ -1,18 +1,44 @@
 package pl.krzysztofwojciechowski.langcourses
 
-import android.graphics.drawable.Drawable
+import pl.krzysztofwojciechowski.langcourses.db.AvailableCourse
+
+data class RawCourseCardData(
+    val courseid: Int,
+    val coursename: String,
+    val coursepath: String,
+    val courseversion: Int,
+    val language: String,
+    val baselang: String,
+    val level: String,
+    val chaptercount: Int,
+    val filesize: Double,
+    val coverimage: String,
+    val coverbgcolor: String,
+    val covertextcolor: String,
+    val url: String
+) {
+    fun toAvailableCourse(): AvailableCourse {
+        return AvailableCourse(
+            courseid,
+            coursename,
+            coursepath,
+            courseversion,
+            language,
+            level,
+            chaptercount,
+            coverimage,
+            coverbgcolor,
+            covertextcolor,
+            filesize,
+            url
+        )
+    }
+}
 
 data class CourseCardData(
-    val courseid: Int,
-    val name: String,
-    val latestVersion: Int,
-    val downloadedVersion: Int?,
-    val fileSize: Int,
-    val coverImage: Drawable?,
-    val coverBgColor: Int,
-    val coverFgColor: Int,
-    val inProgress: Boolean,
-    val currentProgress: Double?,
-    val coursePath: String,
-    val url: String?
+    val course: AvailableCourse,
+    var downloadedVersion: Int? = null,
+    var inProgress: Boolean = false,
+    var currentProgress: Double = 0.0
 )
+

@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_chapter.*
 import pl.krzysztofwojciechowski.langcourses.*
+import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.tutorial.TutorialActivity
 import java.io.File
@@ -125,7 +126,10 @@ class ChapterActivity : AppCompatActivity() {
 
     fun startNextChapter() {
         val courseID = pageViewModel.chapter.value!!.course!!.courseID
-        val nextChapterID = getNextChapterId(courseID) ?: return
+        val nextChapterID = getNextChapterId(
+            courseID,
+            applicationContext
+        ) ?: return
         val openIntent = Intent(applicationContext, ChapterActivity::class.java)
         openIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
         val bundle = Bundle()

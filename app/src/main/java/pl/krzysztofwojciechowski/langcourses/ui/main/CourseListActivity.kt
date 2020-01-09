@@ -1,19 +1,29 @@
 package pl.krzysztofwojciechowski.langcourses.ui.main
 
+import android.app.AlertDialog
 import android.app.DownloadManager
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.NoConnectionError
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_courselist.*
 import pl.krzysztofwojciechowski.langcourses.*
+import pl.krzysztofwojciechowski.langcourses.db.*
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.DownloadBroadcastReceiver
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.DownloadCompletionHandler
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ResourceManager
@@ -24,60 +34,75 @@ import java.io.File
 
 class CourseListActivity : AppCompatActivity(),
     DownloadCompletionHandler {
-    override fun downloadComplete(course: CourseCardData, path: File) {
+    override fun downloadComplete(
+        course: AvailableCourse,
+        path: File,
+        openAfter: Boolean
+    ) {
         try {
-            resourceManager.extractZipData(path, course.coursePath)
+            resourceManager.extractZipData(path, course.path)
         } finally {
             path.delete()
         }
+        MLCDatabase.getDatabase(applicationContext).downloadedCourseDao()
+            .insert(DownloadedCourse(course.id, course.version))
+
+        if (openAfter) {
+            if (progressDialog != null) progressDialog!!.hide()
+            showCourse(course)
+        } else {
+            snackbar(getString(R.string.download_complete, course.name))
+        }
     }
 
-    override fun downloadFailed(course: CourseCardData, path: File, reason: Int) {
+    override fun downloadFailed(
+        course: AvailableCourse,
+        path: File,
+        reason: Int,
+        openAfter: Boolean
+    ) {
         path.delete()
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (progressDialog != null) progressDialog!!.hide()
+        AlertDialog.Builder(this).setTitle(R.string.download_failed_dialog)
+            .setMessage(getString(R.string.download_failed, course.name))
+            .setPositiveButton(android.R.string.ok, null).show()
     }
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: CourseListAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var resourceManager: ResourceManager
+    private lateinit var volleyQueue: com.android.volley.RequestQueue
+    @Suppress("DEPRECATION")
+    private var progressDialog: ProgressDialog? = null
 
-    val courseCardData = mutableListOf<CourseCardData>()
+    var courseCardData = listOf<CourseCardData>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courselist)
+
+        volleyQueue = Volley.newRequestQueue(this)
 
         resourceManager =
             getResourceManager(
                 applicationContext
             )
 
-         // TODO placeholder
-        courseCardData.add(
-            CourseCardData(
-                1,
-                "Angielski Podstawowy",
-                1,
-                1,
-                4096,
-                getDrawable(R.drawable.sample_cover),
-                Color.parseColor("#0D47A1"),
-                Color.WHITE,
-                true,
-                0.25,
-                "angielski-podstawowy-1-1",
-                "https://krzysztofwojciechowski.pl/pwr/pam/demo.zip"
-            )
-        )
+        refreshCourseCards(onStart = true)
+//        courseCardData = getCourseCardDataFromDatabase()
 
         viewManager = LinearLayoutManager(this)
         viewAdapter =
             CourseListAdapter(
+                this::downloadCourse,
                 this::showCourse,
                 this::continueCourse,
-                courseCardData
+                mutableListOf()
             )
+
+        viewAdapter.setList(courseCardData)
 
         recyclerView = findViewById<RecyclerView>(R.id.main_rv_courselist).apply {
             setHasFixedSize(false)
@@ -85,6 +110,97 @@ class CourseListActivity : AppCompatActivity(),
             layoutManager = viewManager
             adapter = viewAdapter
         }
+
+        offline_btn.setOnClickListener { refreshCourseCards() }
+        swiperefresh.setOnRefreshListener(this::refreshCourseCards)
+    }
+
+    private fun getCourseCardDataFromDatabase(): List<CourseCardData> {
+        val db = MLCDatabase.getDatabase(applicationContext)
+        // TODO val availableCourses: List<AvailableCourse> = db.availableCourseDao().getAvailableCourses().value!!
+        val availableCourses: List<AvailableCourse> = db.availableCourseDao().getAvailableCourses()
+        val ccById: Map<Int, CourseCardData> =
+            availableCourses.map { CourseCardData(it, null, false, 0.0) }
+                .associateBy { it.course.id }
+        val courseIds: IntArray = availableCourses.map { it.id }.toIntArray()
+        db.downloadedCourseDao().getDownloadedCourses(courseIds).forEach {
+            ccById[it.courseId]?.downloadedVersion = it.version
+        }
+        val ccs = ccById.values.toList()
+        ccs.forEach { cc ->
+            val progressInfo: List<CourseProgress> =
+                db.courseProgressDao().getProgressForCourse(cc.course.id)
+            val completed =
+                progressInfo.distinctBy { Pair(it.courseId, it.chapterId) }.filter { it.completed }
+                    .count()
+            cc.currentProgress = completed / cc.course.chapterCount.toDouble()
+            cc.inProgress = progressInfo.any { it.started || it.completed }
+        }
+        return ccs
+    }
+
+    private fun snackbar(i: Int) {
+        Snackbar.make(main_layout, i, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun snackbar(s: CharSequence) {
+        Snackbar.make(main_layout, s, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun showOffline() {
+        offline_icon.visibility = View.VISIBLE
+        offline_header.visibility = View.VISIBLE
+        offline_description.visibility = View.VISIBLE
+        offline_btn.visibility = View.VISIBLE
+    }
+
+    private fun hideOffline() {
+        offline_icon.visibility = View.GONE
+        offline_header.visibility = View.GONE
+        offline_description.visibility = View.GONE
+        offline_btn.visibility = View.GONE
+    }
+
+    private fun refreshCourseCards() {
+        refreshCourseCards(false)
+    }
+
+    private fun refreshCourseCards(onStart: Boolean = false) {
+        swiperefresh.isRefreshing = true
+        hideOffline()
+
+        val request = StringRequest(Request.Method.GET, COURSE_LIST_URL,
+            Response.Listener<String> { response ->
+                val gson = Gson()
+                val rawData = gson.fromJson(response, Array<RawCourseCardData>::class.java)
+                val db = MLCDatabase.getDatabase(applicationContext)
+                val availableCourses = rawData.map { it.toAvailableCourse() }.toList()
+                availableCourses.forEach {
+                    db.availableCourseDao().insert(it)
+                }
+                courseCardData = getCourseCardDataFromDatabase()
+                viewAdapter.setList(courseCardData)
+                swiperefresh.isRefreshing = false
+            },
+            Response.ErrorListener {
+                swiperefresh.isRefreshing = false
+                if (it is NoConnectionError) {
+                    courseCardData = getCourseCardDataFromDatabase()
+                    viewAdapter.setList(courseCardData)
+                    if (courseCardData.isEmpty()) {
+                        showOffline()
+                    } else if (onStart) {
+                        snackbar(R.string.go_online_to_refresh)
+                    } else {
+                        snackbar(R.string.refresh_failed_offline)
+                    }
+                } else {
+                    snackbar(R.string.refresh_failed)
+                }
+            }
+        )
+
+        volleyQueue.add(request)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,43 +209,83 @@ class CourseListActivity : AppCompatActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.ph_download) {
-            startDownload(courseCardData[0])
-            return true
+        when (item?.itemId) {
+            R.id.menu_refresh -> {
+                refreshCourseCards()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
-    private fun startDownload(course: CourseCardData) {
+    private fun startDownload(course: AvailableCourse, openAfter: Boolean) {
         val request = DownloadManager.Request(Uri.parse(course.url))
-        request.setDestinationInExternalFilesDir(applicationContext, null, "downloads/" + course.coursePath)
+        request.setDestinationInExternalFilesDir(
+            applicationContext,
+            null,
+            "downloads/" + course.path
+        )
         request.setTitle(course.name)
         request.setVisibleInDownloadsUi(false)
-        val downloadManager = applicationContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadManager =
+            applicationContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val id = downloadManager.enqueue(request)
         val downloadReceiver =
             DownloadBroadcastReceiver(
                 id,
                 course,
+                openAfter,
                 this
             )
 
         registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
-    private fun showCourse(course: CourseCardData) {
+    private fun downloadCourse(course: AvailableCourse, openAfter: Boolean = false) {
+        if (isOnline(applicationContext)) {
+            startDownload(course, openAfter)
+            if (openAfter) {
+                @Suppress("DEPRECATION")
+                progressDialog = ProgressDialog.show(
+                    this,
+                    getString(R.string.downloading_dialog),
+                    getString(R.string.downloading_please_wait),
+                    true
+                )
+            } else {
+                snackbar(R.string.downloading_please_wait)
+            }
+        } else {
+            AlertDialog.Builder(this).setMessage(R.string.download_offline_error)
+                .setTitle(R.string.download_failed_dialog)
+                .setPositiveButton(android.R.string.ok, null).show()
+        }
+    }
+
+    private fun showCourse(course: AvailableCourse) {
         val openIntent = Intent(applicationContext, CourseChaptersActivity::class.java)
         val bundle = Bundle()
-        bundle.putInt(IE_COURSEID, course.courseid)
+        bundle.putInt(IE_COURSEID, course.id)
         openIntent.putExtras(bundle)
         startActivity(openIntent)
     }
 
-    private fun continueCourse(course: CourseCardData) {
+    private fun continueCourse(course: AvailableCourse) {
         val openIntent = Intent(applicationContext, ChapterActivity::class.java)
         val bundle = Bundle()
-        bundle.putInt(IE_COURSEID, course.courseid)
-        bundle.putInt(IE_CHAPTERID, -1) // TODO find first incomplete/notstarted chapter ID in database
+        bundle.putInt(IE_COURSEID, course.id)
+        val chapterId =
+            getNextChapterId(
+                course.id,
+                applicationContext
+            )
+        if (chapterId == null) {
+            // fallback
+            showCourse(course)
+            return
+        } else {
+            bundle.putInt(IE_CHAPTERID, chapterId)
+        }
         openIntent.putExtras(bundle)
         startActivity(openIntent)
     }

@@ -1,16 +1,20 @@
 package pl.krzysztofwojciechowski.langcourses.resourcemanager
 
+import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.app.DownloadManager
 import android.net.Uri
-import android.widget.Toast
 import androidx.core.net.toFile
-import pl.krzysztofwojciechowski.langcourses.CourseCardData
+import pl.krzysztofwojciechowski.langcourses.db.AvailableCourse
 
 
-class DownloadBroadcastReceiver(val id: Long, val course: CourseCardData, private val handler: DownloadCompletionHandler) : BroadcastReceiver() {
+class DownloadBroadcastReceiver(
+    val id: Long,
+    val course: AvailableCourse,
+    private val openAfter: Boolean,
+    private val handler: DownloadCompletionHandler
+) : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val dm = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -28,12 +32,9 @@ class DownloadBroadcastReceiver(val id: Long, val course: CourseCardData, privat
                 val uri = Uri.parse(uriString)
 
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                    handler.downloadComplete(course, uri.toFile())
-                    // TODO
-                    Toast.makeText(context, "Download complete", Toast.LENGTH_SHORT).show()
+                    handler.downloadComplete(course, uri.toFile(), openAfter)
                 } else {
-                    handler.downloadFailed(course, uri.toFile(), status)
-                    Toast.makeText(context, "Download failed", Toast.LENGTH_SHORT).show()
+                    handler.downloadFailed(course, uri.toFile(), status, openAfter)
                 }
             }
         }

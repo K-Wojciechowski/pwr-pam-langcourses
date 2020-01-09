@@ -51,4 +51,19 @@
     <string name="quiz_finished_qcount">%1$d/%2$d (%3$d%%)</string>
     <string name="quiz_finished_failure">You failed to achieve 75% correct responses… You can try again. Good luck!</string>
     <string name="quiz_finished_start_next">See what’s next</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="refresh_failed">Failed to refresh list!</string>
+    <string name="go_online_to_refresh">Go online to make sure you’ve got the latest version!</string>
+    <string name="refresh_failed_offline">You’re offline. Go online and try to refresh again.</string>
+    <string name="offline_header_text">You’re offline.</string>
+    <string name="offline_description_text">Please connect to the Internet to load the course list.</string>
+    <string name="offline_btn_text">Try again</string>
+    <string name="rv_main_courses_download">Download</string>
+    <string name="rv_main_courses_update">Update</string>
+    <string name="download_complete">Download of %s complete!</string>
+    <string name="download_failed">Downloading %s failed! Check your connection, refresh the course list and try again.</string>
+    <string name="downloading_please_wait">Downloading, please wait…</string>
+    <string name="download_offline_error">You’re offline. Connect to the Internet and try again.</string>
+    <string name="download_failed_dialog">Download failed</string>
+    <string name="downloading_dialog">Downloading…</string>
 </resources>

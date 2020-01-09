@@ -1,11 +1,16 @@
 package pl.krzysztofwojciechowski.langcourses.ui.chapterlist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import pl.krzysztofwojciechowski.langcourses.*
+import pl.krzysztofwojciechowski.langcourses.Chapter
+import pl.krzysztofwojciechowski.langcourses.IE_CHAPTERID
+import pl.krzysztofwojciechowski.langcourses.IE_COURSEID
+import pl.krzysztofwojciechowski.langcourses.R
+import pl.krzysztofwojciechowski.langcourses.db.ChapterProgress
+import pl.krzysztofwojciechowski.langcourses.db.getChapterProgress
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getResourceManager
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
 
@@ -25,10 +30,10 @@ class CourseChaptersActivity : AppCompatActivity() {
         val chapters = course.chapters
         supportActionBar?.title = course.name
 
-        val progress = mutableMapOf<Chapter, ChapterProgress>()
-        chapters.forEach { c -> progress[c] =
-            ChapterProgress.NOT_STARTED
-        }
+        val chaptersByID = course.chapters.associateBy { it.chapterID }
+        val progress = course.chapters.associateWith { ChapterProgress.NOT_STARTED }.toMutableMap()
+        val progressInts = getChapterProgress(courseID, applicationContext)
+        progress.putAll(progressInts.mapKeys { chaptersByID[it.key] ?: error("Unknown chapter") })
 
         viewManager = LinearLayoutManager(this)
         viewAdapter =

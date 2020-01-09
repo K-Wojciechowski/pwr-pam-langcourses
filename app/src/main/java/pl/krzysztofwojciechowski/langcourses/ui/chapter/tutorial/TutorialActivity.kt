@@ -25,7 +25,8 @@ class TutorialActivity : AppCompatActivity() {
 
         supportActionBar?.setSubtitle(R.string.tutorial_subtitle)
 
-        val tabNames = listOf(R.string.tab_vocabulary, R.string.tab_conversations, R.string.tab_quiz)
+        val tabNames =
+            listOf(R.string.tab_vocabulary, R.string.tab_conversations, R.string.tab_quiz)
 
         val sectionsPagerAdapter =
             SectionsPagerAdapter(

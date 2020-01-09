@@ -1,14 +1,16 @@
 package pl.krzysztofwojciechowski.langcourses
 
-import android.app.*
+import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
-import android.os.*
+import android.os.Binder
+import android.os.Handler
+import android.os.IBinder
+import android.os.PowerManager
 import java.io.File
 
 
 enum class AudioState { PLAY, STOP }
-
 
 
 class MusicPlayerService : Service() {

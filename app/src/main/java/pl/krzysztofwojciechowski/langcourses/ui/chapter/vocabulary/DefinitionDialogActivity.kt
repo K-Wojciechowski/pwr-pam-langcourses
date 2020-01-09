@@ -25,10 +25,12 @@ class DefinitionDialogActivity : AppCompatActivity() {
         val height = displayMetrics.heightPixels
         val width = displayMetrics.widthPixels
         var propWidth = 0.8 * width
-        var propHeight = 0.8 * width * def_image.drawable.intrinsicHeight / def_image.drawable.intrinsicWidth
+        var propHeight =
+            0.8 * width * def_image.drawable.intrinsicHeight / def_image.drawable.intrinsicWidth
         if (propHeight > 0.8 * height) {
             propHeight = 0.8 * height
-            propWidth = 0.8 * height * def_image.drawable.intrinsicWidth / def_image.drawable.intrinsicHeight
+            propWidth =
+                0.8 * height * def_image.drawable.intrinsicWidth / def_image.drawable.intrinsicHeight
         }
         def_image.layoutParams.height = propHeight.toInt()
         def_image.layoutParams.width = propWidth.toInt()

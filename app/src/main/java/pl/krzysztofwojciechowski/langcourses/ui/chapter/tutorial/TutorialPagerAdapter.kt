@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import pl.krzysztofwojciechowski.langcourses.ChapterTab
-import pl.krzysztofwojciechowski.langcourses.ui.chapter.quiz.QuizFragment
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.conversation.ConversationFragment
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.quiz.QuizFragment
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.vocabulary.VocabularyFragment
 
 class TutorialPagerAdapter(
