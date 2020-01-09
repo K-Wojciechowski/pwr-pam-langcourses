@@ -34,8 +34,6 @@ abstract class MLCDatabase : RoomDatabase() {
                     context.applicationContext,
                     MLCDatabase::class.java,
                     "mlc_database"
-                    // TODO
-//                ).allowMainThreadQueries().build()
                 ).build()
                 INSTANCE = instance
                 return instance
