@@ -1,21 +1,19 @@
 package pl.krzysztofwojciechowski.langcourses.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface AvailableCourseDao {
     @Query("SELECT * from available_course")
-    // TODO livedata
-    fun getAvailableCourses(): List<AvailableCourse>
+    fun getAvailableCourses(): LiveData<List<AvailableCourse>>
 
     @Query("SELECT * from available_course WHERE id = :courseID")
     // TODO livedata
     fun getCourse(courseID: Int): AvailableCourse
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    // TODO suspend
-//    suspend fun insert(course: AvailableCourse)
-    fun insert(course: AvailableCourse)
+    suspend fun insert(course: AvailableCourse)
 
     @Update
     suspend fun update(course: AvailableCourse)
@@ -28,15 +26,17 @@ interface AvailableCourseDao {
 @Dao
 interface DownloadedCourseDao {
     @Query(value = "SELECT * FROM downloaded_course")
-    // TODO livedata
-    fun getDownloadedCourses(): List<DownloadedCourse>
+    fun getDownloadedCourses(): LiveData<List<DownloadedCourse>>
 
     @Query(value = "SELECT * FROM downloaded_course WHERE courseid IN (:courseIDs) ORDER BY courseid ASC, version ASC")
     // TODO livedata
     fun getDownloadedCourses(courseIDs: IntArray): List<DownloadedCourse>
 
     @Query("DELETE FROM downloaded_course WHERE courseid=:courseID")
-    suspend fun deleteById(courseID: Int)
+    suspend fun deleteByID(courseID: Int)
+
+    @Query("DELETE FROM downloaded_course WHERE courseid IN (:courseIDs)")
+    suspend fun deleteByIDs(courseIDs: IntArray)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     // TODO suspend
@@ -60,6 +60,9 @@ interface CourseProgressDao {
     // TODO livedata
     fun getProgressForChapter(courseID: Int, chapterID: Int): CourseProgress?
 
+    @Query("SELECT * FROM course_progress ORDER BY courseid")
+    fun getProgress(): LiveData<List<CourseProgress>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(progress: CourseProgress)
 
@@ -68,6 +71,7 @@ interface CourseProgressDao {
 
     @Delete
     suspend fun delete(progress: CourseProgress)
+
 }
 
 @Dao

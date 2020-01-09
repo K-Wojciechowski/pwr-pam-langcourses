@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.google.gson.Gson
 import pl.krzysztofwojciechowski.langcourses.Course
+import pl.krzysztofwojciechowski.langcourses.db.DownloadedCourse
 import pl.krzysztofwojciechowski.langcourses.db.getCoursePath
 import java.io.File
 import java.io.FileInputStream
@@ -21,6 +22,13 @@ class StoredResourceManager(val context: Context) : ResourceManager() {
         val course = Gson().fromJson(file.reader(), Course::class.java)
         course.registerResourceManager(this)
         return course
+    }
+
+    override fun deleteOldDownloads(downloadedCourses: List<DownloadedCourse>) {
+        downloadedCourses.forEach {
+            val file = context.filesDir.resolve("coursedata/${it.path}")
+            file.deleteRecursively()
+        }
     }
 
 

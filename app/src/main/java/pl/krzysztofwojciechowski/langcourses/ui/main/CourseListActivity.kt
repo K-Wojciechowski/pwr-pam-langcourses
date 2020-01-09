@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
@@ -23,7 +24,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_courselist.*
 import pl.krzysztofwojciechowski.langcourses.*
-import pl.krzysztofwojciechowski.langcourses.db.*
+import pl.krzysztofwojciechowski.langcourses.db.AvailableCourse
+import pl.krzysztofwojciechowski.langcourses.db.getNextChapterId
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.DownloadBroadcastReceiver
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.DownloadCompletionHandler
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.ResourceManager
@@ -44,14 +46,14 @@ class CourseListActivity : AppCompatActivity(),
         } finally {
             path.delete()
         }
-        MLCDatabase.getDatabase(applicationContext).downloadedCourseDao()
-            .insert(DownloadedCourse(course.id, course.version))
-
-        if (openAfter) {
-            if (progressDialog != null) progressDialog!!.hide()
-            showCourse(course)
-        } else {
+        if (!openAfter) {
             snackbar(getString(R.string.download_complete, course.name))
+        }
+        viewModel.handleNewVersion(course.id, course.version, course.path) {
+            if (openAfter) {
+                if (progressDialog != null) progressDialog!!.hide()
+                showCourse(course)
+            }
         }
     }
 
@@ -75,13 +77,16 @@ class CourseListActivity : AppCompatActivity(),
     private lateinit var volleyQueue: com.android.volley.RequestQueue
     @Suppress("DEPRECATION")
     private var progressDialog: ProgressDialog? = null
+    private lateinit var viewModel: CourseListViewModel
 
-    var courseCardData = listOf<CourseCardData>()
+    private var courseCardData = listOf<CourseCardData>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courselist)
+
+        viewModel = ViewModelProviders.of(this).get(CourseListViewModel::class.java)
 
         volleyQueue = Volley.newRequestQueue(this)
 
@@ -108,36 +113,11 @@ class CourseListActivity : AppCompatActivity(),
         offline_btn.setOnClickListener { refreshCourseCards() }
         swiperefresh.setOnRefreshListener(this::refreshCourseCards)
 
+        viewModel.courseCardData.observeForever {
+            courseCardData = it
+            viewAdapter.setList(courseCardData)
+        }
         refreshCourseCards(onStart = true)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        courseCardData = getCourseCardDataFromDatabase()
-        viewAdapter.setList(courseCardData)
-    }
-
-    private fun getCourseCardDataFromDatabase(): List<CourseCardData> {
-        val db = MLCDatabase.getDatabase(applicationContext)
-        val availableCourses: List<AvailableCourse> = db.availableCourseDao().getAvailableCourses()
-        val ccById: Map<Int, CourseCardData> =
-            availableCourses.map { CourseCardData(it, null, false, 0.0) }
-                .associateBy { it.course.id }
-        val courseIDs: IntArray = availableCourses.map { it.id }.toIntArray()
-        db.downloadedCourseDao().getDownloadedCourses(courseIDs).forEach {
-            ccById[it.courseID]?.downloadedVersion = it.version
-        }
-        val ccs = ccById.values.toList()
-        ccs.forEach { cc ->
-            val progressInfo: List<CourseProgress> =
-                db.courseProgressDao().getProgressForCourse(cc.course.id)
-            val completed =
-                progressInfo.distinctBy { Pair(it.courseID, it.chapterID) }.filter { it.completed }
-                    .count()
-            cc.currentProgress = completed / cc.course.chapterCount.toDouble()
-            cc.inProgress = progressInfo.any { it.started || it.completed }
-        }
-        return ccs
     }
 
     private fun snackbar(i: Int) {
@@ -174,26 +154,17 @@ class CourseListActivity : AppCompatActivity(),
             Response.Listener<String> { response ->
                 val gson = Gson()
                 val rawData = gson.fromJson(response, Array<RawCourseCardData>::class.java)
-                val db = MLCDatabase.getDatabase(applicationContext)
                 val availableCourses = rawData.map { it.toAvailableCourse() }.toList()
-                availableCourses.forEach {
-                    db.availableCourseDao().insert(it)
-                }
-                courseCardData = getCourseCardDataFromDatabase()
-                viewAdapter.setList(courseCardData)
+                viewModel.insertAvailableCourses(availableCourses)
                 swiperefresh.isRefreshing = false
             },
             Response.ErrorListener {
                 swiperefresh.isRefreshing = false
                 if (it is NoConnectionError) {
-                    courseCardData = getCourseCardDataFromDatabase()
-                    viewAdapter.setList(courseCardData)
-                    if (courseCardData.isEmpty()) {
-                        showOffline()
-                    } else if (onStart) {
-                        snackbar(R.string.go_online_to_refresh)
-                    } else {
-                        snackbar(R.string.refresh_failed_offline)
+                    when {
+                        courseCardData.isEmpty() -> showOffline()
+                        onStart -> snackbar(R.string.go_online_to_refresh)
+                        else -> snackbar(R.string.refresh_failed_offline)
                     }
                 } else {
                     snackbar(R.string.refresh_failed)

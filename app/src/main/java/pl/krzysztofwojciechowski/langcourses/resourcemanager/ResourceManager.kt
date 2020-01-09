@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import pl.krzysztofwojciechowski.langcourses.Chapter
 import pl.krzysztofwojciechowski.langcourses.Course
+import pl.krzysztofwojciechowski.langcourses.db.DownloadedCourse
 import java.io.File
 import java.io.FileInputStream
 
@@ -12,6 +13,7 @@ abstract class ResourceManager {
     fun getAsset(course: Course, path: String): ManagedAsset = getAsset(course.courseID, path)
     abstract fun getAsset(courseID: Int, path: String): ManagedAsset
     abstract fun extractZipData(zipFile: File, coursePath: String)  // TODO file handle?
+    abstract fun deleteOldDownloads(downloadedCourses: List<DownloadedCourse>)
 
     fun getChapter(courseID: Int, chapterID: Int): Chapter {
         return getCourseData(courseID).getChapterByID(chapterID)

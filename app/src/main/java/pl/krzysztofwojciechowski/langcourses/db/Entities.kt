@@ -38,7 +38,8 @@ data class AvailableCourse(
 )
 data class DownloadedCourse(
     @PrimaryKey @ColumnInfo(name = "courseid") var courseID: Int,
-    var version: Int
+    var version: Int,
+    var path: String
 )
 
 @Entity(
