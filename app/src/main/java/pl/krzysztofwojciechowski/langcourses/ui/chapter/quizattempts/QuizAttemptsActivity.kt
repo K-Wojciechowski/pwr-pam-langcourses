@@ -40,6 +40,7 @@ class QuizAttemptsActivity : AppCompatActivity() {
             chapterID = intent.extras!!.getInt(IE_CHAPTERID)
             viewModel.chapterName.value = chapterName
             viewModel.chapterID.value = chapterID
+            supportActionBar?.subtitle = chapterName
         }
 
         viewManager = LinearLayoutManager(this)
