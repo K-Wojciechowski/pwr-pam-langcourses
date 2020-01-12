@@ -13,7 +13,8 @@ import pl.krzysztofwojciechowski.langcourses.quizPassed
 
 class QuizAttemptsAdapter(
     private val showChapter: (Int) -> Unit,
-    private val isClickable: Boolean
+    private val isClickable: Boolean,
+    private val largeCompletion: Boolean
 ) :
     RecyclerView.Adapter<QuizAttemptsAdapter.QuizAttemptViewHolder>() {
     private val attempts: MutableList<QuizAttemptWithName> = mutableListOf()
@@ -40,9 +41,16 @@ class QuizAttemptsAdapter(
     override fun onBindViewHolder(holder: QuizAttemptViewHolder, position: Int) {
         val item = attempts[position]
         val isPassed = quizPassed(item.correct, item.total)
-        holder.name.text = item.chapterName
-        holder.correct.text =
+        val completionText =
             holder.context.getString(R.string.quizattempts_correct, item.percCorrect.toInt())
+        if (largeCompletion) {
+            holder.name.text = completionText
+            holder.correct.visibility = View.GONE
+        } else {
+            holder.name.text = item.chapterName
+            holder.correct.text = completionText
+            holder.correct.visibility = View.VISIBLE
+        }
         holder.result.setText(if (isPassed) R.string.quizattempts_pass else R.string.quizattempts_fail)
         holder.date.text = item.attemptDate
         val bgColor = ContextCompat.getColor(

@@ -47,7 +47,8 @@ class QuizAttemptsActivity : AppCompatActivity() {
         viewAdapter =
             QuizAttemptsAdapter(
                 this::showChapter,
-                isClickable = !hasChapter
+                isClickable = !hasChapter,
+                largeCompletion = hasChapter
             )
 
         recyclerView = findViewById<RecyclerView>(R.id.quizattempts_rv).apply {
