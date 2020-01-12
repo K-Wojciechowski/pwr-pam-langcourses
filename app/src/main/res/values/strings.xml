@@ -20,13 +20,16 @@
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_subtitle">How to use the course</string>
     <string name="tutorial_uparrow_desc">Arrow pointing at the tab bar</string>
-    <string name="tutorial_leftarrow_desc">Arrow pointing at a vocabulary image</string>
+    <string name="tutorial_vocabarrow_desc">Arrow pointing at a vocabulary image</string>
+    <string name="tutorial_convarrow_desc">Arrow pointing at a conversation bubble</string>
     <string name="tutorial_rightarrow_desc">Arrow pointing at the Listen button</string>
     <string name="tutorial_header">Pick an activity!</string>
-    <string name="tutorial_vocab">Learn new words on the Vocabulary tab.</string>
-    <string name="tutorial_definition">Tap the picture to make it larger and see the word’s definition.</string>
-    <string name="tutorial_conversation">See the vocabulary in action on the Conversation tab.</string>
-    <string name="tutorial_quiz">Test your knowledge in the Quiz.</string>
+    <string name="tutorial_vocab">1. Learn new words on the Vocabulary tab.</string>
+    <string name="tutorial_definition">Tap the picture to make it larger, hear the word and see the definition.</string>
+    <string name="tutorial_conversation">2. See the vocabulary in action on the Conversation tab.</string>
+    <string name="tutorial_conversation_hear">Tap the bubble to hear the pronunciation.</string>
+    <string name="tutorial_quiz">3. Test your knowledge in the Quiz.</string>
+    <string name="tutorial_quiz_pass">You need at least 75% correct answers to pass.</string>
     <string name="tutorial_listen_button">Tap this button to listen to the vocabulary or the conversations.</string>
     <string name="tutorial_button">Start learning</string>
     <string name="quiz_start">Start</string>
@@ -85,4 +88,5 @@
     <string name="quizattempts_title">Quiz Attempts</string>
     <string name="stats_percent_complete">%1$d%% complete</string>
     <string name="course_cover_content_description">Course cover image</string>
+    <string name="placeholder_content_description">Placeholder.</string>
 </resources>
