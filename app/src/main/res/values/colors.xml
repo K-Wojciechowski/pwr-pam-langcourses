@@ -6,4 +6,8 @@
     <color name="img_selected_border">#0000ff</color>
     <color name="img_correct_border">#008000</color>
     <color name="img_incorrect_border">#ff0000</color>
+    <color name="quizattempts_pass_background">#A5D6A7</color>
+    <color name="quizattempts_fail_background">#FFAB91</color>
+    <color name="stats_partial_background">#FFF59D</color>
+    <color name="stats_finished_background">#A5D6A7</color>
 </resources>

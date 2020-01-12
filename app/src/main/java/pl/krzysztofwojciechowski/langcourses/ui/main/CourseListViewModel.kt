@@ -53,9 +53,7 @@ class CourseListViewModel(application: Application) : AndroidViewModel(applicati
         val ccs = ccById.values.toList()
         ccs.forEach { cc ->
             val progressInfo = progress.filter { it.courseID == cc.course.id }
-            val completed =
-                progressInfo.distinctBy { Pair(it.courseID, it.chapterID) }.filter { it.completed }
-                    .count()
+            val completed = getCompletedChapterCount(progressInfo)
             cc.currentProgress = completed / cc.course.chapterCount.toDouble()
             cc.inProgress = progressInfo.any { it.started || it.completed }
         }

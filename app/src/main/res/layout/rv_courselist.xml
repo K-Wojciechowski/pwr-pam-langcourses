@@ -5,14 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp">
-    <!-- A CardView that contains a TextView -->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/rv_main_courses_card"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_gravity="center"
         card_view:cardBackgroundColor="#FF00FF"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="4dp"
+        card_view:cardMaxElevation="4dp"
+        card_view:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,6 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/course_cover_content_description"
                 card_view:layout_constraintBottom_toTopOf="@+id/rv_main_courses_title_lbl"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"

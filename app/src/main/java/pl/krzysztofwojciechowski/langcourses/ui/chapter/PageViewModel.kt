@@ -25,7 +25,7 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
     private val courseProgressDao: CourseProgressDao
     val nextChapterID = MutableLiveData<Int?>(null)
     private val courseProgressObserver = Observer<List<CourseProgress>> {
-        nextChapterID.value = getNextChapterId(chapter.value!!.course!!, it, application)
+        nextChapterID.value = getNextChapterId(chapter.value!!.course!!, it)
     }
 
     init {

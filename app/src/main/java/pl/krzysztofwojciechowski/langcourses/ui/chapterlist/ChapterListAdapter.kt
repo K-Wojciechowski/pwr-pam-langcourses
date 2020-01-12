@@ -16,6 +16,7 @@ class ChapterListAdapter(
 ) :
     RecyclerView.Adapter<ChapterListAdapter.ChapterViewHolder>() {
     private var progress: Map<Chapter, ChapterProgress> = mapOf()
+
     class ChapterViewHolder(itemView: View, var context: Context) :
         RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.rv_course_chapter_name)

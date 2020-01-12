@@ -20,7 +20,7 @@ class MusicPlayerService : Service() {
     val updateHandler = Handler()
     var guiUpdateRunnable: Runnable? = null
     var state: AudioState = AudioState.STOP
-    var stateChangeCallback: ((AudioState) -> Unit)? = null
+    var stateChangeCallback: (() -> Unit)? = null
     private val musicBind = MusicBinder()
 
     // GUI updates and previous/pause handling
@@ -51,11 +51,11 @@ class MusicPlayerService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when {
-            intent?.action == INTENT_STOP -> stopPlaying()
-            intent?.action == INTENT_PLAYPAUSE -> playPause()
-            intent?.action == INTENT_PREVIOUS -> prevNext(-1)
-            intent?.action == INTENT_NEXT -> prevNext(1)
+        when (intent?.action) {
+            INTENT_STOP -> stopPlaying()
+            INTENT_PLAYPAUSE -> playPause()
+            INTENT_PREVIOUS -> prevNext(-1)
+            INTENT_NEXT -> prevNext(1)
         }
         return super.onStartCommand(intent, flags, startId)
     }
@@ -79,7 +79,7 @@ class MusicPlayerService : Service() {
         try {
             mediaPlayer.setDataSource(file.absolutePath)
         } catch (ex: java.io.IOException) {
-            android.util.Log.e("MLC_Player", "Failed to play: " + file.toString())
+            android.util.Log.e("MLC_Player", "Failed to play: $file")
             prevNext(1)
             return
         }
@@ -96,10 +96,10 @@ class MusicPlayerService : Service() {
 
     private fun setAudioState(state: AudioState) {
         this.state = state
-        stateChangeCallback?.invoke(state)
+        stateChangeCallback?.invoke()
     }
 
-    fun playPause() {
+    private fun playPause() {
         if (nowPlaying == null && files.isNotEmpty()) {
             startPlaying(files[0])
             return

@@ -18,7 +18,8 @@ class ChapterListViewModel(application: Application) : AndroidViewModel(applicat
     private var courseProgress: LiveData<List<CourseProgress>>? = null
     val chapters = MutableLiveData(listOf<Chapter>())
     val progress = MutableLiveData(mapOf<Chapter, ChapterProgress>())
-    private val progressObserver = Observer<List<CourseProgress>> { cp -> rebuildProgress(cp, null) }
+    private val progressObserver =
+        Observer<List<CourseProgress>> { cp -> rebuildProgress(cp, null) }
 
     init {
         val database = MLCDatabase.getDatabase(application)

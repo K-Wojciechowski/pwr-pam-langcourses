@@ -18,10 +18,10 @@ suspend fun getNextChapterId(courseID: Int, context: Context): Int? {
     val progress = db.courseProgressDao().getProgressForCourseDirect(courseID)
     val avCourse = db.availableCourseDao().getCourse(courseID)
     val course = getResourceManager(context).getCourseData(courseID, avCourse.path)
-    return getNextChapterId(course, progress, context)
+    return getNextChapterId(course, progress)
 }
 
-fun getNextChapterId(course: Course, progress: List<CourseProgress>, context: Context): Int? {
+fun getNextChapterId(course: Course, progress: List<CourseProgress>): Int? {
     val startedIncomplete = progress.firstOrNull { it.started && !it.completed }
     if (startedIncomplete != null) return startedIncomplete.chapterID
     val lastComplete = progress.lastOrNull { it.completed }
@@ -40,7 +40,8 @@ suspend fun saveInteractionWith(courseID: Int, chapterID: Int, context: Context)
     val progress = courseProgressDao.getProgressForChapter(courseID, chapterID)
     if (progress == null) {
         courseProgressDao.insert(
-            CourseProgress(courseID, chapterID,
+            CourseProgress(
+                courseID, chapterID,
                 started = true,
                 completed = false
             )
@@ -60,14 +61,22 @@ suspend fun saveQuizAttempt(
     val courseProgressDao = db.courseProgressDao()
     val attemptDate = LocalDateTime.now()
     val attemptDateString = attemptDate.format(TEXT_DATE_TIME_FORMAT)
-    quizAttemptDao.insert(QuizAttempt(
-        courseID, chapterID, attemptDateString, correct, total
-    ))
+    quizAttemptDao.insert(
+        QuizAttempt(
+            courseID, chapterID, attemptDateString, correct, total
+        )
+    )
     if (quizPassed(correct, total)) {
-        courseProgressDao.insert(CourseProgress(
-            courseID, chapterID,
-            started = true,
-            completed = true
-        ))
+        courseProgressDao.insert(
+            CourseProgress(
+                courseID, chapterID,
+                started = true,
+                completed = true
+            )
+        )
     }
 }
+
+fun getCompletedChapterCount(progressInfo: List<CourseProgress>) =
+    progressInfo.distinctBy { Pair(it.courseID, it.chapterID) }.filter { it.completed }
+        .count()

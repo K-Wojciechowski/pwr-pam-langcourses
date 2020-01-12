@@ -10,7 +10,9 @@ import java.io.FileInputStream
 
 abstract class ResourceManager {
     abstract fun getCourseData(courseID: Int, coursePath: String): Course
-    fun getAsset(course: Course, path: String): ManagedAsset = getAsset(course.courseID, course.path!!, path)
+    fun getAsset(course: Course, path: String): ManagedAsset =
+        getAsset(course.courseID, course.path!!, path)
+
     abstract fun getAsset(courseID: Int, coursePath: String, path: String): ManagedAsset
     abstract fun extractZipData(zipFile: File, coursePath: String)
     abstract fun deleteOldDownloads(downloadedCourses: List<DownloadedCourse>)

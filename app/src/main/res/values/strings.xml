@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Multimedia Language Courses</string>
     <string name="rv_main_courses_open">Open</string>
     <string name="rv_main_courses_start">Start</string>
@@ -66,4 +66,23 @@
     <string name="download_offline_error">You’re offline. Connect to the Internet and try again.</string>
     <string name="download_failed_dialog">Download failed</string>
     <string name="downloading_dialog">Downloading…</string>
+    <string name="cc_course_progress">COURSE PROGRESS</string>
+    <string name="cc_percent_format">%1$d%%</string>
+    <string name="menu_quizattempts_text">Previous quiz attempts</string>
+    <string name="menu_statistics_text">Statistics</string>
+    <string name="stats_completion_overall">Completion overall</string>
+    <string name="stats_average_quiz_score_overall">Average quiz score overall</string>
+    <string name="stats_percent_format">%1$d%%</string>
+    <string name="stats_number_format">%1$d</string>
+    <string name="stats_attempts">Attempts</string>
+    <string name="stats_best_attempt">Best attempt</string>
+    <string name="stats_average_score">Average score</string>
+    <string name="quizattempts_date_placeholder" tools:ignore="TypographyDashes">0000-00-00 00:00:00</string>
+    <string name="quizattempts_correct">%1$d%% correct answers</string>
+    <string name="quizattempts_pass">PASS</string>
+    <string name="quizattempts_fail">FAIL</string>
+    <string name="statistics_title">Statistics</string>
+    <string name="quizattempts_title">Quiz Attempts</string>
+    <string name="stats_percent_complete">%1$d%% complete</string>
+    <string name="course_cover_content_description">Course cover image</string>
 </resources>

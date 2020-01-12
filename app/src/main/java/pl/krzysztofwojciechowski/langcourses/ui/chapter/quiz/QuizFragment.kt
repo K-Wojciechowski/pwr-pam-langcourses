@@ -47,7 +47,8 @@ class QuizFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         root = inflater.inflate(R.layout.fragment_chapter_quiz_base, container, false)
-        root.findViewById<TextView>(R.id.quiz_notstarted_requirement).text = getString(R.string.quiz_notstarted_requirement_text, QUIZ_CORRECT_PERCENT)
+        root.findViewById<TextView>(R.id.quiz_notstarted_requirement).text =
+            getString(R.string.quiz_notstarted_requirement_text, QUIZ_CORRECT_PERCENT)
 
         quizButton = root.findViewById(R.id.quiz_button)
         quizButton.setOnClickListener(this::handleButton)

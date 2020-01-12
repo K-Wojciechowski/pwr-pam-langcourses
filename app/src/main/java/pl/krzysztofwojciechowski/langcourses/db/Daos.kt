@@ -73,11 +73,14 @@ interface CourseProgressDao {
 
 @Dao
 interface QuizAttemptDao {
-    @Query("SELECT * FROM quiz_attempt WHERE courseid = :courseID")
-    fun getAttemptsForCourse(courseID: Int): List<QuizAttempt>
+    @Query("SELECT * FROM quiz_attempt ORDER BY attempt_date DESC")
+    fun getAllAttempts(): LiveData<List<QuizAttempt>>
 
-    @Query("SELECT * FROM quiz_attempt WHERE courseid = :courseID and chapterid = :chapterID")
-    fun getAttemptsForChapter(courseID: Int, chapterID: Int): QuizAttempt?
+    @Query("SELECT * FROM quiz_attempt WHERE courseid = :courseID ORDER BY attempt_date DESC")
+    fun getAttemptsForCourse(courseID: Int): LiveData<List<QuizAttempt>>
+
+    @Query("SELECT * FROM quiz_attempt WHERE courseid = :courseID and chapterid = :chapterID ORDER BY attempt_date DESC")
+    fun getAttemptsForChapter(courseID: Int, chapterID: Int): LiveData<List<QuizAttempt>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(attempt: QuizAttempt)

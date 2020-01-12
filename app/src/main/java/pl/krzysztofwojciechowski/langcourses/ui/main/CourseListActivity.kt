@@ -35,6 +35,7 @@ import pl.krzysztofwojciechowski.langcourses.resourcemanager.ResourceManager
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getResourceManager
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.ChapterActivity
 import pl.krzysztofwojciechowski.langcourses.ui.chapterlist.CourseChaptersActivity
+import pl.krzysztofwojciechowski.langcourses.ui.statistics.StatisticsActivity
 import java.io.File
 
 class CourseListActivity : AppCompatActivity(),
@@ -184,12 +185,12 @@ class CourseListActivity : AppCompatActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.menu_refresh -> {
-                refreshCourseCards()
-                return true
+        return when (item?.itemId) {
+            R.id.menu_statistics -> {
+                showStatistics()
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -235,6 +236,11 @@ class CourseListActivity : AppCompatActivity(),
                 .setTitle(R.string.download_failed_dialog)
                 .setPositiveButton(android.R.string.ok, null).show()
         }
+    }
+
+    private fun showStatistics() {
+        val openIntent = Intent(applicationContext, StatisticsActivity::class.java)
+        startActivity(openIntent)
     }
 
     private fun showCourse(course: AvailableCourse) {

@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
+
 @Entity(tableName = "available_course")
 data class AvailableCourse(
     @PrimaryKey val id: Int,

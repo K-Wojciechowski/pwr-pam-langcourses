@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.db.saveInteractionWith
 import pl.krzysztofwojciechowski.langcourses.resourcemanager.getChapter
+import pl.krzysztofwojciechowski.langcourses.ui.chapter.quizattempts.QuizAttemptsActivity
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.tutorial.TutorialActivity
 import java.io.File
 
@@ -93,7 +94,7 @@ class ChapterActivity : AppCompatActivity() {
             }
         })
 
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             saveInteraction()
             when {
                 musicService.mediaPlayer.isPlaying -> musicService.stopPlaying()
@@ -120,11 +121,17 @@ class ChapterActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_tutorial) {
-            openTutorial(true)
-            return true
+        return when (item?.itemId) {
+            R.id.menu_quizattempts -> {
+                showQuizAttempts()
+                true
+            }
+            R.id.menu_tutorial -> {
+                openTutorial(true)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun openTutorial(showBackButton: Boolean) {
@@ -146,6 +153,22 @@ class ChapterActivity : AppCompatActivity() {
         bundle.putInt(IE_CHAPTERID, nextChapterID)
         openIntent.putExtras(bundle)
         finish()
+        startActivity(openIntent)
+    }
+
+    private fun showQuizAttempts() {
+        val courseID = pageViewModel.chapter.value!!.course!!.courseID
+        val coursePath = pageViewModel.chapter.value!!.course!!.path
+        val chapterID = pageViewModel.chapter.value!!.chapterID
+        val chapterName = pageViewModel.chapter.value!!.name
+        val openIntent = Intent(applicationContext, QuizAttemptsActivity::class.java)
+        val bundle = Bundle()
+        bundle.putInt(IE_COURSEID, courseID)
+        bundle.putString(IE_COURSEPATH, coursePath)
+        bundle.putInt(IE_CHAPTERID, chapterID)
+        bundle.putBoolean(IE_HASCHAPTER, true)
+        bundle.putString(IE_CHAPTERNAME, chapterName)
+        openIntent.putExtras(bundle)
         startActivity(openIntent)
     }
 
@@ -215,7 +238,7 @@ class ChapterActivity : AppCompatActivity() {
     }
 
     // Callbacks
-    fun startPlaying(playlist: List<File>) {
+    private fun startPlaying(playlist: List<File>) {
         musicService.files = playlist
         musicService.startPlaying(playlist[0])
         setPlayPauseIcon()
@@ -230,7 +253,7 @@ class ChapterActivity : AppCompatActivity() {
         else fab.setImageResource(R.drawable.ic_action_play_chapter)
     }
 
-    private fun stateChangeCallback(type: AudioState) {
+    private fun stateChangeCallback() {
         setPlayPauseIcon()
     }
 }

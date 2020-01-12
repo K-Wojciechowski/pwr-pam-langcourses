@@ -7,6 +7,8 @@ val QUIZ_CORRECT_PERCENT = 75
 val IE_COURSEID = "courseID"
 val IE_COURSEPATH = "coursePath"
 val IE_CHAPTERID = "chapterID"
+val IE_CHAPTERNAME = "chapterName"
+val IE_HASCHAPTER = "hasChapter"
 val IE_DEF_IMAGEURI = "defImageURI"
 val IE_DEF_WORD = "defWord"
 val IE_DEF_TRANSLATION = "defTranslation"
@@ -25,4 +27,4 @@ const val INTENT_STOP = "pl.krzysztofwojciechowski.langcourses.stop"
 
 enum class ChapterTab { VOCABULARY, CONVERSATIONS, QUIZ, BLANK }
 
-val TEXT_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+val TEXT_DATE_TIME_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
