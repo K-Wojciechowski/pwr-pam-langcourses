@@ -6,10 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_tutorial.*
-import pl.krzysztofwojciechowski.langcourses.ChapterTab
-import pl.krzysztofwojciechowski.langcourses.IE_SHOW_BACK_BUTTON
-import pl.krzysztofwojciechowski.langcourses.R
-import pl.krzysztofwojciechowski.langcourses.setSeenTutorial
+import pl.krzysztofwojciechowski.langcourses.*
 import pl.krzysztofwojciechowski.langcourses.ui.chapter.SectionsPagerAdapter
 
 
@@ -24,6 +21,8 @@ class TutorialActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(showBackButton)
 
         supportActionBar?.setSubtitle(R.string.tutorial_subtitle)
+
+        tutorial_quiz_pass_lbl.text = getString(R.string.tutorial_quiz_pass, QUIZ_CORRECT_PERCENT)
 
         val tabNames =
             listOf(R.string.tab_vocabulary, R.string.tab_conversations, R.string.tab_quiz)

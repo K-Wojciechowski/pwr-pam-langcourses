@@ -10,8 +10,6 @@
     <string name="rv_main_courses_progress_complete">Complete</string>
     <string name="rv_main_courses_progress_partial">Progress: %1$.0f%%</string>
     <string name="rv_main_courses_continue">Continue</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
     <string name="tab_vocabulary">Vocabulary</string>
     <string name="tab_conversations">Convers.</string>
     <string name="tab_quiz">Quiz</string>
@@ -29,7 +27,7 @@
     <string name="tutorial_conversation">2. See the vocabulary in action on the Conversation tab.</string>
     <string name="tutorial_conversation_hear">Tap the bubble to hear the pronunciation.</string>
     <string name="tutorial_quiz">3. Test your knowledge in the Quiz.</string>
-    <string name="tutorial_quiz_pass">You need at least 75% correct answers to pass.</string>
+    <string name="tutorial_quiz_pass">You need at least %1$d%% correct answers to pass.</string>
     <string name="tutorial_listen_button">Tap this button to listen to the vocabulary or the conversations.</string>
     <string name="tutorial_button">Start learning</string>
     <string name="quiz_start">Start</string>
@@ -41,17 +39,19 @@
     <string name="quiz_correct_count">Correct: %1$d</string>
     <string name="quiz_answer_correct_wrap">%1$s ✔️</string>
     <string name="quiz_answer_incorrect_wrap">%1$s ❌</string>
-    <string name="quiz_question_number_notinprogress" />
-    <string name="quiz_question_correct_notinprogress" />
+    <string name="quiz_question_number_notinprogress" translatable="false" />
+    <string name="quiz_question_correct_notinprogress" translatable="false" />
     <string name="quiz_finished_intro">The results are in!</string>
     <string name="quiz_notstarted_intro1">How well did you remember what you learnt? You can test your knowledge in the Quiz.</string>
     <string name="quiz_notstarted_intro2">The quiz for this chapter contains</string>
-    <string name="quiz_notstarted_qcount">%1$d questions</string>
+    <plurals name="quiz_notstarted_qcount">
+        <item quantity="one">%1$d question</item>
+        <item quantity="other">%1$d questions</item>
+    </plurals>
     <string name="quiz_notstarted_requirement_text">You need to get %1$d%% of the questions correct to complete this chapter.</string>
     <string name="quiz_finished_intro1">Thanks for taking the quiz!</string>
     <string name="quiz_finished_intro2">Correct answers:</string>
     <string name="quiz_finished_success">Congratulations! You completed another chapter!</string>
-    <string name="quiz_finished_qcount">%1$d/%2$d (%3$d%%)</string>
     <string name="quiz_finished_failure">You failed to achieve %1$d%% correct responses… You can try again. Good luck!</string>
     <string name="quiz_finished_start_next">See what’s next</string>
     <string name="menu_refresh">Refresh</string>
@@ -89,4 +89,6 @@
     <string name="stats_percent_complete">%1$d%% complete</string>
     <string name="course_cover_content_description">Course cover image</string>
     <string name="placeholder_content_description">Placeholder.</string>
+    <string name="quiz_finished_qcount">%1$d/%2$d (%3$d%%)</string>
+    <string name="fab_description">Listen</string>
 </resources>

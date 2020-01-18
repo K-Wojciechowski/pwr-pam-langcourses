@@ -168,8 +168,9 @@ class QuizFragment : Fragment() {
                 root.findViewById<TextView>(R.id.quiz_question)
                     .setText(R.string.quiz_notstarted_intro)
                 root.findViewById<TextView>(R.id.quiz_notstarted_counter).text =
-                    getString(
-                        R.string.quiz_notstarted_qcount,
+                    resources.getQuantityString(
+                        R.plurals.quiz_notstarted_qcount,
+                        pageViewModel.chapter.value!!.quiz.size,
                         pageViewModel.chapter.value!!.quiz.size
                     )
                 root.findViewById<Button>(R.id.quiz_button).setText(R.string.quiz_start)

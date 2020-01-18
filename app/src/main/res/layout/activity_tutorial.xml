@@ -31,6 +31,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="false"
+        android:contentDescription="@string/fab_description"
         app:srcCompat="@drawable/ic_action_play_chapter" />
 
     <androidx.viewpager.widget.ViewPager
@@ -192,7 +193,7 @@
             app:layout_constraintBottom_toTopOf="@+id/imageView3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+            app:layout_constraintTop_toBottomOf="@+id/tutorial_quiz_pass_lbl" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -220,7 +221,7 @@
             app:srcCompat="@drawable/ic_tutorial_left" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/tutorial_quiz_pass_lbl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

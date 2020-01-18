@@ -35,5 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/fab_description"
         app:srcCompat="@drawable/ic_action_play_chapter" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
