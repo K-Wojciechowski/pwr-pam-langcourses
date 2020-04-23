@@ -91,4 +91,6 @@
     <string name="placeholder_content_description">Placeholder.</string>
     <string name="quiz_finished_qcount">%1$d/%2$d (%3$d%%)</string>
     <string name="fab_description">Listen</string>
+    <string name="licenses_title">Media Licenses</string>
+    <string name="no_licenses">There are no media credits available for this chapter.</string>
 </resources>

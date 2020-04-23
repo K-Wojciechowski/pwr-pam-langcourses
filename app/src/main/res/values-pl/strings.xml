@@ -91,4 +91,6 @@
     <string name="tutorial_vocab">1. Ucz się nowych słówek na karcie Słownictwo.</string>
     <string name="tutorial_vocabarrow_desc">Strzałka wskazująca obrazek słownictwa</string>
     <string name="fab_description">Posłuchaj</string>
+    <string name="licenses_title">Licencje Multimediów</string>
+    <string name="no_licenses">Dla tego rozdziału nie ma dostępnych informacji o autorach.</string>
 </resources>

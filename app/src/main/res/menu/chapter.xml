@@ -5,11 +5,17 @@
         android:id="@+id/menu_quizattempts"
         android:icon="@drawable/ic_action_quizattempts"
         android:title="@string/menu_quizattempts_text"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_tutorial"
         android:icon="@drawable/ic_action_tutorial"
         android:title="@string/tutorial_title"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_licenses"
+        android:icon="@drawable/ic_action_licenses"
+        android:title="@string/licenses_title"
         app:showAsAction="ifRoom" />
 </menu>

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -117,6 +118,10 @@ class ChapterActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.chapter, menu)
+        val mediaCredits = pageViewModel.chapter.value!!.mediaCredits
+        if (mediaCredits.isNullOrBlank()) {
+            menu?.findItem(R.id.menu_licenses)?.isVisible = false
+        }
         return true
     }
 
@@ -128,6 +133,10 @@ class ChapterActivity : AppCompatActivity() {
             }
             R.id.menu_tutorial -> {
                 openTutorial(true)
+                true
+            }
+            R.id.menu_licenses -> {
+                showLicenses()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -172,6 +181,18 @@ class ChapterActivity : AppCompatActivity() {
         startActivity(openIntent)
     }
 
+    private fun showLicenses() {
+        val builder = AlertDialog.Builder(this)
+            .setTitle(R.string.licenses_title)
+        val mediaCredits = pageViewModel.chapter.value!!.mediaCredits
+        if (mediaCredits.isNullOrBlank()) {
+            builder.setMessage(R.string)
+        } else {
+            builder.setMessage(mediaCredits)
+        }
+        builder.setPositiveButton(android.R.string.ok) { _, _ -> Unit}
+        builder.create().show()
+    }
 
     // MUSIC SERVICE
     // Communication handlers
